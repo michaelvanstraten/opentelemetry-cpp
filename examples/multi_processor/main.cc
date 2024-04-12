@@ -63,9 +63,9 @@ void dumpSpans(std::vector<std::unique_ptr<trace_sdk::SpanData>> &spans)
     span->GetSpanId().ToLowerBase16(span_buf);
     span->GetTraceId().ToLowerBase16(trace_buf);
     span->GetParentSpanId().ToLowerBase16(parent_span_buf);
-    std::cout << "\t\tTraceId: " << std::string(trace_buf, sizeof(trace_buf)) << std::endl;
-    std::cout << "\t\tSpanId: " << std::string(span_buf, sizeof(span_buf)) << std::endl;
-    std::cout << "\t\tParentSpanId: " << std::string(parent_span_buf, sizeof(parent_span_buf))
+    std::cout << "\t\tTraceId: " << nostd::string(trace_buf, sizeof(trace_buf)) << std::endl;
+    std::cout << "\t\tSpanId: " << nostd::string(span_buf, sizeof(span_buf)) << std::endl;
+    std::cout << "\t\tParentSpanId: " << nostd::string(parent_span_buf, sizeof(parent_span_buf))
               << std::endl;
 
     std::cout << "\t\tDescription: " << span->GetDescription() << std::endl;

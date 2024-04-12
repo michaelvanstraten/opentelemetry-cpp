@@ -127,13 +127,13 @@ int main(int argc, char *argv[])
     logger_opts.url = argv[1];
     if (argc > 2)
     {
-      std::string debug        = argv[2];
+      nostd::string debug        = argv[2];
       trace_opts.console_debug = debug != "" && debug != "0" && debug != "no";
     }
 
     if (argc > 3)
     {
-      std::string binary_mode = argv[3];
+      nostd::string binary_mode = argv[3];
       if (binary_mode.size() >= 3 && binary_mode.substr(0, 3) == "bin")
       {
         trace_opts.content_type  = opentelemetry::exporter::otlp::HttpRequestContentType::kBinary;

@@ -41,7 +41,7 @@ public:
                    opentelemetry::nostd::string_view value) noexcept override
   {
     std::cout << " Client ::: Adding " << key << " " << value << "\n";
-    context_->AddMetadata(std::string(key), std::string(value));
+    context_->AddMetadata(nostd::string(key), nostd::string(value));
   }
 
   ClientContext *context_;
@@ -99,7 +99,7 @@ void CleanupTracer()
   opentelemetry::trace::Provider::SetTracerProvider(none);
 }
 
-opentelemetry::nostd::shared_ptr<opentelemetry::trace::Tracer> get_tracer(std::string tracer_name)
+opentelemetry::nostd::shared_ptr<opentelemetry::trace::Tracer> get_tracer(nostd::string tracer_name)
 {
   auto provider = opentelemetry::trace::Provider::GetTracerProvider();
   return provider->GetTracer(tracer_name);

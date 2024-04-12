@@ -34,8 +34,8 @@ void InitMetrics()
 {
   auto exporter = otlp_exporter::OtlpGrpcMetricExporterFactory::Create(exporter_options);
 
-  std::string version{"1.2.0"};
-  std::string schema{"https://opentelemetry.io/schemas/1.2.0"};
+  nostd::string version{"1.2.0"};
+  nostd::string schema{"https://opentelemetry.io/schemas/1.2.0"};
 
   // Initialize and set the global MeterProvider
   metric_sdk::PeriodicExportingMetricReaderOptions reader_options;
@@ -63,7 +63,7 @@ void CleanupMetrics()
 
 int main(int argc, char *argv[])
 {
-  std::string example_type;
+  nostd::string example_type;
   if (argc > 1)
   {
     exporter_options.endpoint = argv[1];
@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
   }
   // Removing this line will leave the default noop MetricProvider in place.
   InitMetrics();
-  std::string name{"otlp_grpc_metric_example"};
+  nostd::string name{"otlp_grpc_metric_example"};
 
   if (example_type == "counter")
   {

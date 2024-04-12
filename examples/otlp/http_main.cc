@@ -72,13 +72,13 @@ int main(int argc, char *argv[])
     opts.url = argv[1];
     if (argc > 2)
     {
-      std::string debug  = argv[2];
+      nostd::string debug  = argv[2];
       opts.console_debug = debug != "" && debug != "0" && debug != "no";
     }
 
     if (argc > 3)
     {
-      std::string binary_mode = argv[3];
+      nostd::string binary_mode = argv[3];
       if (binary_mode.size() >= 3 && binary_mode.substr(0, 3) == "bin")
       {
         opts.content_type = otlp::HttpRequestContentType::kBinary;

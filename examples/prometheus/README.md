@@ -46,7 +46,7 @@ values until the program stops.
 while (true)
 {
     double val = (rand() % 700) + 1.1;
-    std::map<std::string, std::string> labels = get_random_attr();
+    std::map<nostd::string, nostd::string> labels = get_random_attr();
     auto labelkv = opentelemetry::common::KeyValueIterableView<decltype(labels)>{labels};
     histogram_counter->Record(val, labelkv, context);
     std::this_thread::sleep_for(std::chrono::milliseconds(50));

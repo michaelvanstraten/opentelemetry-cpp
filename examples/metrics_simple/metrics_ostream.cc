@@ -31,12 +31,12 @@ namespace metrics_api     = opentelemetry::metrics;
 namespace
 {
 
-void InitMetrics(const std::string &name)
+void InitMetrics(const nostd::string &name)
 {
   auto exporter = exportermetrics::OStreamMetricExporterFactory::Create();
 
-  std::string version{"1.2.0"};
-  std::string schema{"https://opentelemetry.io/schemas/1.2.0"};
+  nostd::string version{"1.2.0"};
+  nostd::string schema{"https://opentelemetry.io/schemas/1.2.0"};
 
   // Initialize and set the global MeterProvider
   metrics_sdk::PeriodicExportingMetricReaderOptions options;
@@ -52,8 +52,8 @@ void InitMetrics(const std::string &name)
   p->AddMetricReader(std::move(reader));
 
   // counter view
-  std::string counter_name = name + "_counter";
-  std::string unit         = "counter-unit";
+  nostd::string counter_name = name + "_counter";
+  nostd::string unit         = "counter-unit";
 
   auto instrument_selector = metrics_sdk::InstrumentSelectorFactory::Create(
       metrics_sdk::InstrumentType::kCounter, counter_name, unit);
@@ -66,7 +66,7 @@ void InitMetrics(const std::string &name)
   p->AddView(std::move(instrument_selector), std::move(meter_selector), std::move(sum_view));
 
   // observable counter view
-  std::string observable_counter_name = name + "_observable_counter";
+  nostd::string observable_counter_name = name + "_observable_counter";
 
   auto observable_instrument_selector = metrics_sdk::InstrumentSelectorFactory::Create(
       metrics_sdk::InstrumentType::kObservableCounter, observable_counter_name, unit);
@@ -80,7 +80,7 @@ void InitMetrics(const std::string &name)
              std::move(observable_sum_view));
 
   // histogram view
-  std::string histogram_name = name + "_histogram";
+  nostd::string histogram_name = name + "_histogram";
   unit                       = "histogram-unit";
 
   auto histogram_instrument_selector = metrics_sdk::InstrumentSelectorFactory::Create(
@@ -116,13 +116,13 @@ void CleanupMetrics()
 
 int main(int argc, char **argv)
 {
-  std::string example_type;
+  nostd::string example_type;
   if (argc >= 2)
   {
     example_type = argv[1];
   }
 
-  std::string name{"ostream_metric_example"};
+  nostd::string name{"ostream_metric_example"};
   InitMetrics(name);
 
   if (example_type == "counter")

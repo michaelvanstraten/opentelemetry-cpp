@@ -8,7 +8,7 @@
 class foo_library
 {
 public:
-  static void counter_example(const std::string &name);
-  static void histogram_example(const std::string &name);
-  static void observable_counter_example(const std::string &name);
+  static void counter_example(const nostd::string &name);
+  static void histogram_example(const nostd::string &name);
+  static void observable_counter_example(const nostd::string &name);
 };

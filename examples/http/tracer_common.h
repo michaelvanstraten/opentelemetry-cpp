@@ -34,7 +34,7 @@ public:
   virtual opentelemetry::nostd::string_view Get(
       opentelemetry::nostd::string_view key) const noexcept override
   {
-    std::string key_to_compare = key.data();
+    nostd::string key_to_compare = key.data();
     // Header's first letter seems to be  automatically capitaliazed by our test http-server, so
     // compare accordingly.
     if (key == opentelemetry::trace::propagation::kTraceParent)
@@ -56,7 +56,7 @@ public:
   virtual void Set(opentelemetry::nostd::string_view key,
                    opentelemetry::nostd::string_view value) noexcept override
   {
-    headers_.insert(std::pair<std::string, std::string>(std::string(key), std::string(value)));
+    headers_.insert(std::pair<nostd::string, nostd::string>(nostd::string(key), nostd::string(value)));
   }
 
   T headers_;
@@ -89,7 +89,7 @@ void CleanupTracer()
   opentelemetry::trace::Provider::SetTracerProvider(none);
 }
 
-opentelemetry::nostd::shared_ptr<opentelemetry::trace::Tracer> get_tracer(std::string tracer_name)
+opentelemetry::nostd::shared_ptr<opentelemetry::trace::Tracer> get_tracer(nostd::string tracer_name)
 {
   auto provider = opentelemetry::trace::Provider::GetTracerProvider();
   return provider->GetTracer(tracer_name);

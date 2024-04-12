@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     std::cerr << "Usage: load_plugin <plugin> <config>\n";
     return -1;
   }
-  std::string error_message;
+  nostd::string error_message;
   auto factory = opentelemetry::plugin::LoadFactory(argv[1], error_message);
   if (factory == nullptr)
   {
@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     std::perror("Failed to open config file");
     return -1;
   }
-  std::string config{std::istreambuf_iterator<char>{config_in}, std::istreambuf_iterator<char>{}};
+  nostd::string config{std::istreambuf_iterator<char>{config_in}, std::istreambuf_iterator<char>{}};
   auto tracer = factory->MakeTracer(config, error_message);
   if (tracer == nullptr)
   {

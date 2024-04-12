@@ -66,7 +66,7 @@ public:
     auto new_context = prop->Extract(carrier, current_ctx);
     options.parent   = GetSpan(new_context)->GetContext();
 
-    std::string span_name = "GreeterService/Greet";
+    nostd::string span_name = "GreeterService/Greet";
     auto span             = get_tracer("grpc")->StartSpan(span_name,
                                               {{SemanticConventions::kRpcSystem, "grpc"},
                                                {SemanticConventions::kRpcService, "GreeterService"},
@@ -78,9 +78,9 @@ public:
     // Fetch and parse whatever HTTP headers we can from the gRPC request.
     span->AddEvent("Processing client attributes");
 
-    std::string req = request->request();
+    nostd::string req = request->request();
     std::cout << std::endl << "grpc_client says: " << req << std::endl;
-    std::string message = "The pleasure is mine.";
+    nostd::string message = "The pleasure is mine.";
     // Send response to client
     response->set_response(message);
     span->AddEvent("Response sent to client");
@@ -94,7 +94,7 @@ public:
 
 void RunServer(uint16_t port)
 {
-  std::string address("0.0.0.0:" + std::to_string(port));
+  nostd::string address("0.0.0.0:" + std::to_string(port));
   GreeterServer service;
   ServerBuilder builder;
 

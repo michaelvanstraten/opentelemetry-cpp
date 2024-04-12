@@ -70,7 +70,7 @@ public:
 
 private:
   std::shared_ptr<Tracer> tracer_;
-  std::string name_;
+  nostd::string name_;
   trace::SpanContext span_context_;
 };
 }  // namespace

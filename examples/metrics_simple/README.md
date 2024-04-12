@@ -47,7 +47,7 @@ custom aggregation config, and attribute processor. Metrics SDK  will implicitly
 create a missing view with default mapping between Instrument and Aggregation.
 
     ```cpp
-    std::string counter_name = "counter_name";
+    nostd::string counter_name = "counter_name";
     std::unique_ptr<metric_sdk::InstrumentSelector> instrument_selector{
         new metric_sdk::InstrumentSelector(metric_sdk::InstrumentType::kCounter, counter_name)};
     std::unique_ptr<metric_sdk::MeterSelector> meter_selector{
@@ -66,7 +66,7 @@ different functions without having to constantly pass the Meter around the libra
     auto meter = provider->GetMeter(name, "1.2.0");
     auto double_counter = meter->CreateDoubleCounter(counter_name);
     // Create a label set which annotates metric values
-    std::map<std::string, std::string> labels = {{"key", "value"}};
+    std::map<nostd::string, nostd::string> labels = {{"key", "value"}};
     auto labelkv = common::KeyValueIterableView<decltype(labels)>{labels};
     double_counter->Add(val, labelkv);
     ```

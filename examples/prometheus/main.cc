@@ -30,7 +30,7 @@ namespace metrics_api      = opentelemetry::metrics;
 namespace
 {
 
-void InitMetrics(const std::string &name, const std::string &addr)
+void InitMetrics(const nostd::string &name, const nostd::string &addr)
 {
   metrics_exporter::PrometheusExporterOptions opts;
   if (!addr.empty())
@@ -39,8 +39,8 @@ void InitMetrics(const std::string &name, const std::string &addr)
   }
   std::puts("PrometheusExporter example program running ...");
 
-  std::string version{"1.2.0"};
-  std::string schema{"https://opentelemetry.io/schemas/1.2.0"};
+  nostd::string version{"1.2.0"};
+  nostd::string schema{"https://opentelemetry.io/schemas/1.2.0"};
 
   auto prometheus_exporter = metrics_exporter::PrometheusExporterFactory::Create(opts);
 
@@ -51,8 +51,8 @@ void InitMetrics(const std::string &name, const std::string &addr)
   p->AddMetricReader(std::move(prometheus_exporter));
 
   // counter view
-  std::string counter_name = name + "_counter";
-  std::string counter_unit = "unit";
+  nostd::string counter_name = name + "_counter";
+  nostd::string counter_unit = "unit";
 
   auto instrument_selector = metrics_sdk::InstrumentSelectorFactory::Create(
       metrics_sdk::InstrumentType::kCounter, counter_name, counter_unit);
@@ -65,8 +65,8 @@ void InitMetrics(const std::string &name, const std::string &addr)
   p->AddView(std::move(instrument_selector), std::move(meter_selector), std::move(sum_view));
 
   // histogram view
-  std::string histogram_name = name + "_histogram";
-  std::string histogram_unit = "unit";
+  nostd::string histogram_name = name + "_histogram";
+  nostd::string histogram_unit = "unit";
 
   auto histogram_instrument_selector = metrics_sdk::InstrumentSelectorFactory::Create(
       metrics_sdk::InstrumentType::kHistogram, histogram_name, histogram_unit);
@@ -92,8 +92,8 @@ void CleanupMetrics()
 
 int main(int argc, char **argv)
 {
-  std::string example_type;
-  std::string addr{"localhost:9464"};
+  nostd::string example_type;
+  nostd::string addr{"localhost:9464"};
   if (argc == 1)
   {
     std::puts("usage: $prometheus_example <example type> <url>");
@@ -108,7 +108,7 @@ int main(int argc, char **argv)
     addr = argv[2];
   }
 
-  std::string name{"prometheus_metric_example"};
+  nostd::string name{"prometheus_metric_example"};
   InitMetrics(name, addr);
 
   if (example_type == "counter")

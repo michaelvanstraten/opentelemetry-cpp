@@ -79,7 +79,7 @@ nostd::shared_ptr<trace::Tracer> tracer = provider.GetTracer(providerName, "1.0"
 // Obtain numeric thread id
 static inline uint64_t gettid()
 {
-  std::stringstream ss;
+ std::stringstream ss;
   ss << std::this_thread::get_id();
   uint64_t id = std::stoull(ss.str());
   return id;

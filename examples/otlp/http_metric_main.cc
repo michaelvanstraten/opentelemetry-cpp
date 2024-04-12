@@ -38,8 +38,8 @@ void InitMetrics()
 {
   auto exporter = otlp_exporter::OtlpHttpMetricExporterFactory::Create(exporter_options);
 
-  std::string version{"1.2.0"};
-  std::string schema{"https://opentelemetry.io/schemas/1.2.0"};
+  nostd::string version{"1.2.0"};
+  nostd::string schema{"https://opentelemetry.io/schemas/1.2.0"};
 
   // Initialize and set the global MeterProvider
   metric_sdk::PeriodicExportingMetricReaderOptions reader_options;
@@ -78,7 +78,7 @@ void CleanupMetrics()
 */
 int main(int argc, char *argv[])
 {
-  std::string example_type;
+  nostd::string example_type;
   if (argc > 1)
   {
     exporter_options.url = argv[1];
@@ -91,13 +91,13 @@ int main(int argc, char *argv[])
 
   if (argc > 3)
   {
-    std::string debug              = argv[3];
+    nostd::string debug              = argv[3];
     exporter_options.console_debug = debug != "" && debug != "0" && debug != "no";
   }
 
   if (argc > 4)
   {
-    std::string binary_mode = argv[4];
+    nostd::string binary_mode = argv[4];
     if (binary_mode.size() >= 3 && binary_mode.substr(0, 3) == "bin")
     {
       exporter_options.content_type = otlp_exporter::HttpRequestContentType::kBinary;
@@ -111,7 +111,7 @@ int main(int argc, char *argv[])
 
   // Removing this line will leave the default noop MetricProvider in place.
   InitMetrics();
-  std::string name{"otlp_http_metric_example"};
+  nostd::string name{"otlp_http_metric_example"};
 
   if (example_type == "counter")
   {

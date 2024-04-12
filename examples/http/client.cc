@@ -14,7 +14,7 @@ namespace http_client = opentelemetry::ext::http::client;
 namespace context     = opentelemetry::context;
 namespace nostd       = opentelemetry::nostd;
 
-void sendRequest(const std::string &url)
+void sendRequest(const nostd::string &url)
 {
   auto http_client = http_client::HttpClientFactory::CreateSync();
 
@@ -23,7 +23,7 @@ void sendRequest(const std::string &url)
   options.kind = SpanKind::kClient;  // client
   opentelemetry::ext::http::common::UrlParser url_parser(url);
 
-  std::string span_name = url_parser.path_;
+  nostd::string span_name = url_parser.path_;
   auto span             = get_tracer("http-client")
                   ->StartSpan(span_name,
                               {{SemanticConventions::kUrlFull, url_parser.url_},
@@ -47,7 +47,7 @@ void sendRequest(const std::string &url)
     span->SetAttribute(SemanticConventions::kHttpResponseStatusCode, status_code);
     result.GetResponse().ForEachHeader(
         [&span](nostd::string_view header_name, nostd::string_view header_value) {
-          span->SetAttribute("http.header." + std::string(header_name.data()), header_value);
+          span->SetAttribute("http.header." + nostd::string(header_name.data()), header_value);
           return true;
         });
 
@@ -89,8 +89,8 @@ int main(int argc, char *argv[])
     port = default_port;
   }
 
-  std::string url = "http://" + std::string(default_host) + ":" + std::to_string(port) +
-                    std::string(default_path);
+  nostd::string url = "http://" + nostd::string(default_host) + ":" + std::to_string(port) +
+                    nostd::string(default_path);
   sendRequest(url);
   CleanupTracer();
 }

@@ -36,7 +36,7 @@ class GreeterClient
 public:
   GreeterClient(std::shared_ptr<Channel> channel) : stub_(Greeter::NewStub(channel)) {}
 
-  std::string Greet(std::string ip, uint16_t port)
+  nostd::string Greet(nostd::string ip, uint16_t port)
   {
     // Build gRPC Context objects and protobuf message containers
     GreetRequest request;
@@ -47,7 +47,7 @@ public:
     StartSpanOptions options;
     options.kind = SpanKind::kClient;
 
-    std::string span_name = "GreeterClient/Greet";
+    nostd::string span_name = "GreeterClient/Greet";
     auto span             = get_tracer("grpc")->StartSpan(
         span_name,
         {{SemanticConventions::kRpcSystem, "grpc"},
@@ -94,7 +94,7 @@ void RunClient(uint16_t port)
 {
   GreeterClient greeter(
       grpc::CreateChannel("0.0.0.0:" + std::to_string(port), grpc::InsecureChannelCredentials()));
-  std::string response = greeter.Greet("0.0.0.0", port);
+  nostd::string response = greeter.Greet("0.0.0.0", port);
   std::cout << "grpc_server says: " << response << std::endl;
 }
 }  // namespace
