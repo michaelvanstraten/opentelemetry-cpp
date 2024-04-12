@@ -129,7 +129,7 @@ static int Base64EscapeInternal(unsigned char *dest,
   return 0;
 }
 
-static inline int Base64EscapeInternal(std::string &dest,
+static inline int Base64EscapeInternal(nostd::string &dest,
                                        const unsigned char *src,
                                        std::size_t slen,
                                        Base64EscapeChars &base64_enc_map,
@@ -291,7 +291,7 @@ static int Base64UnescapeInternal(unsigned char *dst,
 // Encodes a `src` string into a base64-encoded 'dest' string with padding
 // characters. This function conforms with RFC 4648 section 4 (base64) and RFC
 // 2045.
-OPENTELEMETRY_EXPORT void Base64Escape(opentelemetry::nostd::string_view src, std::string *dest)
+OPENTELEMETRY_EXPORT void Base64Escape(opentelemetry::nostd::string_view src, nostd::string *dest)
 {
   if (nullptr == dest || src.empty())
   {
@@ -306,15 +306,15 @@ OPENTELEMETRY_EXPORT void Base64Escape(opentelemetry::nostd::string_view src, st
 #endif
 }
 
-OPENTELEMETRY_EXPORT std::string Base64Escape(opentelemetry::nostd::string_view src)
+OPENTELEMETRY_EXPORT nostd::string Base64Escape(opentelemetry::nostd::string_view src)
 {
-  std::string result;
+  nostd::string result;
 
   Base64Escape(src, &result);
   return result;
 }
 
-OPENTELEMETRY_EXPORT bool Base64Unescape(opentelemetry::nostd::string_view src, std::string *dest)
+OPENTELEMETRY_EXPORT bool Base64Unescape(opentelemetry::nostd::string_view src, nostd::string *dest)
 {
   if (nullptr == dest)
   {

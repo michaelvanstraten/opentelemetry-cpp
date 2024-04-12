@@ -48,7 +48,7 @@ void BM_MeasurementsTest(benchmark::State &state)
   size_t MAX_MEASUREMENTS = 10000;  // keep low to prevent CI failure due to timeout
   size_t NUM_CORES        = 1;
   std::vector<std::thread> threads;
-  std::map<std::string, uint32_t> attributes[1000];
+  std::map<nostd::string, uint32_t> attributes[1000];
   size_t total_index = 0;
   for (uint32_t i = 0; i < 10; i++)
   {
@@ -67,7 +67,7 @@ void BM_MeasurementsTest(benchmark::State &state)
         {
           size_t index = rand() % 1000;
           h->Add(1.0,
-                 opentelemetry::common::KeyValueIterableView<std::map<std::string, uint32_t>>(
+                 opentelemetry::common::KeyValueIterableView<std::map<nostd::string, uint32_t>>(
                      attributes[index]),
                  opentelemetry::context::Context{});
         }

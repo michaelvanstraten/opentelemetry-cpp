@@ -73,9 +73,9 @@ TEST_P(WritableMetricStorageCardinalityLimitTestFixture, LongCounterSumAggregati
   // add 9 unique metric points, and 6 more above limit.
   for (auto i = 0; i < 15; i++)
   {
-    std::map<std::string, std::string> attributes = {{"key", std::to_string(i)}};
+    std::map<nostd::string, nostd::string> attributes = {{"key", std::to_string(i)}};
     storage.RecordLong(record_value,
-                       KeyValueIterableView<std::map<std::string, std::string>>(attributes),
+                       KeyValueIterableView<std::map<nostd::string, nostd::string>>(attributes),
                        opentelemetry::context::Context{});
   }
   AggregationTemporality temporality = GetParam();

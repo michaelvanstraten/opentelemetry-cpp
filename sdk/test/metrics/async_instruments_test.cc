@@ -10,7 +10,7 @@
 using namespace opentelemetry;
 using namespace opentelemetry::sdk::metrics;
 
-using M = std::map<std::string, std::string>;
+using M = std::map<nostd::string, nostd::string>;
 
 void asyc_generate_measurements(opentelemetry::metrics::ObserverResult /* observer */,
                                 void * /* state */)

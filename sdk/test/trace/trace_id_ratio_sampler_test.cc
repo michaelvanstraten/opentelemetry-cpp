@@ -37,10 +37,10 @@ int RunShouldSampleCountDecision(trace_api::SpanContext &context,
 
   trace_api::SpanKind span_kind = trace_api::SpanKind::kInternal;
 
-  using M = std::map<std::string, int>;
+  using M = std::map<nostd::string, int>;
   M m1    = {{}};
 
-  using L = std::vector<std::pair<trace_api::SpanContext, std::map<std::string, std::string>>>;
+  using L = std::vector<std::pair<trace_api::SpanContext, std::map<nostd::string, nostd::string>>>;
   L l1 = {{trace_api::SpanContext(false, false), {}}, {trace_api::SpanContext(false, false), {}}};
 
   common::KeyValueIterableView<M> view{m1};
@@ -70,10 +70,10 @@ TEST(TraceIdRatioBasedSampler, ShouldSampleWithoutContext)
 
   trace_api::SpanKind span_kind = trace_api::SpanKind::kInternal;
 
-  using M = std::map<std::string, int>;
+  using M = std::map<nostd::string, int>;
   M m1    = {{}};
 
-  using L = std::vector<std::pair<trace_api::SpanContext, std::map<std::string, std::string>>>;
+  using L = std::vector<std::pair<trace_api::SpanContext, std::map<nostd::string, nostd::string>>>;
   L l1 = {{trace_api::SpanContext(false, false), {}}, {trace_api::SpanContext(false, false), {}}};
 
   common::KeyValueIterableView<M> view{m1};
@@ -135,10 +135,10 @@ TEST(TraceIdRatioBasedSampler, ShouldSampleWithContext)
   trace_api::SpanContext c3(trace_id, span_id, trace_api::TraceFlags{0}, true);
   trace_api::SpanContext c4(trace_id, span_id, trace_api::TraceFlags{1}, true);
 
-  using M = std::map<std::string, int>;
+  using M = std::map<nostd::string, int>;
   M m1    = {{}};
 
-  using L = std::vector<std::pair<trace_api::SpanContext, std::map<std::string, std::string>>>;
+  using L = std::vector<std::pair<trace_api::SpanContext, std::map<nostd::string, nostd::string>>>;
   L l1 = {{trace_api::SpanContext(false, false), {}}, {trace_api::SpanContext(false, false), {}}};
 
   common::KeyValueIterableView<M> view{m1};

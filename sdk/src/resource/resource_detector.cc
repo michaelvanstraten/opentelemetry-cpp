@@ -20,7 +20,7 @@ const char *OTEL_SERVICE_NAME        = "OTEL_SERVICE_NAME";
 
 Resource OTELResourceDetector::Detect() noexcept
 {
-  std::string attributes_str, service_name;
+  nostd::string attributes_str, service_name;
 
   bool attributes_exists = opentelemetry::sdk::common::GetStringEnvironmentVariable(
       OTEL_RESOURCE_ATTRIBUTES, attributes_str);
@@ -37,14 +37,14 @@ Resource OTELResourceDetector::Detect() noexcept
   if (attributes_exists)
   {
     std::istringstream iss(attributes_str);
-    std::string token;
+    nostd::string token;
     while (std::getline(iss, token, ','))
     {
       size_t pos = token.find('=');
-      if (pos != std::string::npos)
+      if (pos != nostd::string::npos)
       {
-        std::string key   = token.substr(0, pos);
-        std::string value = token.substr(pos + 1);
+        nostd::string key   = token.substr(0, pos);
+        nostd::string value = token.substr(pos + 1);
         attributes[key]   = value;
       }
     }

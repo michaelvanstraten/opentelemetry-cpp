@@ -34,7 +34,7 @@ public:
     }
     else if (nostd::holds_alternative<nostd::string_view>(message))
     {
-      body_ = static_cast<std::string>(nostd::get<nostd::string_view>(message));
+      body_ = static_cast<nostd::string>(nostd::get<nostd::string_view>(message));
     }
   }
 
@@ -59,7 +59,7 @@ public:
   {}
 
 private:
-  std::string body_;
+  nostd::string body_;
 };
 
 /*

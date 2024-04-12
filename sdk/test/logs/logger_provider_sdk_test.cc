@@ -82,11 +82,11 @@ TEST(LoggerProviderSDK, LoggerProviderLoggerArguments)
   {
     auto attibute = sdk_logger3->GetInstrumentationScope().GetAttributes().find("scope_key1");
     ASSERT_FALSE(attibute == sdk_logger3->GetInstrumentationScope().GetAttributes().end());
-    ASSERT_TRUE(opentelemetry::nostd::holds_alternative<std::string>(attibute->second));
-    EXPECT_EQ(opentelemetry::nostd::get<std::string>(attibute->second), "scope_value");
+    ASSERT_TRUE(opentelemetry::nostd::holds_alternative<nostd::string>(attibute->second));
+    EXPECT_EQ(opentelemetry::nostd::get<nostd::string>(attibute->second), "scope_value");
   }
 
-  std::unordered_map<std::string, std::string> scope_attributes = {{"scope_key", "scope_value"}};
+  std::unordered_map<nostd::string, nostd::string> scope_attributes = {{"scope_key", "scope_value"}};
   auto logger4 =
       lp->GetLogger("logger4", "opentelelemtry_library", "", schema_url, scope_attributes);
   auto sdk_logger4 = static_cast<opentelemetry::sdk::logs::Logger *>(logger4.get());
@@ -95,8 +95,8 @@ TEST(LoggerProviderSDK, LoggerProviderLoggerArguments)
   {
     auto attibute = sdk_logger4->GetInstrumentationScope().GetAttributes().find("scope_key");
     ASSERT_FALSE(attibute == sdk_logger4->GetInstrumentationScope().GetAttributes().end());
-    ASSERT_TRUE(opentelemetry::nostd::holds_alternative<std::string>(attibute->second));
-    EXPECT_EQ(opentelemetry::nostd::get<std::string>(attibute->second), "scope_value");
+    ASSERT_TRUE(opentelemetry::nostd::holds_alternative<nostd::string>(attibute->second));
+    EXPECT_EQ(opentelemetry::nostd::get<nostd::string>(attibute->second), "scope_value");
   }
 }
 
@@ -172,7 +172,7 @@ TEST(LoggerProviderSDK, GetResource)
   // Create a LoggerProvider without a processor
   auto resource = opentelemetry::sdk::resource::Resource::Create({{"key", "value"}});
   LoggerProvider lp{nullptr, resource};
-  ASSERT_EQ(nostd::get<std::string>(lp.GetResource().GetAttributes().at("key")), "value");
+  ASSERT_EQ(nostd::get<nostd::string>(lp.GetResource().GetAttributes().at("key")), "value");
 }
 
 TEST(LoggerProviderSDK, Shutdown)

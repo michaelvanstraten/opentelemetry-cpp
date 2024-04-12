@@ -24,9 +24,9 @@ namespace metrics
 class View
 {
 public:
-  View(const std::string &name,
-       const std::string &description                        = "",
-       const std::string &unit                               = "",
+  View(const nostd::string &name,
+       const nostd::string &description                        = "",
+       const nostd::string &unit                               = "",
        AggregationType aggregation_type                      = AggregationType::kDefault,
        std::shared_ptr<AggregationConfig> aggregation_config = nullptr,
        std::unique_ptr<opentelemetry::sdk::metrics::AttributesProcessor> attributes_processor =
@@ -42,9 +42,9 @@ public:
 
   virtual ~View() = default;
 
-  virtual std::string GetName() const noexcept { return name_; }
+  virtual nostd::string GetName() const noexcept { return name_; }
 
-  virtual std::string GetDescription() const noexcept { return description_; }
+  virtual nostd::string GetDescription() const noexcept { return description_; }
 
   virtual AggregationType GetAggregationType() const noexcept { return aggregation_type_; }
 
@@ -60,9 +60,9 @@ public:
   }
 
 private:
-  std::string name_;
-  std::string description_;
-  std::string unit_;
+  nostd::string name_;
+  nostd::string description_;
+  nostd::string unit_;
   AggregationType aggregation_type_;
   std::shared_ptr<AggregationConfig> aggregation_config_;
   std::unique_ptr<opentelemetry::sdk::metrics::AttributesProcessor> attributes_processor_;

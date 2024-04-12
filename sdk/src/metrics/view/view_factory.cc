@@ -11,35 +11,35 @@ namespace sdk
 namespace metrics
 {
 
-std::unique_ptr<View> ViewFactory::Create(const std::string &name)
+std::unique_ptr<View> ViewFactory::Create(const nostd::string &name)
 {
   return Create(name, "");
 }
 
-std::unique_ptr<View> ViewFactory::Create(const std::string &name, const std::string &description)
+std::unique_ptr<View> ViewFactory::Create(const nostd::string &name, const nostd::string &description)
 {
   return Create(name, description, "", AggregationType::kDefault);
 }
 
-std::unique_ptr<View> ViewFactory::Create(const std::string &name,
-                                          const std::string &description,
-                                          const std::string &unit)
+std::unique_ptr<View> ViewFactory::Create(const nostd::string &name,
+                                          const nostd::string &description,
+                                          const nostd::string &unit)
 {
   return Create(name, description, unit, AggregationType::kDefault);
 }
 
-std::unique_ptr<View> ViewFactory::Create(const std::string &name,
-                                          const std::string &description,
-                                          const std::string &unit,
+std::unique_ptr<View> ViewFactory::Create(const nostd::string &name,
+                                          const nostd::string &description,
+                                          const nostd::string &unit,
                                           AggregationType aggregation_type)
 {
   std::shared_ptr<AggregationConfig> aggregation_config(nullptr);
   return Create(name, description, unit, aggregation_type, aggregation_config);
 }
 
-std::unique_ptr<View> ViewFactory::Create(const std::string &name,
-                                          const std::string &description,
-                                          const std::string &unit,
+std::unique_ptr<View> ViewFactory::Create(const nostd::string &name,
+                                          const nostd::string &description,
+                                          const nostd::string &unit,
                                           AggregationType aggregation_type,
                                           std::shared_ptr<AggregationConfig> aggregation_config)
 {
@@ -50,9 +50,9 @@ std::unique_ptr<View> ViewFactory::Create(const std::string &name,
                 std::move(attributes_processor));
 }
 
-std::unique_ptr<View> ViewFactory::Create(const std::string &name,
-                                          const std::string &description,
-                                          const std::string &unit,
+std::unique_ptr<View> ViewFactory::Create(const nostd::string &name,
+                                          const nostd::string &description,
+                                          const nostd::string &unit,
                                           AggregationType aggregation_type,
                                           std::shared_ptr<AggregationConfig> aggregation_config,
                                           std::unique_ptr<AttributesProcessor> attributes_processor)

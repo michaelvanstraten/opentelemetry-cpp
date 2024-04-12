@@ -48,8 +48,8 @@ nostd::unique_ptr<metrics::Counter<uint64_t>> Meter::CreateUInt64Counter(
         new metrics::NoopCounter<uint64_t>(name, description, unit));
   }
   InstrumentDescriptor instrument_descriptor = {
-      std::string{name.data(), name.size()}, std::string{description.data(), description.size()},
-      std::string{unit.data(), unit.size()}, InstrumentType::kCounter, InstrumentValueType::kLong};
+      nostd::string{name.data(), name.size()}, nostd::string{description.data(), description.size()},
+      nostd::string{unit.data(), unit.size()}, InstrumentType::kCounter, InstrumentValueType::kLong};
   auto storage = RegisterSyncMetricStorage(instrument_descriptor);
   return nostd::unique_ptr<metrics::Counter<uint64_t>>(
       new LongCounter(instrument_descriptor, std::move(storage)));
@@ -69,8 +69,8 @@ nostd::unique_ptr<metrics::Counter<double>> Meter::CreateDoubleCounter(
         new metrics::NoopCounter<double>(name, description, unit));
   }
   InstrumentDescriptor instrument_descriptor = {
-      std::string{name.data(), name.size()}, std::string{description.data(), description.size()},
-      std::string{unit.data(), unit.size()}, InstrumentType::kCounter,
+      nostd::string{name.data(), name.size()}, nostd::string{description.data(), description.size()},
+      nostd::string{unit.data(), unit.size()}, InstrumentType::kCounter,
       InstrumentValueType::kDouble};
   auto storage = RegisterSyncMetricStorage(instrument_descriptor);
   return nostd::unique_ptr<metrics::Counter<double>>{
@@ -90,8 +90,8 @@ nostd::shared_ptr<opentelemetry::metrics::ObservableInstrument> Meter::CreateInt
     return GetNoopObservableInsrument();
   }
   InstrumentDescriptor instrument_descriptor = {
-      std::string{name.data(), name.size()}, std::string{description.data(), description.size()},
-      std::string{unit.data(), unit.size()}, InstrumentType::kObservableCounter,
+      nostd::string{name.data(), name.size()}, nostd::string{description.data(), description.size()},
+      nostd::string{unit.data(), unit.size()}, InstrumentType::kObservableCounter,
       InstrumentValueType::kLong};
   auto storage = RegisterAsyncMetricStorage(instrument_descriptor);
   return nostd::shared_ptr<metrics::ObservableInstrument>{
@@ -111,8 +111,8 @@ Meter::CreateDoubleObservableCounter(nostd::string_view name,
     return GetNoopObservableInsrument();
   }
   InstrumentDescriptor instrument_descriptor = {
-      std::string{name.data(), name.size()}, std::string{description.data(), description.size()},
-      std::string{unit.data(), unit.size()}, InstrumentType::kObservableCounter,
+      nostd::string{name.data(), name.size()}, nostd::string{description.data(), description.size()},
+      nostd::string{unit.data(), unit.size()}, InstrumentType::kObservableCounter,
       InstrumentValueType::kDouble};
   auto storage = RegisterAsyncMetricStorage(instrument_descriptor);
   return nostd::shared_ptr<metrics::ObservableInstrument>{
@@ -133,8 +133,8 @@ nostd::unique_ptr<metrics::Histogram<uint64_t>> Meter::CreateUInt64Histogram(
         new metrics::NoopHistogram<uint64_t>(name, description, unit));
   }
   InstrumentDescriptor instrument_descriptor = {
-      std::string{name.data(), name.size()}, std::string{description.data(), description.size()},
-      std::string{unit.data(), unit.size()}, InstrumentType::kHistogram,
+      nostd::string{name.data(), name.size()}, nostd::string{description.data(), description.size()},
+      nostd::string{unit.data(), unit.size()}, InstrumentType::kHistogram,
       InstrumentValueType::kLong};
   auto storage = RegisterSyncMetricStorage(instrument_descriptor);
   return nostd::unique_ptr<metrics::Histogram<uint64_t>>{
@@ -155,8 +155,8 @@ nostd::unique_ptr<metrics::Histogram<double>> Meter::CreateDoubleHistogram(
         new metrics::NoopHistogram<double>(name, description, unit));
   }
   InstrumentDescriptor instrument_descriptor = {
-      std::string{name.data(), name.size()}, std::string{description.data(), description.size()},
-      std::string{unit.data(), unit.size()}, InstrumentType::kHistogram,
+      nostd::string{name.data(), name.size()}, nostd::string{description.data(), description.size()},
+      nostd::string{unit.data(), unit.size()}, InstrumentType::kHistogram,
       InstrumentValueType::kDouble};
   auto storage = RegisterSyncMetricStorage(instrument_descriptor);
   return nostd::unique_ptr<metrics::Histogram<double>>{
@@ -176,8 +176,8 @@ nostd::shared_ptr<opentelemetry::metrics::ObservableInstrument> Meter::CreateInt
     return GetNoopObservableInsrument();
   }
   InstrumentDescriptor instrument_descriptor = {
-      std::string{name.data(), name.size()}, std::string{description.data(), description.size()},
-      std::string{unit.data(), unit.size()}, InstrumentType::kObservableGauge,
+      nostd::string{name.data(), name.size()}, nostd::string{description.data(), description.size()},
+      nostd::string{unit.data(), unit.size()}, InstrumentType::kObservableGauge,
       InstrumentValueType::kLong};
   auto storage = RegisterAsyncMetricStorage(instrument_descriptor);
   return nostd::shared_ptr<metrics::ObservableInstrument>{
@@ -197,8 +197,8 @@ nostd::shared_ptr<opentelemetry::metrics::ObservableInstrument> Meter::CreateDou
     return GetNoopObservableInsrument();
   }
   InstrumentDescriptor instrument_descriptor = {
-      std::string{name.data(), name.size()}, std::string{description.data(), description.size()},
-      std::string{unit.data(), unit.size()}, InstrumentType::kObservableGauge,
+      nostd::string{name.data(), name.size()}, nostd::string{description.data(), description.size()},
+      nostd::string{unit.data(), unit.size()}, InstrumentType::kObservableGauge,
       InstrumentValueType::kDouble};
   auto storage = RegisterAsyncMetricStorage(instrument_descriptor);
   return nostd::shared_ptr<metrics::ObservableInstrument>{
@@ -219,8 +219,8 @@ nostd::unique_ptr<metrics::UpDownCounter<int64_t>> Meter::CreateInt64UpDownCount
         new metrics::NoopUpDownCounter<int64_t>(name, description, unit));
   }
   InstrumentDescriptor instrument_descriptor = {
-      std::string{name.data(), name.size()}, std::string{description.data(), description.size()},
-      std::string{unit.data(), unit.size()}, InstrumentType::kUpDownCounter,
+      nostd::string{name.data(), name.size()}, nostd::string{description.data(), description.size()},
+      nostd::string{unit.data(), unit.size()}, InstrumentType::kUpDownCounter,
       InstrumentValueType::kLong};
   auto storage = RegisterSyncMetricStorage(instrument_descriptor);
   return nostd::unique_ptr<metrics::UpDownCounter<int64_t>>{
@@ -241,8 +241,8 @@ nostd::unique_ptr<metrics::UpDownCounter<double>> Meter::CreateDoubleUpDownCount
         new metrics::NoopUpDownCounter<double>(name, description, unit));
   }
   InstrumentDescriptor instrument_descriptor = {
-      std::string{name.data(), name.size()}, std::string{description.data(), description.size()},
-      std::string{unit.data(), unit.size()}, InstrumentType::kUpDownCounter,
+      nostd::string{name.data(), name.size()}, nostd::string{description.data(), description.size()},
+      nostd::string{unit.data(), unit.size()}, InstrumentType::kUpDownCounter,
       InstrumentValueType::kDouble};
   auto storage = RegisterSyncMetricStorage(instrument_descriptor);
   return nostd::unique_ptr<metrics::UpDownCounter<double>>{
@@ -262,8 +262,8 @@ Meter::CreateInt64ObservableUpDownCounter(nostd::string_view name,
     return GetNoopObservableInsrument();
   }
   InstrumentDescriptor instrument_descriptor = {
-      std::string{name.data(), name.size()}, std::string{description.data(), description.size()},
-      std::string{unit.data(), unit.size()}, InstrumentType::kObservableUpDownCounter,
+      nostd::string{name.data(), name.size()}, nostd::string{description.data(), description.size()},
+      nostd::string{unit.data(), unit.size()}, InstrumentType::kObservableUpDownCounter,
       InstrumentValueType::kLong};
   auto storage = RegisterAsyncMetricStorage(instrument_descriptor);
   return nostd::shared_ptr<metrics::ObservableInstrument>{
@@ -283,8 +283,8 @@ Meter::CreateDoubleObservableUpDownCounter(nostd::string_view name,
     return GetNoopObservableInsrument();
   }
   InstrumentDescriptor instrument_descriptor = {
-      std::string{name.data(), name.size()}, std::string{description.data(), description.size()},
-      std::string{unit.data(), unit.size()}, InstrumentType::kObservableUpDownCounter,
+      nostd::string{name.data(), name.size()}, nostd::string{description.data(), description.size()},
+      nostd::string{unit.data(), unit.size()}, InstrumentType::kObservableUpDownCounter,
       InstrumentValueType::kDouble};
   auto storage = RegisterAsyncMetricStorage(instrument_descriptor);
   return nostd::shared_ptr<metrics::ObservableInstrument>{

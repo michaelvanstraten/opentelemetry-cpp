@@ -31,7 +31,7 @@ TEST(LoggerSDK, LogToNullProcessor)
   // since it calls Processor::OnEmit()
 
   auto lp = std::shared_ptr<logs_api::LoggerProvider>(new LoggerProvider());
-  const std::string schema_url{"https://opentelemetry.io/schemas/1.11.0"};
+  const nostd::string schema_url{"https://opentelemetry.io/schemas/1.11.0"};
   auto logger = lp->GetLogger("logger", "opentelelemtry_library", "", schema_url);
 
   auto sdk_logger = static_cast<opentelemetry::sdk::logs::Logger *>(logger.get());
@@ -75,16 +75,16 @@ public:
     }
     else if (nostd::holds_alternative<nostd::string_view>(message))
     {
-      body_ = static_cast<std::string>(nostd::get<nostd::string_view>(message));
+      body_ = static_cast<nostd::string>(nostd::get<nostd::string_view>(message));
     }
   }
 
-  void SetBody(const std::string &message) noexcept { body_ = message; }
+  void SetBody(const nostd::string &message) noexcept { body_ = message; }
 
   void SetEventId(int64_t id, nostd::string_view name) noexcept override
   {
     event_id_              = id;
-    log_record_event_name_ = static_cast<std::string>(name);
+    log_record_event_name_ = static_cast<nostd::string>(name);
   }
 
   void SetTraceId(const opentelemetry::trace::TraceId &trace_id) noexcept override
@@ -120,17 +120,17 @@ public:
 
     if (key == "event.domain")
     {
-      event_domain_ = static_cast<std::string>(nostd::get<nostd::string_view>(value));
+      event_domain_ = static_cast<nostd::string>(nostd::get<nostd::string_view>(value));
     }
     else if (key == "event.name")
     {
-      event_name_ = static_cast<std::string>(nostd::get<nostd::string_view>(value));
+      event_name_ = static_cast<nostd::string>(nostd::get<nostd::string_view>(value));
     }
   }
 
-  inline const std::string &GetEventName() const noexcept { return event_name_; }
+  inline const nostd::string &GetEventName() const noexcept { return event_name_; }
 
-  inline const std::string &GetEventDomain() const noexcept { return event_domain_; }
+  inline const nostd::string &GetEventDomain() const noexcept { return event_domain_; }
 
   void SetResource(const opentelemetry::sdk::resource::Resource &) noexcept override {}
 
@@ -152,14 +152,14 @@ public:
 
 private:
   opentelemetry::logs::Severity severity_ = opentelemetry::logs::Severity::kInvalid;
-  std::string body_;
+  nostd::string body_;
   int64_t event_id_;
-  std::string log_record_event_name_;
+  nostd::string log_record_event_name_;
   opentelemetry::trace::TraceId trace_id_;
   opentelemetry::trace::SpanId span_id_;
   opentelemetry::trace::TraceFlags trace_flags_;
-  std::string event_name_;
-  std::string event_domain_;
+  nostd::string event_name_;
+  nostd::string event_domain_;
   opentelemetry::common::SystemTimestamp observed_timestamp_ =
       std::chrono::system_clock::from_time_t(0);
 };
@@ -201,7 +201,7 @@ TEST(LoggerSDK, LogToAProcessor)
 {
   // Create an API LoggerProvider and logger
   auto api_lp = std::shared_ptr<logs_api::LoggerProvider>(new LoggerProvider());
-  const std::string schema_url{"https://opentelemetry.io/schemas/1.11.0"};
+  const nostd::string schema_url{"https://opentelemetry.io/schemas/1.11.0"};
   auto logger = api_lp->GetLogger("logger", "opentelelemtry_library", "", schema_url);
 
   // Cast the API LoggerProvider to an SDK Logger Provider and assert that it is still the same
@@ -246,10 +246,10 @@ TEST(LoggerSDK, LogToAProcessor)
   include_span->GetContext().trace_id().ToLowerBase16(trace_id_in_span);
   shared_recordable->GetSpanId().ToLowerBase16(span_id_in_logger);
   include_span->GetContext().span_id().ToLowerBase16(span_id_in_span);
-  std::string trace_id_text_in_logger{trace_id_in_logger, sizeof(trace_id_in_logger)};
-  std::string trace_id_text_in_span{trace_id_in_span, sizeof(trace_id_in_span)};
-  std::string span_id_text_in_logger{span_id_in_logger, sizeof(span_id_in_logger)};
-  std::string span_id_text_in_span{span_id_in_span, sizeof(span_id_in_span)};
+  nostd::string trace_id_text_in_logger{trace_id_in_logger, sizeof(trace_id_in_logger)};
+  nostd::string trace_id_text_in_span{trace_id_in_span, sizeof(trace_id_in_span)};
+  nostd::string span_id_text_in_logger{span_id_in_logger, sizeof(span_id_in_logger)};
+  nostd::string span_id_text_in_span{span_id_in_span, sizeof(span_id_in_span)};
   ASSERT_EQ(trace_id_text_in_logger, trace_id_text_in_span);
   ASSERT_EQ(span_id_text_in_logger, span_id_text_in_span);
 
@@ -262,7 +262,7 @@ TEST(LoggerSDK, EventLog)
 {
   // Create an API LoggerProvider and logger
   auto api_lp = std::shared_ptr<logs_api::LoggerProvider>(new LoggerProvider());
-  const std::string schema_url{"https://opentelemetry.io/schemas/1.11.0"};
+  const nostd::string schema_url{"https://opentelemetry.io/schemas/1.11.0"};
   auto logger = api_lp->GetLogger("logger", "opentelelemtry_library", "", schema_url);
 
   auto api_elp      = std::shared_ptr<logs_api::EventLoggerProvider>(new EventLoggerProvider());

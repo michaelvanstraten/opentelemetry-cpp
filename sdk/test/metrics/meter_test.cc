@@ -18,7 +18,7 @@ using namespace opentelemetry::sdk::metrics;
 namespace
 {
 nostd::shared_ptr<metrics::Meter> InitMeter(MetricReader **metricReaderPtr,
-                                            std::string meter_name = "meter_name")
+                                            nostd::string meter_name = "meter_name")
 {
   static std::shared_ptr<metrics::MeterProvider> provider(new MeterProvider());
   std::unique_ptr<MetricReader> metric_reader(new MockMetricReader());
@@ -85,7 +85,7 @@ TEST(MeterTest, StressMultiThread)
           std::this_thread::yield();
           if (do_sync_create.exchange(false))
           {
-            std::string instrument_name = "test_couter_" + std::to_string(instrument_id);
+            nostd::string instrument_name = "test_couter_" + std::to_string(instrument_id);
             meter->CreateUInt64Counter(instrument_name, "", "");
             do_async_create.store(true);
             instrument_id++;

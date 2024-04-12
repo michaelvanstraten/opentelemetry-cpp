@@ -17,10 +17,10 @@ TEST(AlwaysOffSampler, ShouldSample)
   trace_api::TraceId trace_id;
   trace_api::SpanKind span_kind = trace_api::SpanKind::kInternal;
 
-  using M = std::map<std::string, int>;
+  using M = std::map<nostd::string, int>;
   M m1    = {{}};
 
-  using L = std::vector<std::pair<SpanContext, std::map<std::string, std::string>>>;
+  using L = std::vector<std::pair<SpanContext, std::map<nostd::string, nostd::string>>>;
   L l1    = {{SpanContext(false, false), {}}, {SpanContext(false, false), {}}};
 
   opentelemetry::common::KeyValueIterableView<M> view{m1};

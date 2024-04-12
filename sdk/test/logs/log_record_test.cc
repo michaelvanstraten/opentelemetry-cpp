@@ -62,7 +62,7 @@ TEST(ReadWriteLogRecord, SetAndGet)
   ASSERT_EQ(record.GetSeverity(), logs_api::Severity::kInvalid);
   if (nostd::holds_alternative<const char *>(record.GetBody()))
   {
-    ASSERT_EQ(std::string(nostd::get<const char *>(record.GetBody())), "Message");
+    ASSERT_EQ(nostd::string(nostd::get<const char *>(record.GetBody())), "Message");
   }
   else if (nostd::holds_alternative<nostd::string_view>(record.GetBody()))
   {
@@ -301,7 +301,7 @@ TEST(LogBody, BodyConversation)
   }
 
   {
-    std::string data_origin[] = {"281", "282", "283"};
+    nostd::string data_origin[] = {"281", "282", "283"};
     nostd::string_view data[] = {data_origin[0], data_origin[1], data_origin[2]};
     nostd::span<const nostd::string_view> data_span = data;
     real_logger->EmitLogRecord(opentelemetry::logs::Severity::kInfo, data_span);

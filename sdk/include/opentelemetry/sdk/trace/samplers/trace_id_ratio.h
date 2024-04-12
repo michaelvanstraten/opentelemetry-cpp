@@ -63,7 +63,7 @@ public:
   nostd::string_view GetDescription() const noexcept override;
 
 private:
-  std::string description_;
+  nostd::string description_;
   const uint64_t threshold_;
 };
 }  // namespace trace

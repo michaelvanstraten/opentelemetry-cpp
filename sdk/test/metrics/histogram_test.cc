@@ -79,9 +79,9 @@ TEST(Histogram, DoubleCustomBuckets)
 {
   MeterProvider mp;
   auto m                      = mp.GetMeter("meter1", "version1", "schema1");
-  std::string instrument_unit = "ms";
-  std::string instrument_name = "historgram1";
-  std::string instrument_desc = "histogram metrics";
+  nostd::string instrument_unit = "ms";
+  nostd::string instrument_name = "historgram1";
+  nostd::string instrument_desc = "histogram metrics";
 
   std::unique_ptr<MockMetricExporter> exporter(new MockMetricExporter());
   std::shared_ptr<MetricReader> reader{new MockMetricReader(std::move(exporter))};
@@ -194,9 +194,9 @@ TEST(Histogram, UInt64CustomBuckets)
 {
   MeterProvider mp;
   auto m                      = mp.GetMeter("meter1", "version1", "schema1");
-  std::string instrument_name = "historgram1";
-  std::string instrument_desc = "histogram metrics";
-  std::string instrument_unit = "ms";
+  nostd::string instrument_name = "historgram1";
+  nostd::string instrument_desc = "histogram metrics";
+  nostd::string instrument_unit = "ms";
 
   std::unique_ptr<MockMetricExporter> exporter(new MockMetricExporter());
   std::shared_ptr<MetricReader> reader{new MockMetricReader(std::move(exporter))};

@@ -11,16 +11,16 @@ using namespace opentelemetry::sdk::common;
 TEST(AttributesProcessor, FilteringAttributesProcessor)
 {
   const int kNumFilterAttributes               = 3;
-  std::unordered_map<std::string, bool> filter = {
+  std::unordered_map<nostd::string, bool> filter = {
       {"attr2", true}, {"attr4", true}, {"attr6", true}};
   const int kNumAttributes              = 6;
-  std::string keys[kNumAttributes]      = {"attr1", "attr2", "attr3", "attr4", "attr5", "attr6"};
+  nostd::string keys[kNumAttributes]      = {"attr1", "attr2", "attr3", "attr4", "attr5", "attr6"};
   int values[kNumAttributes]            = {10, 20, 30, 40, 50, 60};
-  std::map<std::string, int> attributes = {{keys[0], values[0]}, {keys[1], values[1]},
+  std::map<nostd::string, int> attributes = {{keys[0], values[0]}, {keys[1], values[1]},
                                            {keys[2], values[2]}, {keys[3], values[3]},
                                            {keys[4], values[4]}, {keys[5], values[5]}};
   FilteringAttributesProcessor attributes_processor(filter);
-  opentelemetry::common::KeyValueIterableView<std::map<std::string, int>> iterable(attributes);
+  opentelemetry::common::KeyValueIterableView<std::map<nostd::string, int>> iterable(attributes);
   auto filtered_attributes = attributes_processor.process(iterable);
   for (auto &e : filtered_attributes)
   {
@@ -32,15 +32,15 @@ TEST(AttributesProcessor, FilteringAttributesProcessor)
 TEST(AttributesProcessor, FilteringAllAttributesProcessor)
 {
   const int kNumFilterAttributes               = 0;
-  std::unordered_map<std::string, bool> filter = {};
+  std::unordered_map<nostd::string, bool> filter = {};
   const int kNumAttributes                     = 6;
-  std::string keys[kNumAttributes]      = {"attr1", "attr2", "attr3", "attr4", "attr5", "attr6"};
+  nostd::string keys[kNumAttributes]      = {"attr1", "attr2", "attr3", "attr4", "attr5", "attr6"};
   int values[kNumAttributes]            = {10, 20, 30, 40, 50, 60};
-  std::map<std::string, int> attributes = {{keys[0], values[0]}, {keys[1], values[1]},
+  std::map<nostd::string, int> attributes = {{keys[0], values[0]}, {keys[1], values[1]},
                                            {keys[2], values[2]}, {keys[3], values[3]},
                                            {keys[4], values[4]}, {keys[5], values[5]}};
   FilteringAttributesProcessor attributes_processor(filter);
-  opentelemetry::common::KeyValueIterableView<std::map<std::string, int>> iterable(attributes);
+  opentelemetry::common::KeyValueIterableView<std::map<nostd::string, int>> iterable(attributes);
   auto filtered_attributes = attributes_processor.process(iterable);
   EXPECT_EQ(filter.size(), kNumFilterAttributes);
 }

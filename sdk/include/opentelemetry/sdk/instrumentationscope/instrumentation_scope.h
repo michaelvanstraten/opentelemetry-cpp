@@ -121,15 +121,15 @@ public:
     return this->name_ == name && this->version_ == version && this->schema_url_ == schema_url;
   }
 
-  const std::string &GetName() const noexcept { return name_; }
-  const std::string &GetVersion() const noexcept { return version_; }
-  const std::string &GetSchemaURL() const noexcept { return schema_url_; }
+  const nostd::string &GetName() const noexcept { return name_; }
+  const nostd::string &GetVersion() const noexcept { return version_; }
+  const nostd::string &GetSchemaURL() const noexcept { return schema_url_; }
   const InstrumentationScopeAttributes &GetAttributes() const noexcept { return attributes_; }
 
   void SetAttribute(nostd::string_view key,
                     const opentelemetry::common::AttributeValue &value) noexcept
   {
-    attributes_[std::string(key)] =
+    attributes_[nostd::string(key)] =
         nostd::visit(opentelemetry::sdk::common::AttributeConverter(), value);
   }
 
@@ -140,18 +140,18 @@ private:
                        InstrumentationScopeAttributes &&attributes = {})
       : name_(name), version_(version), schema_url_(schema_url), attributes_(std::move(attributes))
   {
-    std::string hash_data;
+    nostd::string hash_data;
     hash_data.reserve(name_.size() + version_.size() + schema_url_.size());
     hash_data += name_;
     hash_data += version_;
     hash_data += schema_url_;
-    hash_code_ = std::hash<std::string>{}(hash_data);
+    hash_code_ = std::hash<nostd::string>{}(hash_data);
   }
 
 private:
-  std::string name_;
-  std::string version_;
-  std::string schema_url_;
+  nostd::string name_;
+  nostd::string version_;
+  nostd::string schema_url_;
   std::size_t hash_code_;
 
   InstrumentationScopeAttributes attributes_;

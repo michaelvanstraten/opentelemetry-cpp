@@ -151,7 +151,7 @@ public:
    * Get attributes of this log.
    * @return the body field of this log
    */
-  const std::unordered_map<std::string, opentelemetry::common::AttributeValue> &GetAttributes()
+  const std::unordered_map<nostd::string, opentelemetry::common::AttributeValue> &GetAttributes()
       const noexcept override;
 
   /**
@@ -187,13 +187,13 @@ private:
   const opentelemetry::sdk::resource::Resource *resource_;
   const opentelemetry::sdk::instrumentationscope::InstrumentationScope *instrumentation_scope_;
 
-  std::unordered_map<std::string, opentelemetry::common::AttributeValue> attributes_map_;
+  std::unordered_map<nostd::string, opentelemetry::common::AttributeValue> attributes_map_;
   opentelemetry::common::AttributeValue body_;
   opentelemetry::common::SystemTimestamp timestamp_;
   opentelemetry::common::SystemTimestamp observed_timestamp_;
 
   int64_t event_id_;
-  std::string event_name_;
+  nostd::string event_name_;
 
   // We do not pay for trace state when not necessary
   struct TraceState

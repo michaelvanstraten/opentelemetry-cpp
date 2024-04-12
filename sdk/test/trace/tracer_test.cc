@@ -47,8 +47,8 @@ public:
       // Return two pairs of attributes. These attributes should be added to the
       // span attributes
       return {Decision::RECORD_AND_SAMPLE,
-              nostd::unique_ptr<const std::map<std::string, opentelemetry::common::AttributeValue>>(
-                  new const std::map<std::string, opentelemetry::common::AttributeValue>(
+              nostd::unique_ptr<const std::map<nostd::string, opentelemetry::common::AttributeValue>>(
+                  new const std::map<nostd::string, opentelemetry::common::AttributeValue>(
                       {{"sampling_attr1", 123}, {"sampling_attr2", "string"}})),
               nostd::shared_ptr<opentelemetry::trace::TraceState>(nullptr)};
     }
@@ -57,7 +57,7 @@ public:
       // we should never reach here
       assert(false);
       return {Decision::DROP,
-              nostd::unique_ptr<const std::map<std::string, opentelemetry::common::AttributeValue>>(
+              nostd::unique_ptr<const std::map<nostd::string, opentelemetry::common::AttributeValue>>(
                   nullptr),
               nostd::shared_ptr<opentelemetry::trace::TraceState>(nullptr)};
     }
@@ -256,7 +256,7 @@ TEST(Tracer, StartSpanWithAttributes)
   double listDouble[]                 = {1.1, 2.1, 3.1};
   bool listBool[]                     = {true, false};
   nostd::string_view listStringView[] = {"a", "b"};
-  std::map<std::string, common::AttributeValue> m;
+  std::map<nostd::string, common::AttributeValue> m;
   m["attr1"] = nostd::span<int>(listInt);
   m["attr2"] = nostd::span<unsigned int>(listUInt);
   m["attr3"] = nostd::span<int32_t>(listInt32);
@@ -285,7 +285,7 @@ TEST(Tracer, StartSpanWithAttributes)
   ASSERT_EQ(static_cast<uint64_t>(20),
             nostd::get<uint64_t>(cur_span_data->GetAttributes().at("attr7")));
   ASSERT_EQ(3.1, nostd::get<double>(cur_span_data->GetAttributes().at("attr8")));
-  ASSERT_EQ("string", nostd::get<std::string>(cur_span_data->GetAttributes().at("attr9")));
+  ASSERT_EQ("string", nostd::get<nostd::string>(cur_span_data->GetAttributes().at("attr9")));
 
   auto &cur_span_data2 = spans.at(1);
   ASSERT_EQ(9, cur_span_data2->GetAttributes().size());
@@ -305,8 +305,8 @@ TEST(Tracer, StartSpanWithAttributes)
             nostd::get<std::vector<double>>(cur_span_data2->GetAttributes().at("attr7")));
   ASSERT_EQ(std::vector<bool>({true, false}),
             nostd::get<std::vector<bool>>(cur_span_data2->GetAttributes().at("attr8")));
-  ASSERT_EQ(std::vector<std::string>({"a", "b"}),
-            nostd::get<std::vector<std::string>>(cur_span_data2->GetAttributes().at("attr9")));
+  ASSERT_EQ(std::vector<nostd::string>({"a", "b"}),
+            nostd::get<std::vector<nostd::string>>(cur_span_data2->GetAttributes().at("attr9")));
 }
 
 TEST(Tracer, StartSpanWithAttributesCopy)
@@ -322,9 +322,9 @@ TEST(Tracer, StartSpanWithAttributesCopy)
     numbers->push_back(3);
 
     std::unique_ptr<std::vector<nostd::string_view>> strings(new std::vector<nostd::string_view>);
-    std::string s1("a");
-    std::string s2("b");
-    std::string s3("c");
+    nostd::string s1("a");
+    nostd::string s2("b");
+    nostd::string s3("c");
     strings->push_back(s1);
     strings->push_back(s2);
     strings->push_back(s3);
@@ -346,7 +346,7 @@ TEST(Tracer, StartSpanWithAttributesCopy)
   ASSERT_EQ(2, numbers[1]);
   ASSERT_EQ(3, numbers[2]);
 
-  auto strings = nostd::get<std::vector<std::string>>(cur_span_data->GetAttributes().at("attr2"));
+  auto strings = nostd::get<std::vector<nostd::string>>(cur_span_data->GetAttributes().at("attr2"));
   ASSERT_EQ(3, strings.size());
   ASSERT_EQ("a", strings[0]);
   ASSERT_EQ("b", strings[1]);
@@ -410,10 +410,10 @@ TEST(Tracer, TestAfterEnd)
   span->AddEvent("event 1");
   span->AddEvent("event 2", std::chrono::system_clock::now());
   span->AddEvent("event 3", std::chrono::system_clock::now(), {{"attr1", 1}});
-  std::string new_name{"new name"};
+  nostd::string new_name{"new name"};
   span->UpdateName(new_name);
   span->SetAttribute("attr1", 3.1);
-  std::string description{"description"};
+  nostd::string description{"description"};
   span->SetStatus(opentelemetry::trace::StatusCode::kError, description);
   span->End();
 
@@ -506,10 +506,10 @@ TEST(Tracer, SpanSetLinks)
   }
 
   {
-    std::map<std::string, std::string> attrs1 = {{"attr1", "1"}, {"attr2", "2"}};
-    std::map<std::string, std::string> attrs2 = {{"attr3", "3"}, {"attr4", "4"}};
+    std::map<nostd::string, nostd::string> attrs1 = {{"attr1", "1"}, {"attr2", "2"}};
+    std::map<nostd::string, nostd::string> attrs2 = {{"attr3", "3"}, {"attr4", "4"}};
 
-    std::vector<std::pair<SpanContext, std::map<std::string, std::string>>> links = {
+    std::vector<std::pair<SpanContext, std::map<nostd::string, nostd::string>>> links = {
         {SpanContext(false, false), attrs1}, {SpanContext(false, false), attrs2}};
     tracer->StartSpan("efg", attrs1, links)->End();
     auto spans = span_data->GetSpans();
@@ -517,11 +517,11 @@ TEST(Tracer, SpanSetLinks)
     auto &span_data_links = spans.at(0)->GetLinks();
     ASSERT_EQ(2, span_data_links.size());
     auto link1 = span_data_links.at(0);
-    ASSERT_EQ(nostd::get<std::string>(link1.GetAttributes().at("attr1")), "1");
-    ASSERT_EQ(nostd::get<std::string>(link1.GetAttributes().at("attr2")), "2");
+    ASSERT_EQ(nostd::get<nostd::string>(link1.GetAttributes().at("attr1")), "1");
+    ASSERT_EQ(nostd::get<nostd::string>(link1.GetAttributes().at("attr2")), "2");
     auto link2 = span_data_links.at(1);
-    ASSERT_EQ(nostd::get<std::string>(link2.GetAttributes().at("attr3")), "3");
-    ASSERT_EQ(nostd::get<std::string>(link2.GetAttributes().at("attr4")), "4");
+    ASSERT_EQ(nostd::get<nostd::string>(link2.GetAttributes().at("attr3")), "3");
+    ASSERT_EQ(nostd::get<nostd::string>(link2.GetAttributes().at("attr4")), "4");
   }
 }
 
@@ -568,7 +568,7 @@ TEST(Tracer, SpanAddLinkAbiv2)
   }
 
   {
-    std::map<std::string, std::string> attrs_map = {{"attr1", "1"}, {"attr2", "2"}};
+    std::map<nostd::string, nostd::string> attrs_map = {{"attr1", "1"}, {"attr2", "2"}};
 
     auto span = tracer->StartSpan("span");
     SpanContext target(false, false);
@@ -581,8 +581,8 @@ TEST(Tracer, SpanAddLinkAbiv2)
     ASSERT_EQ(1, span_data_links.size());
     auto link  = span_data_links.at(0);
     auto attrs = link.GetAttributes();
-    ASSERT_EQ(nostd::get<std::string>(attrs.at("attr1")), "1");
-    ASSERT_EQ(nostd::get<std::string>(attrs.at("attr2")), "2");
+    ASSERT_EQ(nostd::get<nostd::string>(attrs.at("attr1")), "1");
+    ASSERT_EQ(nostd::get<nostd::string>(attrs.at("attr2")), "2");
   }
 
   {
@@ -595,7 +595,7 @@ TEST(Tracer, SpanAddLinkAbiv2)
     // Multiple link attributes passed through Initialization list
     span->AddLink(target, {{"attr2", 2}, {"attr3", 3}});
 
-    std::map<std::string, std::string> attrs_map = {{"attr4", "4"}, {"attr5", "5"}};
+    std::map<nostd::string, nostd::string> attrs_map = {{"attr4", "4"}, {"attr5", "5"}};
     span->AddLink(target, attrs_map);
 
     span->End();
@@ -625,8 +625,8 @@ TEST(Tracer, SpanAddLinkAbiv2)
       auto link  = span_data_links.at(2);
       auto attrs = link.GetAttributes();
       ASSERT_EQ(attrs.size(), 2);
-      ASSERT_EQ(nostd::get<std::string>(attrs.at("attr4")), "4");
-      ASSERT_EQ(nostd::get<std::string>(attrs.at("attr5")), "5");
+      ASSERT_EQ(nostd::get<nostd::string>(attrs.at("attr4")), "4");
+      ASSERT_EQ(nostd::get<nostd::string>(attrs.at("attr5")), "5");
     }
   }
 }
@@ -690,10 +690,10 @@ TEST(Tracer, SpanAddLinksAbiv2)
   }
 
   {
-    std::map<std::string, std::string> attrs1 = {{"attr1", "1"}, {"attr2", "2"}};
-    std::map<std::string, std::string> attrs2 = {{"attr3", "3"}, {"attr4", "4"}};
+    std::map<nostd::string, nostd::string> attrs1 = {{"attr1", "1"}, {"attr2", "2"}};
+    std::map<nostd::string, nostd::string> attrs2 = {{"attr3", "3"}, {"attr4", "4"}};
 
-    std::vector<std::pair<SpanContext, std::map<std::string, std::string>>> links = {
+    std::vector<std::pair<SpanContext, std::map<nostd::string, nostd::string>>> links = {
         {SpanContext(false, false), attrs1}, {SpanContext(false, false), attrs2}};
 
     auto span = tracer->StartSpan("span");
@@ -705,11 +705,11 @@ TEST(Tracer, SpanAddLinksAbiv2)
     auto &span_data_links = spans.at(0)->GetLinks();
     ASSERT_EQ(2, span_data_links.size());
     auto link1 = span_data_links.at(0);
-    ASSERT_EQ(nostd::get<std::string>(link1.GetAttributes().at("attr1")), "1");
-    ASSERT_EQ(nostd::get<std::string>(link1.GetAttributes().at("attr2")), "2");
+    ASSERT_EQ(nostd::get<nostd::string>(link1.GetAttributes().at("attr1")), "1");
+    ASSERT_EQ(nostd::get<nostd::string>(link1.GetAttributes().at("attr2")), "2");
     auto link2 = span_data_links.at(1);
-    ASSERT_EQ(nostd::get<std::string>(link2.GetAttributes().at("attr3")), "3");
-    ASSERT_EQ(nostd::get<std::string>(link2.GetAttributes().at("attr4")), "4");
+    ASSERT_EQ(nostd::get<nostd::string>(link2.GetAttributes().at("attr3")), "3");
+    ASSERT_EQ(nostd::get<nostd::string>(link2.GetAttributes().at("attr4")), "4");
   }
 
   {
@@ -731,18 +731,18 @@ TEST(Tracer, SpanAddLinksAbiv2)
     span->AddLinks({{SpanContext(false, false), {{"attr19", 19}, {"attr20", 20}}},
                     {SpanContext(false, false), {{"attr21", 21}}}});
 
-    std::map<std::string, std::string> attrsa1 = {{"attra1", "1"}, {"attra2", "2"}};
-    std::map<std::string, std::string> attrsa2 = {{"attra3", "3"}, {"attra4", "4"}};
+    std::map<nostd::string, nostd::string> attrsa1 = {{"attra1", "1"}, {"attra2", "2"}};
+    std::map<nostd::string, nostd::string> attrsa2 = {{"attra3", "3"}, {"attra4", "4"}};
 
-    std::vector<std::pair<SpanContext, std::map<std::string, std::string>>> linksa = {
+    std::vector<std::pair<SpanContext, std::map<nostd::string, nostd::string>>> linksa = {
         {SpanContext(false, false), attrsa1}, {SpanContext(false, false), attrsa2}};
 
     span->AddLinks(linksa);
 
-    std::map<std::string, std::string> attrsb1 = {{"attrb1", "1"}, {"attrb2", "2"}};
-    std::map<std::string, std::string> attrsb2 = {{"attrb3", "3"}, {"attrb4", "4"}};
+    std::map<nostd::string, nostd::string> attrsb1 = {{"attrb1", "1"}, {"attrb2", "2"}};
+    std::map<nostd::string, nostd::string> attrsb2 = {{"attrb3", "3"}, {"attrb4", "4"}};
 
-    std::vector<std::pair<SpanContext, std::map<std::string, std::string>>> linksb = {
+    std::vector<std::pair<SpanContext, std::map<nostd::string, nostd::string>>> linksb = {
         {SpanContext(false, false), attrsb1}, {SpanContext(false, false), attrsb2}};
 
     span->AddLinks(linksb);
@@ -831,32 +831,32 @@ TEST(Tracer, SpanAddLinksAbiv2)
       auto link  = span_data_links.at(10);
       auto attrs = link.GetAttributes();
       ASSERT_EQ(attrs.size(), 2);
-      ASSERT_EQ(nostd::get<std::string>(attrs.at("attra1")), "1");
-      ASSERT_EQ(nostd::get<std::string>(attrs.at("attra2")), "2");
+      ASSERT_EQ(nostd::get<nostd::string>(attrs.at("attra1")), "1");
+      ASSERT_EQ(nostd::get<nostd::string>(attrs.at("attra2")), "2");
     }
 
     {
       auto link  = span_data_links.at(11);
       auto attrs = link.GetAttributes();
       ASSERT_EQ(attrs.size(), 2);
-      ASSERT_EQ(nostd::get<std::string>(attrs.at("attra3")), "3");
-      ASSERT_EQ(nostd::get<std::string>(attrs.at("attra4")), "4");
+      ASSERT_EQ(nostd::get<nostd::string>(attrs.at("attra3")), "3");
+      ASSERT_EQ(nostd::get<nostd::string>(attrs.at("attra4")), "4");
     }
 
     {
       auto link  = span_data_links.at(12);
       auto attrs = link.GetAttributes();
       ASSERT_EQ(attrs.size(), 2);
-      ASSERT_EQ(nostd::get<std::string>(attrs.at("attrb1")), "1");
-      ASSERT_EQ(nostd::get<std::string>(attrs.at("attrb2")), "2");
+      ASSERT_EQ(nostd::get<nostd::string>(attrs.at("attrb1")), "1");
+      ASSERT_EQ(nostd::get<nostd::string>(attrs.at("attrb2")), "2");
     }
 
     {
       auto link  = span_data_links.at(13);
       auto attrs = link.GetAttributes();
       ASSERT_EQ(attrs.size(), 2);
-      ASSERT_EQ(nostd::get<std::string>(attrs.at("attrb3")), "3");
-      ASSERT_EQ(nostd::get<std::string>(attrs.at("attrb4")), "4");
+      ASSERT_EQ(nostd::get<nostd::string>(attrs.at("attrb3")), "3");
+      ASSERT_EQ(nostd::get<nostd::string>(attrs.at("attrb4")), "4");
     }
   }
 }

@@ -17,18 +17,18 @@ TEST(ObserverResult, BasicTests)
   observer_result.Observe(20);
   EXPECT_EQ(observer_result.GetMeasurements().size(), 1);
 
-  std::map<std::string, int64_t> m1 = {{"k2", 12}};
+  std::map<nostd::string, int64_t> m1 = {{"k2", 12}};
   observer_result.Observe(
-      30, opentelemetry::common::KeyValueIterableView<std::map<std::string, int64_t>>(m1));
+      30, opentelemetry::common::KeyValueIterableView<std::map<nostd::string, int64_t>>(m1));
   EXPECT_EQ(observer_result.GetMeasurements().size(), 2);
 
   observer_result.Observe(
-      40, opentelemetry::common::KeyValueIterableView<std::map<std::string, int64_t>>(m1));
+      40, opentelemetry::common::KeyValueIterableView<std::map<nostd::string, int64_t>>(m1));
   EXPECT_EQ(observer_result.GetMeasurements().size(), 2);
 
-  std::map<std::string, int64_t> m2 = {{"k2", 12}, {"k4", 12}};
+  std::map<nostd::string, int64_t> m2 = {{"k2", 12}, {"k4", 12}};
   observer_result.Observe(
-      40, opentelemetry::common::KeyValueIterableView<std::map<std::string, int64_t>>(m2));
+      40, opentelemetry::common::KeyValueIterableView<std::map<nostd::string, int64_t>>(m2));
   EXPECT_EQ(observer_result.GetMeasurements().size(), 3);
 
   delete attributes_processor;

@@ -123,7 +123,7 @@ private:
   std::unique_ptr<sdk::instrumentationscope::InstrumentationScope> scope_;
   std::weak_ptr<sdk::metrics::MeterContext> meter_context_;
   // Mapping between instrument-name and Aggregation Storage.
-  std::unordered_map<std::string, std::shared_ptr<MetricStorage>> storage_registry_;
+  std::unordered_map<nostd::string, std::shared_ptr<MetricStorage>> storage_registry_;
   std::shared_ptr<ObservableRegistry> observable_registry_;
   std::unique_ptr<SyncWritableMetricStorage> RegisterSyncMetricStorage(
       InstrumentDescriptor &instrument_descriptor);

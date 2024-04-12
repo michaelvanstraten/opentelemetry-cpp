@@ -16,7 +16,7 @@
 
 using namespace opentelemetry::sdk::metrics;
 using namespace opentelemetry::common;
-using M         = std::map<std::string, std::string>;
+using M         = std::map<nostd::string, nostd::string>;
 namespace nostd = opentelemetry::nostd;
 
 class WritableMetricStorageHistogramTestFixture
@@ -31,8 +31,8 @@ TEST_P(WritableMetricStorageHistogramTestFixture, LongHistogram)
   int64_t expected_total_put_requests = 0;
   InstrumentDescriptor instr_desc     = {"name", "desc", "1unit", InstrumentType::kHistogram,
                                      InstrumentValueType::kLong};
-  std::map<std::string, std::string> attributes_get = {{"RequestType", "GET"}};
-  std::map<std::string, std::string> attributes_put = {{"RequestType", "PUT"}};
+  std::map<nostd::string, nostd::string> attributes_get = {{"RequestType", "GET"}};
+  std::map<nostd::string, nostd::string> attributes_put = {{"RequestType", "PUT"}};
 
   std::unique_ptr<DefaultAttributesProcessor> default_attributes_processor{
       new DefaultAttributesProcessor{}};
@@ -40,19 +40,19 @@ TEST_P(WritableMetricStorageHistogramTestFixture, LongHistogram)
       instr_desc, AggregationType::kHistogram, default_attributes_processor.get(),
       NoExemplarReservoir::GetNoExemplarReservoir(), nullptr);
 
-  storage.RecordLong(10, KeyValueIterableView<std::map<std::string, std::string>>(attributes_get),
+  storage.RecordLong(10, KeyValueIterableView<std::map<nostd::string, nostd::string>>(attributes_get),
                      opentelemetry::context::Context{});
   expected_total_get_requests += 10;
 
-  storage.RecordLong(30, KeyValueIterableView<std::map<std::string, std::string>>(attributes_put),
+  storage.RecordLong(30, KeyValueIterableView<std::map<nostd::string, nostd::string>>(attributes_put),
                      opentelemetry::context::Context{});
   expected_total_put_requests += 30;
 
-  storage.RecordLong(20, KeyValueIterableView<std::map<std::string, std::string>>(attributes_get),
+  storage.RecordLong(20, KeyValueIterableView<std::map<nostd::string, nostd::string>>(attributes_get),
                      opentelemetry::context::Context{});
   expected_total_get_requests += 20;
 
-  storage.RecordLong(40, KeyValueIterableView<std::map<std::string, std::string>>(attributes_put),
+  storage.RecordLong(40, KeyValueIterableView<std::map<nostd::string, nostd::string>>(attributes_put),
                      opentelemetry::context::Context{});
   expected_total_put_requests += 40;
 
@@ -68,13 +68,13 @@ TEST_P(WritableMetricStorageHistogramTestFixture, LongHistogram)
         for (const auto &data_attr : metric_data.point_data_attr_)
         {
           const auto &data = opentelemetry::nostd::get<HistogramPointData>(data_attr.point_data);
-          if (opentelemetry::nostd::get<std::string>(
+          if (opentelemetry::nostd::get<nostd::string>(
                   data_attr.attributes.find("RequestType")->second) == "GET")
           {
             EXPECT_EQ(opentelemetry::nostd::get<int64_t>(data.sum_), expected_total_get_requests);
             count_attributes++;
           }
-          else if (opentelemetry::nostd::get<std::string>(
+          else if (opentelemetry::nostd::get<nostd::string>(
                        data_attr.attributes.find("RequestType")->second) == "PUT")
           {
             EXPECT_EQ(opentelemetry::nostd::get<int64_t>(data.sum_), expected_total_put_requests);
@@ -104,13 +104,13 @@ TEST_P(WritableMetricStorageHistogramTestFixture, LongHistogram)
         for (const auto &data_attr : metric_data.point_data_attr_)
         {
           const auto &data = opentelemetry::nostd::get<HistogramPointData>(data_attr.point_data);
-          if (opentelemetry::nostd::get<std::string>(
+          if (opentelemetry::nostd::get<nostd::string>(
                   data_attr.attributes.find("RequestType")->second) == "GET")
           {
             count_attributes++;
             EXPECT_EQ(opentelemetry::nostd::get<int64_t>(data.sum_), expected_total_get_requests);
           }
-          else if (opentelemetry::nostd::get<std::string>(
+          else if (opentelemetry::nostd::get<nostd::string>(
                        data_attr.attributes.find("RequestType")->second) == "PUT")
           {
             count_attributes++;
@@ -124,10 +124,10 @@ TEST_P(WritableMetricStorageHistogramTestFixture, LongHistogram)
     EXPECT_EQ(count_attributes, 2);  // GET AND PUT
   }
 
-  storage.RecordLong(50, KeyValueIterableView<std::map<std::string, std::string>>(attributes_get),
+  storage.RecordLong(50, KeyValueIterableView<std::map<nostd::string, nostd::string>>(attributes_get),
                      opentelemetry::context::Context{});
   expected_total_get_requests += 50;
-  storage.RecordLong(40, KeyValueIterableView<std::map<std::string, std::string>>(attributes_put),
+  storage.RecordLong(40, KeyValueIterableView<std::map<nostd::string, nostd::string>>(attributes_put),
                      opentelemetry::context::Context{});
   expected_total_put_requests += 40;
 
@@ -138,13 +138,13 @@ TEST_P(WritableMetricStorageHistogramTestFixture, LongHistogram)
         for (const auto &data_attr : metric_data.point_data_attr_)
         {
           const auto &data = opentelemetry::nostd::get<HistogramPointData>(data_attr.point_data);
-          if (opentelemetry::nostd::get<std::string>(
+          if (opentelemetry::nostd::get<nostd::string>(
                   data_attr.attributes.find("RequestType")->second) == "GET")
           {
             EXPECT_EQ(opentelemetry::nostd::get<int64_t>(data.sum_), expected_total_get_requests);
             count_attributes++;
           }
-          else if (opentelemetry::nostd::get<std::string>(
+          else if (opentelemetry::nostd::get<nostd::string>(
                        data_attr.attributes.find("RequestType")->second) == "PUT")
           {
             EXPECT_EQ(opentelemetry::nostd::get<int64_t>(data.sum_), expected_total_put_requests);
@@ -169,8 +169,8 @@ TEST_P(WritableMetricStorageHistogramTestFixture, DoubleHistogram)
   double expected_total_put_requests = 0;
   InstrumentDescriptor instr_desc    = {"name", "desc", "1unit", InstrumentType::kHistogram,
                                      InstrumentValueType::kDouble};
-  std::map<std::string, std::string> attributes_get = {{"RequestType", "GET"}};
-  std::map<std::string, std::string> attributes_put = {{"RequestType", "PUT"}};
+  std::map<nostd::string, nostd::string> attributes_get = {{"RequestType", "GET"}};
+  std::map<nostd::string, nostd::string> attributes_put = {{"RequestType", "PUT"}};
 
   std::unique_ptr<DefaultAttributesProcessor> default_attributes_processor{
       new DefaultAttributesProcessor{}};
@@ -179,22 +179,22 @@ TEST_P(WritableMetricStorageHistogramTestFixture, DoubleHistogram)
       NoExemplarReservoir::GetNoExemplarReservoir(), nullptr);
 
   storage.RecordDouble(10.0,
-                       KeyValueIterableView<std::map<std::string, std::string>>(attributes_get),
+                       KeyValueIterableView<std::map<nostd::string, nostd::string>>(attributes_get),
                        opentelemetry::context::Context{});
   expected_total_get_requests += 10;
 
   storage.RecordDouble(30.0,
-                       KeyValueIterableView<std::map<std::string, std::string>>(attributes_put),
+                       KeyValueIterableView<std::map<nostd::string, nostd::string>>(attributes_put),
                        opentelemetry::context::Context{});
   expected_total_put_requests += 30;
 
   storage.RecordDouble(20.0,
-                       KeyValueIterableView<std::map<std::string, std::string>>(attributes_get),
+                       KeyValueIterableView<std::map<nostd::string, nostd::string>>(attributes_get),
                        opentelemetry::context::Context{});
   expected_total_get_requests += 20;
 
   storage.RecordDouble(40.0,
-                       KeyValueIterableView<std::map<std::string, std::string>>(attributes_put),
+                       KeyValueIterableView<std::map<nostd::string, nostd::string>>(attributes_put),
                        opentelemetry::context::Context{});
   expected_total_put_requests += 40;
 
@@ -210,13 +210,13 @@ TEST_P(WritableMetricStorageHistogramTestFixture, DoubleHistogram)
         for (const auto &data_attr : metric_data.point_data_attr_)
         {
           const auto &data = opentelemetry::nostd::get<HistogramPointData>(data_attr.point_data);
-          if (opentelemetry::nostd::get<std::string>(
+          if (opentelemetry::nostd::get<nostd::string>(
                   data_attr.attributes.find("RequestType")->second) == "GET")
           {
             EXPECT_EQ(opentelemetry::nostd::get<double>(data.sum_), expected_total_get_requests);
             count_attributes++;
           }
-          else if (opentelemetry::nostd::get<std::string>(
+          else if (opentelemetry::nostd::get<nostd::string>(
                        data_attr.attributes.find("RequestType")->second) == "PUT")
           {
             EXPECT_EQ(opentelemetry::nostd::get<double>(data.sum_), expected_total_put_requests);
@@ -247,13 +247,13 @@ TEST_P(WritableMetricStorageHistogramTestFixture, DoubleHistogram)
         for (const auto &data_attr : metric_data.point_data_attr_)
         {
           const auto &data = opentelemetry::nostd::get<HistogramPointData>(data_attr.point_data);
-          if (opentelemetry::nostd::get<std::string>(
+          if (opentelemetry::nostd::get<nostd::string>(
                   data_attr.attributes.find("RequestType")->second) == "GET")
           {
             count_attributes++;
             EXPECT_EQ(opentelemetry::nostd::get<double>(data.sum_), expected_total_get_requests);
           }
-          else if (opentelemetry::nostd::get<std::string>(
+          else if (opentelemetry::nostd::get<nostd::string>(
                        data_attr.attributes.find("RequestType")->second) == "PUT")
           {
             count_attributes++;
@@ -268,11 +268,11 @@ TEST_P(WritableMetricStorageHistogramTestFixture, DoubleHistogram)
   }
 
   storage.RecordDouble(50.0,
-                       KeyValueIterableView<std::map<std::string, std::string>>(attributes_get),
+                       KeyValueIterableView<std::map<nostd::string, nostd::string>>(attributes_get),
                        opentelemetry::context::Context{});
   expected_total_get_requests += 50;
   storage.RecordDouble(40.0,
-                       KeyValueIterableView<std::map<std::string, std::string>>(attributes_put),
+                       KeyValueIterableView<std::map<nostd::string, nostd::string>>(attributes_put),
                        opentelemetry::context::Context{});
   expected_total_put_requests += 40;
 
@@ -283,13 +283,13 @@ TEST_P(WritableMetricStorageHistogramTestFixture, DoubleHistogram)
         for (const auto &data_attr : metric_data.point_data_attr_)
         {
           const auto &data = opentelemetry::nostd::get<HistogramPointData>(data_attr.point_data);
-          if (opentelemetry::nostd::get<std::string>(
+          if (opentelemetry::nostd::get<nostd::string>(
                   data_attr.attributes.find("RequestType")->second) == "GET")
           {
             EXPECT_EQ(opentelemetry::nostd::get<double>(data.sum_), expected_total_get_requests);
             count_attributes++;
           }
-          else if (opentelemetry::nostd::get<std::string>(
+          else if (opentelemetry::nostd::get<nostd::string>(
                        data_attr.attributes.find("RequestType")->second) == "PUT")
           {
             EXPECT_EQ(opentelemetry::nostd::get<double>(data.sum_), expected_total_put_requests);

@@ -11,6 +11,7 @@
 #include "opentelemetry/common/attribute_value.h"
 #include "opentelemetry/common/key_value_iterable_view.h"
 #include "opentelemetry/version.h"
+#include "opentelemetry/nostd/string_view.h"
 
 OPENTELEMETRY_BEGIN_NAMESPACE
 namespace sdk
@@ -32,13 +33,13 @@ using OwnedAttributeValue = nostd::variant<bool,
                                            uint32_t,
                                            int64_t,
                                            double,
-                                           std::string,
+                                           nostd::string,
                                            std::vector<bool>,
                                            std::vector<int32_t>,
                                            std::vector<uint32_t>,
                                            std::vector<int64_t>,
                                            std::vector<double>,
-                                           std::vector<std::string>,
+                                           std::vector<nostd::string>,
                                            uint64_t,
                                            std::vector<uint64_t>,
                                            std::vector<uint8_t>>;
@@ -75,10 +76,10 @@ struct AttributeConverter
   OwnedAttributeValue operator()(double v) { return OwnedAttributeValue(v); }
   OwnedAttributeValue operator()(nostd::string_view v)
   {
-    return OwnedAttributeValue(std::string(v));
+    return OwnedAttributeValue(nostd::string(v));
   }
-  OwnedAttributeValue operator()(std::string v) { return OwnedAttributeValue(v); }
-  OwnedAttributeValue operator()(const char *v) { return OwnedAttributeValue(std::string(v)); }
+  OwnedAttributeValue operator()(nostd::string v) { return OwnedAttributeValue(v); }
+  OwnedAttributeValue operator()(const char *v) { return OwnedAttributeValue(nostd::string(v)); }
   OwnedAttributeValue operator()(nostd::span<const uint8_t> v) { return convertSpan<uint8_t>(v); }
   OwnedAttributeValue operator()(nostd::span<const bool> v) { return convertSpan<bool>(v); }
   OwnedAttributeValue operator()(nostd::span<const int32_t> v) { return convertSpan<int32_t>(v); }
@@ -88,7 +89,7 @@ struct AttributeConverter
   OwnedAttributeValue operator()(nostd::span<const double> v) { return convertSpan<double>(v); }
   OwnedAttributeValue operator()(nostd::span<const nostd::string_view> v)
   {
-    return convertSpan<std::string>(v);
+    return convertSpan<nostd::string>(v);
   }
 
   template <typename T, typename U = T>
@@ -102,11 +103,11 @@ struct AttributeConverter
 /**
  * Class for storing attributes.
  */
-class AttributeMap : public std::unordered_map<std::string, OwnedAttributeValue>
+class AttributeMap : public std::unordered_map<nostd::string, OwnedAttributeValue>
 {
 public:
   // Construct empty attribute map
-  AttributeMap() : std::unordered_map<std::string, OwnedAttributeValue>() {}
+  AttributeMap() : std::unordered_map<nostd::string, OwnedAttributeValue>() {}
 
   // Construct attribute map and populate with attributes
   AttributeMap(const opentelemetry::common::KeyValueIterable &attributes) : AttributeMap()
@@ -144,16 +145,16 @@ public:
   }
 
   // Returns a reference to this map
-  const std::unordered_map<std::string, OwnedAttributeValue> &GetAttributes() const noexcept
+  const std::unordered_map<nostd::string, OwnedAttributeValue> &GetAttributes() const noexcept
   {
     return (*this);
   }
 
-  // Convert non-owning key-value to owning std::string(key) and OwnedAttributeValue(value)
+  // Convert non-owning key-value to owning nostd::string(key) and OwnedAttributeValue(value)
   void SetAttribute(nostd::string_view key,
                     const opentelemetry::common::AttributeValue &value) noexcept
   {
-    (*this)[std::string(key)] = nostd::visit(converter_, value);
+    (*this)[nostd::string(key)] = nostd::visit(converter_, value);
   }
 
 private:
@@ -163,11 +164,11 @@ private:
 /**
  * Class for storing attributes.
  */
-class OrderedAttributeMap : public std::map<std::string, OwnedAttributeValue>
+class OrderedAttributeMap : public std::map<nostd::string, OwnedAttributeValue>
 {
 public:
   // Contruct empty attribute map
-  OrderedAttributeMap() : std::map<std::string, OwnedAttributeValue>() {}
+  OrderedAttributeMap() : std::map<nostd::string, OwnedAttributeValue>() {}
 
   // Contruct attribute map and populate with attributes
   OrderedAttributeMap(const opentelemetry::common::KeyValueIterable &attributes)
@@ -193,16 +194,16 @@ public:
   }
 
   // Returns a reference to this map
-  const std::map<std::string, OwnedAttributeValue> &GetAttributes() const noexcept
+  const std::map<nostd::string, OwnedAttributeValue> &GetAttributes() const noexcept
   {
     return (*this);
   }
 
-  // Convert non-owning key-value to owning std::string(key) and OwnedAttributeValue(value)
+  // Convert non-owning key-value to owning nostd::string(key) and OwnedAttributeValue(value)
   void SetAttribute(nostd::string_view key,
                     const opentelemetry::common::AttributeValue &value) noexcept
   {
-    (*this)[std::string(key)] = nostd::visit(converter_, value);
+    (*this)[nostd::string(key)] = nostd::visit(converter_, value);
   }
 
 private:

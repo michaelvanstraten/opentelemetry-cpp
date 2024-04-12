@@ -64,7 +64,7 @@ class FilteringAttributesProcessor : public AttributesProcessor
 {
 public:
   FilteringAttributesProcessor(
-      const std::unordered_map<std::string, bool> allowed_attribute_keys = {})
+      const std::unordered_map<nostd::string, bool> allowed_attribute_keys = {})
       : allowed_attribute_keys_(std::move(allowed_attribute_keys))
   {}
 
@@ -90,7 +90,7 @@ public:
   }
 
 private:
-  std::unordered_map<std::string, bool> allowed_attribute_keys_;
+  std::unordered_map<nostd::string, bool> allowed_attribute_keys_;
 };
 
 }  // namespace metrics

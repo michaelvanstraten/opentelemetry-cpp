@@ -24,28 +24,28 @@ class View;
 class OPENTELEMETRY_EXPORT ViewFactory
 {
 public:
-  static std::unique_ptr<View> Create(const std::string &name);
+  static std::unique_ptr<View> Create(const nostd::string &name);
 
-  static std::unique_ptr<View> Create(const std::string &name, const std::string &description);
+  static std::unique_ptr<View> Create(const nostd::string &name, const nostd::string &description);
 
-  static std::unique_ptr<View> Create(const std::string &name,
-                                      const std::string &description,
-                                      const std::string &unit);
+  static std::unique_ptr<View> Create(const nostd::string &name,
+                                      const nostd::string &description,
+                                      const nostd::string &unit);
 
-  static std::unique_ptr<View> Create(const std::string &name,
-                                      const std::string &description,
-                                      const std::string &unit,
+  static std::unique_ptr<View> Create(const nostd::string &name,
+                                      const nostd::string &description,
+                                      const nostd::string &unit,
                                       AggregationType aggregation_type);
 
-  static std::unique_ptr<View> Create(const std::string &name,
-                                      const std::string &description,
-                                      const std::string &unit,
+  static std::unique_ptr<View> Create(const nostd::string &name,
+                                      const nostd::string &description,
+                                      const nostd::string &unit,
                                       AggregationType aggregation_type,
                                       std::shared_ptr<AggregationConfig> aggregation_config);
 
-  static std::unique_ptr<View> Create(const std::string &name,
-                                      const std::string &description,
-                                      const std::string &unit,
+  static std::unique_ptr<View> Create(const nostd::string &name,
+                                      const nostd::string &description,
+                                      const nostd::string &unit,
                                       AggregationType aggregation_type,
                                       std::shared_ptr<AggregationConfig> aggregation_config,
                                       std::unique_ptr<AttributesProcessor> attributes_processor);

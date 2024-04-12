@@ -4,8 +4,8 @@
 #pragma once
 
 #include <memory>
-#include <string>
 
+#include "opentelemetry/nostd/string.h"
 #include "opentelemetry/sdk/metrics/view/predicate_factory.h"
 #include "opentelemetry/version.h"
 
@@ -17,7 +17,7 @@ namespace metrics
 class MeterSelector
 {
 public:
-  MeterSelector(const std::string &name, const std::string &version, const std::string &schema)
+  MeterSelector(const nostd::string &name, const nostd::string &version, const nostd::string &schema)
       : name_filter_{PredicateFactory::GetPredicate(name, PredicateType::kExact)},
         version_filter_{PredicateFactory::GetPredicate(version, PredicateType::kExact)},
         schema_filter_{PredicateFactory::GetPredicate(schema, PredicateType::kExact)}

@@ -35,7 +35,7 @@ enum class LogLevel
   Debug
 };
 
-inline std::string LevelToString(LogLevel level)
+inline nostd::string LevelToString(LogLevel level)
 {
   switch (level)
   {
@@ -152,7 +152,7 @@ OPENTELEMETRY_END_NAMESPACE
     {                                                                                     \
       break;                                                                              \
     }                                                                                     \
-    std::stringstream tmp_stream;                                                         \
+   std::stringstream tmp_stream;                                                         \
     tmp_stream << message;                                                                \
     log_handler->Handle(level, __FILE__, __LINE__, tmp_stream.str().c_str(), attributes); \
   } while (false);

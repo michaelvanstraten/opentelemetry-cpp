@@ -4,10 +4,10 @@
 #include "opentelemetry/sdk/metrics/instrument_metadata_validator.h"
 #include <gtest/gtest.h>
 
-static std::string CreateVeryLargeString(size_t multiple)
+static nostd::string CreateVeryLargeString(size_t multiple)
 {
-  std::string result   = "START";
-  std::string repeater = "0123456789";
+  nostd::string result   = "START";
+  nostd::string repeater = "0123456789";
   for (size_t i = 0; i < multiple; i++)
   {
     result += repeater;
@@ -18,7 +18,7 @@ static std::string CreateVeryLargeString(size_t multiple)
 TEST(InstrumentMetadataValidator, TestName)
 {
   opentelemetry::sdk::metrics::InstrumentMetaDataValidator validator;
-  std::vector<std::string> invalid_names = {
+  std::vector<nostd::string> invalid_names = {
       "",                               // empty string
       "1sdf",                           // string starting with number
       "123€AAA€BBB",                    // unicode characters
@@ -33,7 +33,7 @@ TEST(InstrumentMetadataValidator, TestName)
     EXPECT_FALSE(validator.ValidateName(str));
   }
 
-  std::vector<std::string> valid_names = {
+  std::vector<nostd::string> valid_names = {
       "T",                                      // single char string
       "s123",                                   // starting with char, followed by numbers
       "dsdsdsd_-.",                             // string , and valid nonalphanumeric
@@ -53,7 +53,7 @@ TEST(InstrumentMetadataValidator, TestName)
 TEST(InstrumentMetadataValidator, TestUnit)
 {
   opentelemetry::sdk::metrics::InstrumentMetaDataValidator validator;
-  std::vector<std::string> invalid_units = {
+  std::vector<nostd::string> invalid_units = {
       CreateVeryLargeString(5) + "ABCERTYGJ",  // total 64 charactes
       CreateVeryLargeString(7),                // string bigger than 63 chars
       "123€AAA€BBB",                           // unicode string
@@ -63,7 +63,7 @@ TEST(InstrumentMetadataValidator, TestUnit)
     EXPECT_FALSE(validator.ValidateUnit(str));
   }
 
-  std::vector<std::string> valid_units = {
+  std::vector<nostd::string> valid_units = {
       "T",                                    // single char
       "s123",                                 // starting with char, followed by numbers
       "dsdsdsd_-.",                           // string , and valid nonalphanumeric

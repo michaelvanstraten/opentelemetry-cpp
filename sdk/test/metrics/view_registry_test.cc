@@ -48,14 +48,14 @@ TEST(ViewRegistry, FindViewsEmptyRegistry)
 TEST(ViewRegistry, FindNonExistingView)
 {
   // Add view
-  const std::string view_name               = "test_view";
-  const std::string view_description        = "test description";
-  const std::string instrumentation_name    = "name1";
-  const std::string instrumentation_version = "version1";
-  const std::string instrumentation_schema  = "schema1";
-  const std::string instrument_name         = "testname";
+  const nostd::string view_name               = "test_view";
+  const nostd::string view_description        = "test description";
+  const nostd::string instrumentation_name    = "name1";
+  const nostd::string instrumentation_version = "version1";
+  const nostd::string instrumentation_schema  = "schema1";
+  const nostd::string instrument_name         = "testname";
   const InstrumentType instrument_type      = InstrumentType::kCounter;
-  const std::string instrument_unit         = "ms";
+  const nostd::string instrument_unit         = "ms";
 
   std::unique_ptr<InstrumentSelector> instrument_selector{
       new InstrumentSelector(instrument_type, instrument_name, instrument_unit)};

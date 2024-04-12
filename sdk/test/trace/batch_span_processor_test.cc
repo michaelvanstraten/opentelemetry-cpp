@@ -207,7 +207,7 @@ TEST_F(BatchSpanProcessorTestPeer, TestForceFlush)
 // A mock log handler to check whether log messages with a specific level were emitted.
 struct MockLogHandler : public sdk::common::internal_log::LogHandler
 {
-  using Message = std::pair<sdk::common::internal_log::LogLevel, std::string>;
+  using Message = std::pair<sdk::common::internal_log::LogLevel, nostd::string>;
 
   void Handle(sdk::common::internal_log::LogLevel level,
               const char * /*file*/,

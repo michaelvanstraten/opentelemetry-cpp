@@ -7,6 +7,7 @@
 #include <string>
 
 #include "opentelemetry/version.h"
+#include "opentelemetry/nostd/string.h"
 
 OPENTELEMETRY_BEGIN_NAMESPACE
 namespace sdk
@@ -37,7 +38,7 @@ bool GetDurationEnvironmentVariable(const char *env_var_name,
   @param [out] value Variable value, if it exists
   @return true if the variable exists
 */
-bool GetStringEnvironmentVariable(const char *env_var_name, std::string &value);
+bool GetStringEnvironmentVariable(const char *env_var_name, nostd::string &value);
 
 #if defined(_MSC_VER)
 inline int setenv(const char *name, const char *value, int)

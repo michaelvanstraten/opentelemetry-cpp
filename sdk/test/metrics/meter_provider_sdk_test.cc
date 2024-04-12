@@ -107,8 +107,8 @@ TEST(MeterProvider, GetMeterAbiv2)
     ASSERT_EQ(attrs.size(), 2);
     auto attr = attrs.find("bar");
     ASSERT_FALSE(attr == attrs.end());
-    ASSERT_TRUE(opentelemetry::nostd::holds_alternative<std::string>(attr->second));
-    EXPECT_EQ(opentelemetry::nostd::get<std::string>(attr->second), "2");
+    ASSERT_TRUE(opentelemetry::nostd::holds_alternative<nostd::string>(attr->second));
+    EXPECT_EQ(opentelemetry::nostd::get<nostd::string>(attr->second), "2");
   }
 
   std::initializer_list<
@@ -167,7 +167,7 @@ TEST(MeterProvider, GetMeterAbiv2)
     EXPECT_EQ(opentelemetry::nostd::get<int32_t>(attr->second), -20);
   }
 
-  std::map<std::string, opentelemetry::common::AttributeValue> attr9{
+  std::map<nostd::string, opentelemetry::common::AttributeValue> attr9{
       {"a", "string"},
       {"b", false},
       {"c", 314159},

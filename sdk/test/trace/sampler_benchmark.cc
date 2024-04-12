@@ -72,11 +72,11 @@ void BenchmarkShouldSampler(Sampler &sampler, benchmark::State &state)
   opentelemetry::trace::TraceId trace_id;
   opentelemetry::trace::SpanKind span_kind = opentelemetry::trace::SpanKind::kInternal;
 
-  using M = std::map<std::string, int>;
+  using M = std::map<nostd::string, int>;
   M m1    = {{}};
 
   using L =
-      std::vector<std::pair<opentelemetry::trace::SpanContext, std::map<std::string, std::string>>>;
+      std::vector<std::pair<opentelemetry::trace::SpanContext, std::map<nostd::string, nostd::string>>>;
   L l1 = {{opentelemetry::trace::SpanContext(false, false), {}},
           {opentelemetry::trace::SpanContext(false, false), {}}};
 

@@ -68,7 +68,7 @@ const opentelemetry::common::AttributeValue &ReadWriteLogRecord::GetBody() const
 void ReadWriteLogRecord::SetEventId(int64_t id, nostd::string_view name) noexcept
 {
   event_id_   = id;
-  event_name_ = std::string{name};
+  event_name_ = nostd::string{name};
 }
 
 int64_t ReadWriteLogRecord::GetEventId() const noexcept
@@ -147,10 +147,10 @@ const opentelemetry::trace::TraceFlags &ReadWriteLogRecord::GetTraceFlags() cons
 void ReadWriteLogRecord::SetAttribute(nostd::string_view key,
                                       const opentelemetry::common::AttributeValue &value) noexcept
 {
-  attributes_map_[static_cast<std::string>(key)] = value;
+  attributes_map_[static_cast<nostd::string>(key)] = value;
 }
 
-const std::unordered_map<std::string, opentelemetry::common::AttributeValue>
+const std::unordered_map<nostd::string, opentelemetry::common::AttributeValue>
     &ReadWriteLogRecord::GetAttributes() const noexcept
 {
   return attributes_map_;

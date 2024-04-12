@@ -91,7 +91,7 @@ TEST(EnvVarTest, StringEnvVar)
   setenv("STRING_ENV_VAR", "my string", 1);
 
   bool exists;
-  std::string value;
+  nostd::string value;
 
   exists = GetStringEnvironmentVariable("STRING_ENV_VAR_NONE", value);
   EXPECT_FALSE(exists);

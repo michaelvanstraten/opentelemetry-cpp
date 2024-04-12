@@ -60,7 +60,7 @@ public:
 
 private:
   // The name of this logger
-  std::string logger_name_;
+  nostd::string logger_name_;
 
   // order of declaration is important here - instrumentation scope should destroy after
   // logger-context.

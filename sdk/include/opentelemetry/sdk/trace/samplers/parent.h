@@ -53,7 +53,7 @@ public:
 
 private:
   const std::shared_ptr<Sampler> delegate_sampler_;
-  const std::string description_;
+  const nostd::string description_;
 };
 }  // namespace trace
 }  // namespace sdk

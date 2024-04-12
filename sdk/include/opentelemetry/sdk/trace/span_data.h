@@ -33,7 +33,7 @@ namespace trace
 class SpanDataEvent
 {
 public:
-  SpanDataEvent(std::string name,
+  SpanDataEvent(nostd::string name,
                 opentelemetry::common::SystemTimestamp timestamp,
                 const opentelemetry::common::KeyValueIterable &attributes)
       : name_(name), timestamp_(timestamp), attribute_map_(attributes)
@@ -43,7 +43,7 @@ public:
    * Get the name for this event
    * @return the name for this event
    */
-  std::string GetName() const noexcept { return name_; }
+  nostd::string GetName() const noexcept { return name_; }
 
   /**
    * Get the timestamp for this event
@@ -55,14 +55,14 @@ public:
    * Get the attributes for this event
    * @return the attributes for this event
    */
-  const std::unordered_map<std::string, opentelemetry::sdk::common::OwnedAttributeValue>
+  const std::unordered_map<nostd::string, opentelemetry::sdk::common::OwnedAttributeValue>
       &GetAttributes() const noexcept
   {
     return attribute_map_.GetAttributes();
   }
 
 private:
-  std::string name_;
+  nostd::string name_;
   opentelemetry::common::SystemTimestamp timestamp_;
   opentelemetry::sdk::common::AttributeMap attribute_map_;
 };
@@ -82,7 +82,7 @@ public:
    * Get the attributes for this link
    * @return the attributes for this link
    */
-  const std::unordered_map<std::string, opentelemetry::sdk::common::OwnedAttributeValue>
+  const std::unordered_map<nostd::string, opentelemetry::sdk::common::OwnedAttributeValue>
       &GetAttributes() const noexcept
   {
     return attribute_map_.GetAttributes();
@@ -218,7 +218,7 @@ public:
    * Get the attributes for this span
    * @return the attributes for this span
    */
-  const std::unordered_map<std::string, opentelemetry::sdk::common::OwnedAttributeValue>
+  const std::unordered_map<nostd::string, opentelemetry::sdk::common::OwnedAttributeValue>
       &GetAttributes() const noexcept
   {
     return attribute_map_.GetAttributes();
@@ -253,10 +253,10 @@ public:
                 opentelemetry::common::SystemTimestamp timestamp =
                     opentelemetry::common::SystemTimestamp(std::chrono::system_clock::now()),
                 const opentelemetry::common::KeyValueIterable &attributes =
-                    opentelemetry::common::KeyValueIterableView<std::map<std::string, int>>(
+                    opentelemetry::common::KeyValueIterableView<std::map<nostd::string, int>>(
                         {})) noexcept override
   {
-    SpanDataEvent event(std::string(name), timestamp, attributes);
+    SpanDataEvent event(nostd::string(name), timestamp, attributes);
     events_.push_back(event);
   }
 
@@ -271,12 +271,12 @@ public:
                  nostd::string_view description) noexcept override
   {
     status_code_ = code;
-    status_desc_ = std::string(description);
+    status_desc_ = nostd::string(description);
   }
 
   void SetName(nostd::string_view name) noexcept override
   {
-    name_ = std::string(name.data(), name.length());
+    name_ = nostd::string(name.data(), name.length());
   }
 
   void SetTraceFlags(opentelemetry::trace::TraceFlags flags) noexcept override { flags_ = flags; }
@@ -308,9 +308,9 @@ private:
   opentelemetry::trace::SpanId parent_span_id_;
   opentelemetry::common::SystemTimestamp start_time_;
   std::chrono::nanoseconds duration_{0};
-  std::string name_;
+  nostd::string name_;
   opentelemetry::trace::StatusCode status_code_{opentelemetry::trace::StatusCode::kUnset};
-  std::string status_desc_;
+  nostd::string status_desc_;
   opentelemetry::sdk::common::AttributeMap attribute_map_;
   std::vector<SpanDataEvent> events_;
   std::vector<SpanDataLink> links_;

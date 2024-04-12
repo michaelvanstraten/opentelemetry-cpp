@@ -21,7 +21,7 @@ namespace sdk
 namespace common
 {
 
-bool GetRawEnvironmentVariable(const char *env_var_name, std::string &value)
+bool GetRawEnvironmentVariable(const char *env_var_name, nostd::string &value)
 {
 #if !defined(NO_GETENV)
   const char *endpoint_from_env = nullptr;
@@ -42,21 +42,21 @@ bool GetRawEnvironmentVariable(const char *env_var_name, std::string &value)
 
   if (endpoint_from_env != nullptr)
   {
-    value = std::string{endpoint_from_env};
+    value = nostd::string{endpoint_from_env};
     return true;
   }
 
-  value = std::string{};
+  value = nostd::string{};
   return false;
 #else
-  value = std::string{};
+  value = nostd::string{};
   return false;
 #endif  // !defined(NO_GETENV)
 }
 
 bool GetBoolEnvironmentVariable(const char *env_var_name, bool &value)
 {
-  std::string raw_value;
+  nostd::string raw_value;
   bool exists = GetRawEnvironmentVariable(env_var_name, raw_value);
   if (!exists || raw_value.empty())
   {
@@ -162,7 +162,7 @@ static bool GetTimeoutFromString(const char *input, std::chrono::system_clock::d
 bool GetDurationEnvironmentVariable(const char *env_var_name,
                                     std::chrono::system_clock::duration &value)
 {
-  std::string raw_value;
+  nostd::string raw_value;
   bool exists = GetRawEnvironmentVariable(env_var_name, raw_value);
   if (!exists || raw_value.empty())
   {
@@ -181,7 +181,7 @@ bool GetDurationEnvironmentVariable(const char *env_var_name,
   return exists;
 }
 
-bool GetStringEnvironmentVariable(const char *env_var_name, std::string &value)
+bool GetStringEnvironmentVariable(const char *env_var_name, nostd::string &value)
 {
   bool exists = GetRawEnvironmentVariable(env_var_name, value);
   if (!exists || value.empty())

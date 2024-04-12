@@ -22,9 +22,9 @@ TEST(AlwaysOnSampler, ShouldSample)
 
   trace_api::TraceId trace_id_invalid;
   trace_api::TraceId trace_id_valid(buf);
-  std::map<std::string, int> key_value_container = {{"key", 0}};
+  std::map<nostd::string, int> key_value_container = {{"key", 0}};
 
-  using L = std::vector<std::pair<trace_api::SpanContext, std::map<std::string, std::string>>>;
+  using L = std::vector<std::pair<trace_api::SpanContext, std::map<nostd::string, nostd::string>>>;
   L l1 = {{trace_api::SpanContext(false, false), {}}, {trace_api::SpanContext(false, false), {}}};
 
   opentelemetry::trace::SpanContextKeyValueIterableView<L> links{l1};
@@ -33,7 +33,7 @@ TEST(AlwaysOnSampler, ShouldSample)
   auto sampling_result = sampler.ShouldSample(
       SpanContext::GetInvalid(), trace_id_invalid, "invalid trace id test",
       trace_api::SpanKind::kServer,
-      opentelemetry::common::KeyValueIterableView<std::map<std::string, int>>(key_value_container),
+      opentelemetry::common::KeyValueIterableView<std::map<nostd::string, int>>(key_value_container),
       links);
 
   ASSERT_EQ(Decision::RECORD_AND_SAMPLE, sampling_result.decision);
@@ -44,7 +44,7 @@ TEST(AlwaysOnSampler, ShouldSample)
   sampling_result = sampler.ShouldSample(
       SpanContext::GetInvalid(), trace_id_valid, "valid trace id test",
       trace_api::SpanKind::kServer,
-      opentelemetry::common::KeyValueIterableView<std::map<std::string, int>>(key_value_container),
+      opentelemetry::common::KeyValueIterableView<std::map<nostd::string, int>>(key_value_container),
       links);
 
   ASSERT_EQ(Decision::RECORD_AND_SAMPLE, sampling_result.decision);

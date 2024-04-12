@@ -60,7 +60,7 @@ TEST(SpanData, Set)
   ASSERT_EQ(data.GetTraceId(), trace_id);
   ASSERT_EQ(data.GetSpanId(), span_id);
   ASSERT_EQ(data.GetSpanContext(), span_context);
-  std::string trace_state_key1_value;
+  nostd::string trace_state_key1_value;
   ASSERT_EQ(data.GetSpanContext().trace_state()->Get("key1", trace_state_key1_value), true);
   ASSERT_EQ(trace_state_key1_value, "value");
   ASSERT_EQ(data.GetParentSpanId(), parent_span_id);
@@ -79,13 +79,13 @@ TEST(SpanData, EventAttributes)
 {
   SpanData data;
   const int kNumAttributes                  = 3;
-  std::string keys[kNumAttributes]          = {"attr1", "attr2", "attr3"};
+  nostd::string keys[kNumAttributes]          = {"attr1", "attr2", "attr3"};
   int64_t values[kNumAttributes]            = {3, 5, 20};
-  std::map<std::string, int64_t> attributes = {
+  std::map<nostd::string, int64_t> attributes = {
       {keys[0], values[0]}, {keys[1], values[1]}, {keys[2], values[2]}};
 
   data.AddEvent("Test Event", std::chrono::system_clock::now(),
-                common::KeyValueIterableView<std::map<std::string, int64_t>>(attributes));
+                common::KeyValueIterableView<std::map<nostd::string, int64_t>>(attributes));
 
   for (int i = 0; i < kNumAttributes; i++)
   {
@@ -107,9 +107,9 @@ TEST(SpanData, Links)
 {
   SpanData data;
   const int kNumAttributes                  = 3;
-  std::string keys[kNumAttributes]          = {"attr1", "attr2", "attr3"};
+  nostd::string keys[kNumAttributes]          = {"attr1", "attr2", "attr3"};
   int64_t values[kNumAttributes]            = {4, 12, 33};
-  std::map<std::string, int64_t> attributes = {
+  std::map<nostd::string, int64_t> attributes = {
       {keys[0], values[0]}, {keys[1], values[1]}, {keys[2], values[2]}};
 
   // produce valid SpanContext with pseudo span and trace Id.
@@ -125,7 +125,7 @@ TEST(SpanData, Links)
       trace_id, span_id, trace_api::TraceFlags{trace_api::TraceFlags::kIsSampled}, true);
 
   data.AddLink(span_context,
-               common::KeyValueIterableView<std::map<std::string, int64_t>>(attributes));
+               common::KeyValueIterableView<std::map<nostd::string, int64_t>>(attributes));
 
   EXPECT_EQ(data.GetLinks().at(0).GetSpanContext(), span_context);
   for (int i = 0; i < kNumAttributes; i++)

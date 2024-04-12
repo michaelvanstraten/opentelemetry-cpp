@@ -56,9 +56,9 @@ enum class AggregationTemporality
 
 struct InstrumentDescriptor
 {
-  std::string name_;
-  std::string description_;
-  std::string unit_;
+  nostd::string name_;
+  nostd::string description_;
+  nostd::string unit_;
   InstrumentType type_;
   InstrumentValueType value_type_;
 };
@@ -70,7 +70,7 @@ using AggregationTemporalitySelector = std::function<AggregationTemporality(Inst
 public:
 InstrumentSelector(opentelemetry::nostd::string_view name,
 opentelemetry::sdk::metrics::InstrumentType type): name_(name.data()), type_(type) {} InstrumentType
-GetType(){return type_;} std::string GetNameFilter() { return name_;}
+GetType(){return type_;} nostd::string GetNameFilter() { return name_;}
 
 private:
 std::string name_;

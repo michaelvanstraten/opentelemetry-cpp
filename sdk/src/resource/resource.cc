@@ -14,7 +14,7 @@ namespace sdk
 namespace resource
 {
 
-Resource::Resource(const ResourceAttributes &attributes, const std::string &schema_url) noexcept
+Resource::Resource(const ResourceAttributes &attributes, const nostd::string &schema_url) noexcept
     : attributes_(attributes), schema_url_(schema_url)
 {}
 
@@ -26,7 +26,7 @@ Resource Resource::Merge(const Resource &other) const noexcept
                   other.schema_url_.empty() ? schema_url_ : other.schema_url_);
 }
 
-Resource Resource::Create(const ResourceAttributes &attributes, const std::string &schema_url)
+Resource Resource::Create(const ResourceAttributes &attributes, const nostd::string &schema_url)
 {
   static auto otel_resource = OTELResourceDetector().Detect();
   auto resource =
@@ -34,12 +34,12 @@ Resource Resource::Create(const ResourceAttributes &attributes, const std::strin
 
   if (resource.attributes_.find(SemanticConventions::kServiceName) == resource.attributes_.end())
   {
-    std::string default_service_name = "unknown_service";
+    nostd::string default_service_name = "unknown_service";
     auto it_process_executable_name =
         resource.attributes_.find(SemanticConventions::kProcessExecutableName);
     if (it_process_executable_name != resource.attributes_.end())
     {
-      default_service_name += ":" + nostd::get<std::string>(it_process_executable_name->second);
+      default_service_name += ":" + nostd::get<nostd::string>(it_process_executable_name->second);
     }
     resource.attributes_[SemanticConventions::kServiceName] = default_service_name;
   }
@@ -58,7 +58,7 @@ Resource &Resource::GetDefault()
       {{SemanticConventions::kTelemetrySdkLanguage, "cpp"},
        {SemanticConventions::kTelemetrySdkName, "opentelemetry"},
        {SemanticConventions::kTelemetrySdkVersion, OPENTELEMETRY_SDK_VERSION}},
-      std::string{});
+      nostd::string{});
   return default_resource;
 }
 
@@ -67,7 +67,7 @@ const ResourceAttributes &Resource::GetAttributes() const noexcept
   return attributes_;
 }
 
-const std::string &Resource::GetSchemaURL() const noexcept
+const nostd::string &Resource::GetSchemaURL() const noexcept
 {
   return schema_url_;
 }

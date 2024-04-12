@@ -23,9 +23,9 @@ TEST(HistogramToSum, Double)
 {
   MeterProvider mp;
   auto m                      = mp.GetMeter("meter1", "version1", "schema1");
-  std::string instrument_unit = "ms";
-  std::string instrument_name = "historgram1";
-  std::string instrument_desc = "histogram metrics";
+  nostd::string instrument_unit = "ms";
+  nostd::string instrument_name = "historgram1";
+  nostd::string instrument_desc = "histogram metrics";
 
   std::unique_ptr<MockMetricExporter> exporter(new MockMetricExporter());
   std::shared_ptr<MetricReader> reader{new MockMetricReader(std::move(exporter))};
@@ -76,11 +76,11 @@ TEST(HistogramToSumFilterAttributes, Double)
 {
   MeterProvider mp;
   auto m                      = mp.GetMeter("meter1", "version1", "schema1");
-  std::string instrument_unit = "ms";
-  std::string instrument_name = "historgram1";
-  std::string instrument_desc = "histogram metrics";
+  nostd::string instrument_unit = "ms";
+  nostd::string instrument_name = "historgram1";
+  nostd::string instrument_desc = "histogram metrics";
 
-  std::unordered_map<std::string, bool> allowedattr;
+  std::unordered_map<nostd::string, bool> allowedattr;
   allowedattr["attr1"] = true;
   std::unique_ptr<opentelemetry::sdk::metrics::AttributesProcessor> attrproc{
       new opentelemetry::sdk::metrics::FilteringAttributesProcessor(allowedattr)};
@@ -100,8 +100,8 @@ TEST(HistogramToSumFilterAttributes, Double)
   mp.AddView(std::move(instrument_selector), std::move(meter_selector), std::move(view));
 
   auto h = m->CreateDoubleHistogram(instrument_name, instrument_desc, instrument_unit);
-  std::unordered_map<std::string, std::string> attr1 = {{"attr1", "val1"}, {"attr2", "val2"}};
-  std::unordered_map<std::string, std::string> attr2 = {{"attr1", "val1"}, {"attr2", "val2"}};
+  std::unordered_map<nostd::string, nostd::string> attr1 = {{"attr1", "val1"}, {"attr2", "val2"}};
+  std::unordered_map<nostd::string, nostd::string> attr2 = {{"attr1", "val1"}, {"attr2", "val2"}};
   h->Record(5, attr1, opentelemetry::context::Context{});
   h->Record(10, attr2, opentelemetry::context::Context{});
 
@@ -179,11 +179,11 @@ TEST(CounterToSumFilterAttributes, Double)
 {
   MeterProvider mp;
   auto m                      = mp.GetMeter("meter1", "version1", "schema1");
-  std::string instrument_unit = "ms";
-  std::string instrument_name = "counter1";
-  std::string instrument_desc = "counter metrics";
+  nostd::string instrument_unit = "ms";
+  nostd::string instrument_name = "counter1";
+  nostd::string instrument_desc = "counter metrics";
 
-  std::unordered_map<std::string, bool> allowedattr;
+  std::unordered_map<nostd::string, bool> allowedattr;
   allowedattr["attr1"] = true;
   std::unique_ptr<opentelemetry::sdk::metrics::AttributesProcessor> attrproc{
       new opentelemetry::sdk::metrics::FilteringAttributesProcessor(allowedattr)};
@@ -203,8 +203,8 @@ TEST(CounterToSumFilterAttributes, Double)
   mp.AddView(std::move(instrument_selector), std::move(meter_selector), std::move(view));
 
   auto c = m->CreateDoubleCounter(instrument_name, instrument_desc, instrument_unit);
-  std::unordered_map<std::string, std::string> attr1 = {{"attr1", "val1"}, {"attr2", "val2"}};
-  std::unordered_map<std::string, std::string> attr2 = {{"attr1", "val1"}, {"attr2", "val2"}};
+  std::unordered_map<nostd::string, nostd::string> attr1 = {{"attr1", "val1"}, {"attr2", "val2"}};
+  std::unordered_map<nostd::string, nostd::string> attr2 = {{"attr1", "val1"}, {"attr2", "val2"}};
   c->Add(5, attr1, opentelemetry::context::Context{});
   c->Add(10, attr2, opentelemetry::context::Context{});
 
@@ -237,9 +237,9 @@ TEST_P(UpDownCounterToSumFixture, Double)
   bool is_matching_view = GetParam();
   MeterProvider mp;
   auto m                      = mp.GetMeter("meter1", "version1", "schema1");
-  std::string instrument_name = "updowncounter1";
-  std::string instrument_desc = "updowncounter desc";
-  std::string instrument_unit = "ms";
+  nostd::string instrument_name = "updowncounter1";
+  nostd::string instrument_desc = "updowncounter desc";
+  nostd::string instrument_unit = "ms";
 
   std::unique_ptr<MockMetricExporter> exporter(new MockMetricExporter());
   std::shared_ptr<MetricReader> reader{new MockMetricReader(std::move(exporter))};

@@ -17,7 +17,7 @@ using namespace opentelemetry::sdk::metrics;
 
 auto instrumentation_scope = InstrumentationScope::Create("opentelemetry-cpp", "0.1.0");
 
-using M = std::map<std::string, std::string>;
+using M = std::map<nostd::string, nostd::string>;
 
 TEST(SyncInstruments, LongCounter)
 {

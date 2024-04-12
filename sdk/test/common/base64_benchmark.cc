@@ -34,7 +34,7 @@ BENCHMARK(BM_Base64Escape);
 
 void BM_Base64Unescape(benchmark::State &state)
 {
-  std::string dest;
+  nostd::string dest;
   while (state.KeepRunning())
   {
     benchmark::DoNotOptimize(opentelemetry::sdk::common::Base64Unescape(

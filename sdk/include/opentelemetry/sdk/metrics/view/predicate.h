@@ -44,7 +44,7 @@ private:
 #if OPENTELEMETRY_HAVE_WORKING_REGEX
   std::regex reg_key_;
 #else
-  std::string reg_key_;
+  nostd::string reg_key_;
 #endif
 };
 
@@ -62,7 +62,7 @@ public:
   }
 
 private:
-  std::string pattern_;
+  nostd::string pattern_;
 };
 
 class MatchEverythingPattern : public Predicate

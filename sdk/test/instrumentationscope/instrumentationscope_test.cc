@@ -15,9 +15,9 @@ using namespace opentelemetry::sdk::instrumentationscope;
 
 TEST(InstrumentationScope, CreateInstrumentationScope)
 {
-  std::string library_name    = "opentelemetry-cpp";
-  std::string library_version = "0.1.0";
-  std::string schema_url      = "https://opentelemetry.io/schemas/1.2.0";
+  nostd::string library_name    = "opentelemetry-cpp";
+  nostd::string library_version = "0.1.0";
+  nostd::string schema_url      = "https://opentelemetry.io/schemas/1.2.0";
   uint32_t attrubite_value3[] = {7, 8, 9};
   auto instrumentation_scope  = InstrumentationScope::Create(
       library_name, library_version, schema_url,
@@ -34,8 +34,8 @@ TEST(InstrumentationScope, CreateInstrumentationScope)
   auto attribute3 = instrumentation_scope->GetAttributes().find("attribute-key3");
 
   ASSERT_FALSE(attribute1 == instrumentation_scope->GetAttributes().end());
-  ASSERT_TRUE(opentelemetry::nostd::holds_alternative<std::string>(attribute1->second));
-  EXPECT_EQ(opentelemetry::nostd::get<std::string>(attribute1->second), "attribute-value");
+  ASSERT_TRUE(opentelemetry::nostd::holds_alternative<nostd::string>(attribute1->second));
+  EXPECT_EQ(opentelemetry::nostd::get<nostd::string>(attribute1->second), "attribute-value");
 
   ASSERT_FALSE(attribute2 == instrumentation_scope->GetAttributes().end());
   ASSERT_TRUE(opentelemetry::nostd::holds_alternative<int32_t>(attribute2->second));
@@ -55,12 +55,12 @@ TEST(InstrumentationScope, CreateInstrumentationScope)
 
 TEST(InstrumentationScope, CreateInstrumentationScopeWithLoopForAttributes)
 {
-  std::string library_name    = "opentelemetry-cpp";
-  std::string library_version = "0.1.0";
-  std::string schema_url      = "https://opentelemetry.io/schemas/1.2.0";
+  nostd::string library_name    = "opentelemetry-cpp";
+  nostd::string library_version = "0.1.0";
+  nostd::string schema_url      = "https://opentelemetry.io/schemas/1.2.0";
   uint32_t attrubite_value3[] = {7, 8, 9};
 
-  std::unordered_map<std::string, opentelemetry::common::AttributeValue> attributes = {
+  std::unordered_map<nostd::string, opentelemetry::common::AttributeValue> attributes = {
       {"attribute-key1", "attribute-value"},
       {"attribute-key2", static_cast<int32_t>(123)},
       {"attribute-key3", opentelemetry::nostd::span<uint32_t>(attrubite_value3)}};
@@ -77,8 +77,8 @@ TEST(InstrumentationScope, CreateInstrumentationScopeWithLoopForAttributes)
   auto attribute3 = instrumentation_scope->GetAttributes().find("attribute-key3");
 
   ASSERT_FALSE(attribute1 == instrumentation_scope->GetAttributes().end());
-  ASSERT_TRUE(opentelemetry::nostd::holds_alternative<std::string>(attribute1->second));
-  EXPECT_EQ(opentelemetry::nostd::get<std::string>(attribute1->second), "attribute-value");
+  ASSERT_TRUE(opentelemetry::nostd::holds_alternative<nostd::string>(attribute1->second));
+  EXPECT_EQ(opentelemetry::nostd::get<nostd::string>(attribute1->second), "attribute-value");
 
   ASSERT_FALSE(attribute2 == instrumentation_scope->GetAttributes().end());
   ASSERT_TRUE(opentelemetry::nostd::holds_alternative<int32_t>(attribute2->second));
@@ -98,18 +98,18 @@ TEST(InstrumentationScope, CreateInstrumentationScopeWithLoopForAttributes)
 
 TEST(InstrumentationScope, CreateInstrumentationScopeWithKeyValueIterableAttributes)
 {
-  std::string library_name    = "opentelemetry-cpp";
-  std::string library_version = "0.1.0";
-  std::string schema_url      = "https://opentelemetry.io/schemas/1.2.0";
+  nostd::string library_name    = "opentelemetry-cpp";
+  nostd::string library_version = "0.1.0";
+  nostd::string schema_url      = "https://opentelemetry.io/schemas/1.2.0";
   uint32_t attrubite_value3[] = {7, 8, 9};
 
-  std::unordered_map<std::string, opentelemetry::common::AttributeValue> attributes = {
+  std::unordered_map<nostd::string, opentelemetry::common::AttributeValue> attributes = {
       {"attribute-key1", "attribute-value"},
       {"attribute-key2", static_cast<int32_t>(123)},
       {"attribute-key3", opentelemetry::nostd::span<uint32_t>(attrubite_value3)}};
 
   opentelemetry::common::KeyValueIterableView<
-      std::unordered_map<std::string, opentelemetry::common::AttributeValue>>
+      std::unordered_map<nostd::string, opentelemetry::common::AttributeValue>>
       attributes_view{attributes};
 
   auto instrumentation_scope =
@@ -124,8 +124,8 @@ TEST(InstrumentationScope, CreateInstrumentationScopeWithKeyValueIterableAttribu
   auto attribute3 = instrumentation_scope->GetAttributes().find("attribute-key3");
 
   ASSERT_FALSE(attribute1 == instrumentation_scope->GetAttributes().end());
-  ASSERT_TRUE(opentelemetry::nostd::holds_alternative<std::string>(attribute1->second));
-  EXPECT_EQ(opentelemetry::nostd::get<std::string>(attribute1->second), "attribute-value");
+  ASSERT_TRUE(opentelemetry::nostd::holds_alternative<nostd::string>(attribute1->second));
+  EXPECT_EQ(opentelemetry::nostd::get<nostd::string>(attribute1->second), "attribute-value");
 
   ASSERT_FALSE(attribute2 == instrumentation_scope->GetAttributes().end());
   ASSERT_TRUE(opentelemetry::nostd::holds_alternative<int32_t>(attribute2->second));
@@ -145,9 +145,9 @@ TEST(InstrumentationScope, CreateInstrumentationScopeWithKeyValueIterableAttribu
 
 TEST(InstrumentationScope, SetAttribute)
 {
-  std::string library_name    = "opentelemetry-cpp";
-  std::string library_version = "0.1.0";
-  std::string schema_url      = "https://opentelemetry.io/schemas/1.2.0";
+  nostd::string library_name    = "opentelemetry-cpp";
+  nostd::string library_version = "0.1.0";
+  nostd::string schema_url      = "https://opentelemetry.io/schemas/1.2.0";
   uint32_t attrubite_value3[] = {7, 8, 9};
   auto instrumentation_scope =
       InstrumentationScope::Create(library_name, library_version, schema_url);
@@ -168,8 +168,8 @@ TEST(InstrumentationScope, SetAttribute)
   auto attribute3 = instrumentation_scope->GetAttributes().find("attribute-key3");
 
   ASSERT_FALSE(attribute1 == instrumentation_scope->GetAttributes().end());
-  ASSERT_TRUE(opentelemetry::nostd::holds_alternative<std::string>(attribute1->second));
-  EXPECT_EQ(opentelemetry::nostd::get<std::string>(attribute1->second), "attribute-value");
+  ASSERT_TRUE(opentelemetry::nostd::holds_alternative<nostd::string>(attribute1->second));
+  EXPECT_EQ(opentelemetry::nostd::get<nostd::string>(attribute1->second), "attribute-value");
 
   ASSERT_FALSE(attribute2 == instrumentation_scope->GetAttributes().end());
   ASSERT_TRUE(opentelemetry::nostd::holds_alternative<int32_t>(attribute2->second));
@@ -190,9 +190,9 @@ TEST(InstrumentationScope, SetAttribute)
 TEST(InstrumentationScope, LegacyInstrumentationLibrary)
 {
 
-  std::string library_name    = "opentelemetry-cpp";
-  std::string library_version = "0.1.0";
-  std::string schema_url      = "https://opentelemetry.io/schemas/1.2.0";
+  nostd::string library_name    = "opentelemetry-cpp";
+  nostd::string library_version = "0.1.0";
+  nostd::string schema_url      = "https://opentelemetry.io/schemas/1.2.0";
   auto instrumentation_library =
       opentelemetry::sdk::instrumentationlibrary::InstrumentationLibrary::Create(
           library_name, library_version, schema_url);

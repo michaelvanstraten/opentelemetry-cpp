@@ -34,11 +34,11 @@ public:
     }
     else if (nostd::holds_alternative<nostd::string_view>(message))
     {
-      body_ = static_cast<std::string>(nostd::get<nostd::string_view>(message));
+      body_ = static_cast<nostd::string>(nostd::get<nostd::string_view>(message));
     }
   }
 
-  void SetBody(const std::string &message) noexcept { body_ = message; }
+  void SetBody(const nostd::string &message) noexcept { body_ = message; }
 
   void SetEventId(int64_t, nostd::string_view) noexcept override {}
 
@@ -59,7 +59,7 @@ public:
   {}
 
 private:
-  std::string body_;
+  nostd::string body_;
 };
 
 /**

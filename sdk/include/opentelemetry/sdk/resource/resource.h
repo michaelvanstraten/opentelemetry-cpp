@@ -22,7 +22,7 @@ public:
   Resource(const Resource &) = default;
 
   const ResourceAttributes &GetAttributes() const noexcept;
-  const std::string &GetSchemaURL() const noexcept;
+  const nostd::string &GetSchemaURL() const noexcept;
 
   /**
    * Returns a new, merged {@link Resource} by merging the current Resource
@@ -47,7 +47,7 @@ public:
    */
 
   static Resource Create(const ResourceAttributes &attributes,
-                         const std::string &schema_url = std::string{});
+                         const nostd::string &schema_url = nostd::string{});
 
   /**
    * Returns an Empty resource.
@@ -69,11 +69,11 @@ protected:
    * instance.
    */
   Resource(const ResourceAttributes &attributes = ResourceAttributes(),
-           const std::string &schema_url        = std::string{}) noexcept;
+           const nostd::string &schema_url        = nostd::string{}) noexcept;
 
 private:
   ResourceAttributes attributes_;
-  std::string schema_url_;
+  nostd::string schema_url_;
 
   friend class OTELResourceDetector;
 };

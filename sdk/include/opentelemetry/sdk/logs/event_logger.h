@@ -44,7 +44,7 @@ public:
 
 private:
   nostd::shared_ptr<opentelemetry::logs::Logger> delegate_logger_;
-  std::string event_domain_;
+  nostd::string event_domain_;
 };
 
 }  // namespace logs

@@ -26,7 +26,7 @@ using namespace opentelemetry::sdk::resource;
 using namespace opentelemetry::common;
 namespace nostd = opentelemetry::nostd;
 
-using M = std::map<std::string, std::string>;
+using M = std::map<nostd::string, nostd::string>;
 
 class WritableMetricStorageTestFixture : public ::testing::TestWithParam<AggregationTemporality>
 {};
@@ -68,12 +68,12 @@ TEST_P(WritableMetricStorageTestFixture, TestAggregation)
         for (const auto &data_attr : metric_data.point_data_attr_)
         {
           const auto &data = opentelemetry::nostd::get<SumPointData>(data_attr.point_data);
-          if (opentelemetry::nostd::get<std::string>(
+          if (opentelemetry::nostd::get<nostd::string>(
                   data_attr.attributes.find("RequestType")->second) == "GET")
           {
             EXPECT_EQ(opentelemetry::nostd::get<int64_t>(data.value_), get_count1);
           }
-          else if (opentelemetry::nostd::get<std::string>(
+          else if (opentelemetry::nostd::get<nostd::string>(
                        data_attr.attributes.find("RequestType")->second) == "PUT")
           {
             EXPECT_EQ(opentelemetry::nostd::get<int64_t>(data.value_), put_count1);
@@ -95,7 +95,7 @@ TEST_P(WritableMetricStorageTestFixture, TestAggregation)
         for (const auto &data_attr : metric_data.point_data_attr_)
         {
           const auto &data = opentelemetry::nostd::get<SumPointData>(data_attr.point_data);
-          if (opentelemetry::nostd::get<std::string>(
+          if (opentelemetry::nostd::get<nostd::string>(
                   data_attr.attributes.find("RequestType")->second) == "GET")
           {
             if (temporality == AggregationTemporality::kCumulative)
@@ -107,7 +107,7 @@ TEST_P(WritableMetricStorageTestFixture, TestAggregation)
               EXPECT_EQ(opentelemetry::nostd::get<int64_t>(data.value_), get_count2 - get_count1);
             }
           }
-          else if (opentelemetry::nostd::get<std::string>(
+          else if (opentelemetry::nostd::get<nostd::string>(
                        data_attr.attributes.find("RequestType")->second) == "PUT")
           {
             if (temporality == AggregationTemporality::kCumulative)
@@ -159,12 +159,12 @@ TEST_P(WritableMetricStorageTestUpDownFixture, TestAggregation)
         for (const auto &data_attr : metric_data.point_data_attr_)
         {
           const auto &data = opentelemetry::nostd::get<SumPointData>(data_attr.point_data);
-          if (opentelemetry::nostd::get<std::string>(
+          if (opentelemetry::nostd::get<nostd::string>(
                   data_attr.attributes.find("RequestType")->second) == "GET")
           {
             EXPECT_EQ(opentelemetry::nostd::get<int64_t>(data.value_), get_count1);
           }
-          else if (opentelemetry::nostd::get<std::string>(
+          else if (opentelemetry::nostd::get<nostd::string>(
                        data_attr.attributes.find("RequestType")->second) == "PUT")
           {
             EXPECT_EQ(opentelemetry::nostd::get<int64_t>(data.value_), put_count1);
@@ -186,7 +186,7 @@ TEST_P(WritableMetricStorageTestUpDownFixture, TestAggregation)
         for (const auto &data_attr : metric_data.point_data_attr_)
         {
           const auto &data = opentelemetry::nostd::get<SumPointData>(data_attr.point_data);
-          if (opentelemetry::nostd::get<std::string>(
+          if (opentelemetry::nostd::get<nostd::string>(
                   data_attr.attributes.find("RequestType")->second) == "GET")
           {
             if (temporality == AggregationTemporality::kCumulative)
@@ -198,7 +198,7 @@ TEST_P(WritableMetricStorageTestUpDownFixture, TestAggregation)
               EXPECT_EQ(opentelemetry::nostd::get<int64_t>(data.value_), get_count2 - get_count1);
             }
           }
-          else if (opentelemetry::nostd::get<std::string>(
+          else if (opentelemetry::nostd::get<nostd::string>(
                        data_attr.attributes.find("RequestType")->second) == "PUT")
           {
             if (temporality == AggregationTemporality::kCumulative)
@@ -250,12 +250,12 @@ TEST_P(WritableMetricStorageTestObservableGaugeFixture, TestAggregation)
         for (auto data_attr : metric_data.point_data_attr_)
         {
           auto data = opentelemetry::nostd::get<LastValuePointData>(data_attr.point_data);
-          if (opentelemetry::nostd::get<std::string>(data_attr.attributes.find("CPU")->second) ==
+          if (opentelemetry::nostd::get<nostd::string>(data_attr.attributes.find("CPU")->second) ==
               "0")
           {
             EXPECT_EQ(opentelemetry::nostd::get<int64_t>(data.value_), freq_cpu0);
           }
-          else if (opentelemetry::nostd::get<std::string>(
+          else if (opentelemetry::nostd::get<nostd::string>(
                        data_attr.attributes.find("CPU")->second) == "1")
           {
             EXPECT_EQ(opentelemetry::nostd::get<int64_t>(data.value_), freq_cpu1);
@@ -276,12 +276,12 @@ TEST_P(WritableMetricStorageTestObservableGaugeFixture, TestAggregation)
         for (auto data_attr : metric_data.point_data_attr_)
         {
           auto data = opentelemetry::nostd::get<LastValuePointData>(data_attr.point_data);
-          if (opentelemetry::nostd::get<std::string>(data_attr.attributes.find("CPU")->second) ==
+          if (opentelemetry::nostd::get<nostd::string>(data_attr.attributes.find("CPU")->second) ==
               "0")
           {
             EXPECT_EQ(opentelemetry::nostd::get<int64_t>(data.value_), freq_cpu0);
           }
-          else if (opentelemetry::nostd::get<std::string>(
+          else if (opentelemetry::nostd::get<nostd::string>(
                        data_attr.attributes.find("CPU")->second) == "1")
           {
             EXPECT_EQ(opentelemetry::nostd::get<int64_t>(data.value_), freq_cpu1);

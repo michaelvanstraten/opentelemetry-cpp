@@ -19,7 +19,7 @@ static const unsigned char base64_test_enc_rfc_2045[] =
 
 TEST(Base64Test, EscapeRfc2045)
 {
-  std::string encoded = opentelemetry::sdk::common::Base64Escape(opentelemetry::nostd::string_view{
+  nostd::string encoded = opentelemetry::sdk::common::Base64Escape(opentelemetry::nostd::string_view{
       reinterpret_cast<const char *>(base64_test_dec), sizeof(base64_test_dec)});
   opentelemetry::nostd::string_view expected{
       reinterpret_cast<const char *>(base64_test_enc_rfc_2045), 88};
@@ -29,7 +29,7 @@ TEST(Base64Test, EscapeRfc2045)
 
 TEST(Base64Test, UnescapeRfc2045)
 {
-  std::string decoded;
+  nostd::string decoded;
   EXPECT_TRUE(opentelemetry::sdk::common::Base64Unescape(
       opentelemetry::nostd::string_view{reinterpret_cast<const char *>(base64_test_enc_rfc_2045),
                                         88},
@@ -42,8 +42,8 @@ TEST(Base64Test, UnescapeRfc2045)
 
 TEST(Base64Test, UnescapeRfc2045InvalidInput)
 {
-  std::string std_str_out;
-  std::string std_str_in = "=";
+  nostd::string std_str_out;
+  nostd::string std_str_in = "=";
 
   EXPECT_FALSE(opentelemetry::sdk::common::Base64Unescape(std_str_in, &std_str_out));
 

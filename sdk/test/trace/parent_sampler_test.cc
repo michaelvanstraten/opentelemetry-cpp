@@ -26,10 +26,10 @@ TEST(ParentBasedSampler, ShouldSample)
   trace_api::SpanId span_id{span_id_buffer};
 
   trace_api::SpanKind span_kind = trace_api::SpanKind::kInternal;
-  using M                       = std::map<std::string, int>;
+  using M                       = std::map<nostd::string, int>;
   M m1                          = {{}};
 
-  using L = std::vector<std::pair<trace_api::SpanContext, std::map<std::string, std::string>>>;
+  using L = std::vector<std::pair<trace_api::SpanContext, std::map<nostd::string, nostd::string>>>;
   L l1 = {{trace_api::SpanContext(false, false), {}}, {trace_api::SpanContext(false, false), {}}};
 
   opentelemetry::common::KeyValueIterableView<M> view{m1};

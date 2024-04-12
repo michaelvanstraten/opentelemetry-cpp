@@ -13,7 +13,7 @@ namespace trace
 {
 ParentBasedSampler::ParentBasedSampler(std::shared_ptr<Sampler> delegate_sampler) noexcept
     : delegate_sampler_(delegate_sampler),
-      description_("ParentBased{" + std::string{delegate_sampler->GetDescription()} + "}")
+      description_("ParentBased{" + nostd::string{delegate_sampler->GetDescription()} + "}")
 {}
 
 SamplingResult ParentBasedSampler::ShouldSample(
