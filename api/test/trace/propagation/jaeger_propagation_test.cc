@@ -16,7 +16,7 @@ class TextMapCarrierTest : public context::propagation::TextMapCarrier
 public:
   virtual nostd::string_view Get(nostd::string_view key) const noexcept override
   {
-    auto it = headers_.find(std::string(key));
+    auto it = headers_.find(nostd::string(key));
     if (it != headers_.end())
     {
       return nostd::string_view(it->second);
@@ -25,10 +25,10 @@ public:
   }
   virtual void Set(nostd::string_view key, nostd::string_view value) noexcept override
   {
-    headers_[std::string(key)] = std::string(value);
+    headers_[nostd::string(key)] = nostd::string(value);
   }
 
-  std::map<std::string, std::string> headers_;
+  std::map<nostd::string, nostd::string> headers_;
 };
 
 using Propagator = trace::propagation::JaegerPropagator;
@@ -39,9 +39,9 @@ TEST(JaegerPropagatorTest, ExtractValidSpans)
 {
   struct TestTrace
   {
-    std::string trace_state;
-    std::string expected_trace_id;
-    std::string expected_span_id;
+    nostd::string trace_state;
+    nostd::string expected_trace_id;
+    nostd::string expected_span_id;
     bool sampled;
   };
 
@@ -111,7 +111,7 @@ TEST(JaegerPropagatorTest, ExtractValidSpans)
 TEST(JaegerPropagatorTest, ExctractInvalidSpans)
 {
   TextMapCarrierTest carrier;
-  std::vector<std::string> traces = {
+  std::vector<nostd::string> traces = {
       "4bf92f3577b34da6a3ce929d0e0e47344:0102030405060708:0:00",  // too long trace id
       "4bf92f3577b34da6a3ce929d0e0e4734:01020304050607089:0:00",  // too long span id
       "4bf92f3577b34da6x3ce929d0y0e4734:01020304050607089:0:00",  // invalid trace id character
@@ -167,7 +167,7 @@ TEST(JaegerPropagatorTest, InjectsContext)
   EXPECT_EQ(carrier.headers_["uber-trace-id"],
             "0102030405060708090a0b0c0d0e0f10:0102030405060708:0:01");
 
-  std::vector<std::string> fields;
+  std::vector<nostd::string> fields;
   format.Fields([&fields](nostd::string_view field) {
     fields.push_back(field.data());
     return true;

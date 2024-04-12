@@ -8,7 +8,7 @@
 
 TEST(LoadFactoryTest, FailureTest)
 {
-  std::string error_message;
+  nostd::string error_message;
   auto factory = opentelemetry::plugin::LoadFactory("no-such-plugin", error_message);
   EXPECT_EQ(factory, nullptr);
   EXPECT_FALSE(error_message.empty());

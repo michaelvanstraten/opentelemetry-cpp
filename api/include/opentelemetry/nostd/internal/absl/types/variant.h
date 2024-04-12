@@ -91,28 +91,28 @@ OTABSL_NAMESPACE_BEGIN
 //
 // Example:
 //
-//   // Construct a variant that holds either an integer or a std::string and
-//   // assign it to a std::string.
-//   absl::variant<int, std::string> v = std::string("abc");
+//   // Construct a variant that holds either an integer or a nostd::string and
+//   // assign it to a nostd::string.
+//   absl::variant<int, nostd::string> v = nostd::string("abc");
 //
 //   // A default-constructed variant will hold a value-initialized value of
 //   // the first alternative type.
-//   auto a = absl::variant<int, std::string>();   // Holds an int of value '0'.
+//   auto a = absl::variant<int, nostd::string>();   // Holds an int of value '0'.
 //
 //   // variants are assignable.
 //
 //   // copy assignment
-//   auto v1 = absl::variant<int, std::string>("abc");
-//   auto v2 = absl::variant<int, std::string>(10);
+//   auto v1 = absl::variant<int, nostd::string>("abc");
+//   auto v2 = absl::variant<int, nostd::string>(10);
 //   v2 = v1;  // copy assign
 //
 //   // move assignment
-//   auto v1 = absl::variant<int, std::string>("abc");
-//   v1 = absl::variant<int, std::string>(10);
+//   auto v1 = absl::variant<int, nostd::string>("abc");
+//   v1 = absl::variant<int, nostd::string>(10);
 //
 //   // assignment through type conversion
 //   a = 128;         // variant contains int
-//   a = "128";       // variant contains std::string
+//   a = "128";       // variant contains nostd::string
 //
 // An `absl::variant` holding a value of one of its alternative types `T` holds
 // an allocation of `T` directly within the variant itself. An `absl::variant`
@@ -151,13 +151,13 @@ void swap(variant<Ts...>& v, variant<Ts...>& w) noexcept(noexcept(v.swap(w))) {
 //
 // Example:
 //
-//   auto a = absl::variant<int, std::string>;
+//   auto a = absl::variant<int, nostd::string>;
 //   constexpr int num_types =
-//       absl::variant_size<absl::variant<int, std::string>>();
+//       absl::variant_size<absl::variant<int, nostd::string>>();
 //
 //   // You can also use the member constant `value`.
 //   constexpr int num_types =
-//       absl::variant_size<absl::variant<int, std::string>>::value;
+//       absl::variant_size<absl::variant<int, nostd::string>>::value;
 //
 //   // `absl::variant_size` is more valuable for use in generic code:
 //   template <typename Variant>
@@ -198,7 +198,7 @@ struct variant_size<const volatile T> : variant_size<T>::type {};
 //
 //   // The type of the 0th alternative is "int".
 //   using alternative_type_0
-//     = absl::variant_alternative<0, absl::variant<int, std::string>>::type;
+//     = absl::variant_alternative<0, absl::variant<int, nostd::string>>::type;
 //
 //   static_assert(std::is_same<alternative_type_0, int>::value, "");
 //
@@ -244,7 +244,7 @@ struct variant_alternative<I, const volatile T> {
 // Example:
 //
 //   using alternative_type_0
-//     = absl::variant_alternative_t<0, absl::variant<int, std::string>>;
+//     = absl::variant_alternative_t<0, absl::variant<int, nostd::string>>;
 //   static_assert(std::is_same<alternative_type_0, int>::value, "");
 template <std::size_t I, class T>
 using variant_alternative_t = typename variant_alternative<I, T>::type;
@@ -256,7 +256,7 @@ using variant_alternative_t = typename variant_alternative<I, T>::type;
 //
 // Example:
 //
-//   absl::variant<int, std::string> foo = 42;
+//   absl::variant<int, nostd::string> foo = 42;
 //   if (absl::holds_alternative<int>(foo)) {
 //       std::cout << "The variant holds an integer";
 //   }
@@ -282,7 +282,7 @@ constexpr bool holds_alternative(const variant<Types...>& v) noexcept {
 //
 // Example:
 //
-//   auto a = absl::variant<int, std::string>;
+//   auto a = absl::variant<int, nostd::string>;
 //
 //   // Get the value by type (if unique).
 //   int i = absl::get<int>(a);
@@ -423,7 +423,7 @@ constexpr absl::add_pointer_t<const T> get_if(
 //
 //   // Declare our variant, and call `absl::visit()` on it.
 //   // Note that `GetVariant()` returns void in either case.
-//   absl::variant<int, std::string> foo = std::string("foo");
+//   absl::variant<int, nostd::string> foo = nostd::string("foo");
 //   GetVariant visitor;
 //   absl::visit(visitor, foo);  // Prints `The variant's value is: foo'
 template <typename Visitor, typename... Variants>
@@ -611,9 +611,9 @@ class variant<T0, Tn...> : private variant_internal::VariantBase<T0, Tn...> {
   //
   // Example:
   //
-  //   absl::variant<std::vector<int>, int, std::string> v;
+  //   absl::variant<std::vector<int>, int, nostd::string> v;
   //   v.emplace<int>(99);
-  //   v.emplace<std::string>("abc");
+  //   v.emplace<nostd::string>("abc");
   template <
       class T, class... Args,
       typename std::enable_if<std::is_constructible<
@@ -633,7 +633,7 @@ class variant<T0, Tn...> : private variant_internal::VariantBase<T0, Tn...> {
   //
   // Example:
   //
-  //   absl::variant<std::vector<int>, int, std::string> v;
+  //   absl::variant<std::vector<int>, int, nostd::string> v;
   //   v.emplace<std::vector<int>>({0, 1, 2});
   template <
       class T, class U, class... Args,

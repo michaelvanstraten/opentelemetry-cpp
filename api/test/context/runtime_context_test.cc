@@ -14,7 +14,7 @@ using namespace opentelemetry;
 // Tests that GetCurrent returns the current context
 TEST(RuntimeContextTest, GetCurrent)
 {
-  std::map<std::string, context::ContextValue> map_test = {{"test_key", static_cast<int64_t>(123)}};
+  std::map<nostd::string, context::ContextValue> map_test = {{"test_key", static_cast<int64_t>(123)}};
   context::Context test_context                         = context::Context(map_test);
   auto old_context = context::RuntimeContext::Attach(test_context);
   EXPECT_EQ(context::RuntimeContext::GetCurrent(), test_context);
@@ -23,7 +23,7 @@ TEST(RuntimeContextTest, GetCurrent)
 // Tests that detach resets the context to the previous context
 TEST(RuntimeContextTest, Detach)
 {
-  std::map<std::string, context::ContextValue> map_test = {{"test_key", static_cast<int64_t>(123)}};
+  std::map<nostd::string, context::ContextValue> map_test = {{"test_key", static_cast<int64_t>(123)}};
   context::Context test_context                         = context::Context(map_test);
   context::Context foo_context                          = context::Context(map_test);
 
@@ -38,7 +38,7 @@ TEST(RuntimeContextTest, Detach)
 // Tests that detach returns false when the wrong context is provided
 TEST(RuntimeContextTest, DetachWrongContext)
 {
-  std::map<std::string, context::ContextValue> map_test = {{"test_key", static_cast<int64_t>(123)}};
+  std::map<nostd::string, context::ContextValue> map_test = {{"test_key", static_cast<int64_t>(123)}};
   context::Context test_context                         = context::Context(map_test);
   auto test_context_token = context::RuntimeContext::Attach(test_context);
   EXPECT_TRUE(context::RuntimeContext::Detach(*test_context_token));
@@ -48,7 +48,7 @@ TEST(RuntimeContextTest, DetachWrongContext)
 // Tests that the ThreadLocalContext can handle three attached contexts
 TEST(RuntimeContextTest, ThreeAttachDetach)
 {
-  std::map<std::string, context::ContextValue> map_test = {{"test_key", static_cast<int64_t>(123)}};
+  std::map<nostd::string, context::ContextValue> map_test = {{"test_key", static_cast<int64_t>(123)}};
   context::Context test_context                         = context::Context(map_test);
   context::Context foo_context                          = context::Context(map_test);
   context::Context other_context                        = context::Context(map_test);

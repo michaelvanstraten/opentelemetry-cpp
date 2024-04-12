@@ -29,7 +29,7 @@ private:
   void *handle_;
 };
 
-inline std::unique_ptr<Factory> LoadFactory(const char *plugin, std::string &error_message) noexcept
+inline std::unique_ptr<Factory> LoadFactory(const char *plugin, nostd::string &error_message) noexcept
 {
   dlerror();  // Clear any existing error.
 

@@ -170,12 +170,12 @@ TEST(KVStringTokenizer, NumTokens)
 
 TEST(KeyValueProperties, PopulateKVIterableContainer)
 {
-  std::vector<std::pair<std::string, std::string>> kv_pairs = {{"k1", "v1"}, {"k2", "v2"}};
+  std::vector<std::pair<nostd::string, nostd::string>> kv_pairs = {{"k1", "v1"}, {"k2", "v2"}};
 
   auto kv_properties = KeyValueProperties(kv_pairs);
   EXPECT_EQ(kv_properties.Size(), 2);
 
-  std::string value;
+  nostd::string value;
   bool present = kv_properties.GetValue("k1", value);
   EXPECT_TRUE(present);
   EXPECT_EQ(value, "v1");
@@ -189,7 +189,7 @@ TEST(KeyValueProperties, AddEntry)
 {
   auto kv_properties = KeyValueProperties(1);
   kv_properties.AddEntry("k1", "v1");
-  std::string value;
+  nostd::string value;
   bool present = kv_properties.GetValue("k1", value);
   EXPECT_TRUE(present);
   EXPECT_EQ(value, "v1");
@@ -204,7 +204,7 @@ TEST(KeyValueProperties, GetValue)
 {
   auto kv_properties = KeyValueProperties(1);
   kv_properties.AddEntry("k1", "v1");
-  std::string value;
+  nostd::string value;
   bool present = kv_properties.GetValue("k1", value);
   EXPECT_TRUE(present);
   EXPECT_EQ(value, "v1");
@@ -215,7 +215,7 @@ TEST(KeyValueProperties, GetValue)
 
 TEST(KeyValueProperties, GetAllEntries)
 {
-  std::vector<std::pair<std::string, std::string>> kv_pairs = {
+  std::vector<std::pair<nostd::string, nostd::string>> kv_pairs = {
       {"k1", "v1"}, {"k2", "v2"}, {"k3", "v3"}};
   const size_t kNumPairs                              = 3;
   opentelemetry::nostd::string_view keys[kNumPairs]   = {"k1", "k2", "k3"};

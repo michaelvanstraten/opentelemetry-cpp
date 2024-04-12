@@ -17,7 +17,7 @@ std::string Hex(const opentelemetry::trace::TraceId &trace)
 {
   char buf[32];
   trace.ToLowerBase16(buf);
-  return std::string(buf, sizeof(buf));
+  return nostd::string(buf, sizeof(buf));
 }
 
 TEST(TraceIdTest, DefaultConstruction)

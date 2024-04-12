@@ -28,7 +28,7 @@ TEST(StringViewTest, CStringInitialization)
 
 TEST(StringViewTest, StdStringInitialization)
 {
-  const std::string val = "hello world";
+  const nostd::string val = "hello world";
 
   string_view ref(val);
 
@@ -38,7 +38,7 @@ TEST(StringViewTest, StdStringInitialization)
 
 TEST(StringViewTest, Copy)
 {
-  const std::string val = "hello world";
+  const nostd::string val = "hello world";
 
   string_view ref(val);
   string_view cpy(ref);
@@ -57,7 +57,7 @@ TEST(StringViewTest, Accessor)
 
 TEST(StringViewTest, ExplicitStdStringConversion)
 {
-  std::string s = static_cast<std::string>(string_view{"abc"});
+  nostd::string s = static_cast<nostd::string>(string_view{"abc"});
   EXPECT_EQ(s, "abc");
 }
 

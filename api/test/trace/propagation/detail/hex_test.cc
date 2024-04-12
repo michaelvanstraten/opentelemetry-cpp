@@ -12,7 +12,7 @@ using namespace opentelemetry;
 TEST(HexTest, ConvertOddLength)
 {
   const int kLength        = 16;
-  std::string trace_id_hex = "78cfcfec62ae9e9";
+  nostd::string trace_id_hex = "78cfcfec62ae9e9";
   uint8_t trace_id[kLength];
   trace::propagation::detail::HexToBinary(trace_id_hex, trace_id, sizeof(trace_id));
 
@@ -28,7 +28,7 @@ TEST(HexTest, ConvertOddLength)
 TEST(HexTest, ConvertEvenLength)
 {
   const int kLength        = 16;
-  std::string trace_id_hex = "078cfcfec62ae9e9";
+  nostd::string trace_id_hex = "078cfcfec62ae9e9";
   uint8_t trace_id[kLength];
   trace::propagation::detail::HexToBinary(trace_id_hex, trace_id, sizeof(trace_id));
 

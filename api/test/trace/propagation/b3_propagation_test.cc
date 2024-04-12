@@ -17,7 +17,7 @@ class TextMapCarrierTest : public context::propagation::TextMapCarrier
 public:
   virtual nostd::string_view Get(nostd::string_view key) const noexcept override
   {
-    auto it = headers_.find(std::string(key));
+    auto it = headers_.find(nostd::string(key));
     if (it != headers_.end())
     {
       return nostd::string_view(it->second);
@@ -26,10 +26,10 @@ public:
   }
   virtual void Set(nostd::string_view key, nostd::string_view value) noexcept override
   {
-    headers_[std::string(key)] = std::string(value);
+    headers_[nostd::string(key)] = nostd::string(value);
   }
 
-  std::map<std::string, std::string> headers_;
+  std::map<nostd::string, nostd::string> headers_;
 };
 
 using MapB3Context = trace::propagation::B3Propagator;

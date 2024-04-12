@@ -16,7 +16,7 @@ namespace plugin
 {
 namespace detail
 {
-inline void CopyErrorMessage(const char *source, std::string &destination) noexcept
+inline void CopyErrorMessage(const char *source, nostd::string &destination) noexcept
 #if __EXCEPTIONS
 try
 #endif

@@ -6,9 +6,9 @@
 #include <string>
 
 template <typename T>
-static std::string Hex(const T &id_item)
+static nostd::string Hex(const T &id_item)
 {
   char buf[T::kSize * 2];
   id_item.ToLowerBase16(buf);
-  return std::string(buf, sizeof(buf));
+  return nostd::string(buf, sizeof(buf));
 }

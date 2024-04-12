@@ -19,6 +19,7 @@
 #  include <string>
 
 #  include "opentelemetry/version.h"
+#  include "opentelemetry/std/string.h"
 
 OPENTELEMETRY_BEGIN_NAMESPACE
 namespace nostd
@@ -27,10 +28,10 @@ namespace nostd
 using Traits = std::char_traits<char>;
 
 /**
- * Back port of std::string_view to work with pre-cpp-17 compilers.
+ * Back port of nostd::string_view to work with pre-cpp-17 compilers.
  *
- * Note: This provides a subset of the methods available on std::string_view but
- * tries to be as compatible as possible with the std::string_view interface.
+ * Note: This provides a subset of the methods available on nostd::string_view but
+ * tries to be as compatible as possible with the nostd::string_view interface.
  */
 class string_view
 {
@@ -49,7 +50,7 @@ public:
 
   string_view(const char *str, size_type len) noexcept : length_(len), data_(str) {}
 
-  explicit operator std::string() const { return {data_, length_}; }
+  explicit operator nostd::string() const { return {data_, length_}; }
 
   const char *data() const noexcept { return data_; }
 
@@ -133,7 +134,7 @@ public:
   bool operator>(const string_view v) const noexcept { return compare(v) > 0; }
 
 private:
-  // Note: uses the same binary layout as libstdc++'s std::string_view
+  // Note: uses the same binary layout as libstdc++'s nostd::string_view
   // See
   // https://github.com/gcc-mirror/gcc/blob/e0c554e4da7310df83bb1dcc7b8e6c4c9c5a2a4f/libstdc%2B%2B-v3/include/std/string_view#L466-L467
   size_type length_;
@@ -155,12 +156,12 @@ inline bool operator==(string_view lhs, string_view rhs) noexcept
 #  endif
 }
 
-inline bool operator==(string_view lhs, const std::string &rhs) noexcept
+inline bool operator==(string_view lhs, const nostd::string &rhs) noexcept
 {
   return lhs == string_view(rhs);
 }
 
-inline bool operator==(const std::string &lhs, string_view rhs) noexcept
+inline bool operator==(const nostd::string &lhs, string_view rhs) noexcept
 {
   return string_view(lhs) == rhs;
 }
@@ -180,12 +181,12 @@ inline bool operator!=(string_view lhs, string_view rhs) noexcept
   return !(lhs == rhs);
 }
 
-inline bool operator!=(string_view lhs, const std::string &rhs) noexcept
+inline bool operator!=(string_view lhs, const nostd::string &rhs) noexcept
 {
   return !(lhs == rhs);
 }
 
-inline bool operator!=(const std::string &lhs, string_view rhs) noexcept
+inline bool operator!=(const nostd::string &lhs, string_view rhs) noexcept
 {
   return !(lhs == rhs);
 }
@@ -214,10 +215,11 @@ struct hash<OPENTELEMETRY_NAMESPACE::nostd::string_view>
 {
   std::size_t operator()(const OPENTELEMETRY_NAMESPACE::nostd::string_view &k) const
   {
+    using string = OPENTELEMETRY_NAMESPACE::nostd::string;
     // TODO: for C++17 that has native support for std::basic_string_view it would
     // be more performance-efficient to provide a zero-copy hash.
-    auto s = std::string(k.data(), k.size());
-    return std::hash<std::string>{}(s);
+    auto s = string(k.data(), k.size());
+    return std::hash<string>{}(s);
   }
 };
 }  // namespace std

@@ -43,7 +43,7 @@ public:
   /* Get value for key in the baggage
      @returns true if key is found, false otherwise
   */
-  bool GetValue(nostd::string_view key, std::string &value) const noexcept
+  bool GetValue(nostd::string_view key, nostd::string &value) const noexcept
   {
     return kv_properties_->GetValue(key, value);
   }
@@ -136,7 +136,7 @@ public:
       // but, we need to extract it (else Decode on value will return error)
       nostd::string_view metadata;
       auto metadata_separator = value.find(kMetadataSeparator);
-      if (metadata_separator != std::string::npos)
+      if (metadata_separator != nostd::string::npos)
       {
         metadata = value.substr(metadata_separator);
         value    = value.substr(0, metadata_separator);
@@ -160,9 +160,9 @@ public:
   }
 
   // Creates string from baggage object.
-  std::string ToHeader() const noexcept
+  nostd::string ToHeader() const noexcept
   {
-    std::string header_s;
+    nostd::string header_s;
     bool first = true;
     kv_properties_->GetAllEntries([&](nostd::string_view key, nostd::string_view value) {
       if (!first)
@@ -178,11 +178,11 @@ public:
 
       // extracting metadata from value. We do not encode metadata
       auto metadata_separator = value.find(kMetadataSeparator);
-      if (metadata_separator != std::string::npos)
+      if (metadata_separator != nostd::string::npos)
       {
         header_s.append(UrlEncode(value.substr(0, metadata_separator)));
         auto metadata = value.substr(metadata_separator);
-        header_s.append(std::string(metadata.data(), metadata.size()));
+        header_s.append(nostd::string(metadata.data(), metadata.size()));
       }
       else
       {
@@ -213,14 +213,14 @@ private:
 
   // Uri encode key value pairs before injecting into header
   // Implementation inspired from : https://golang.org/src/net/url/url.go?s=7851:7884#L264
-  static std::string UrlEncode(nostd::string_view str)
+  static nostd::string UrlEncode(nostd::string_view str)
   {
     auto to_hex = [](char c) -> char {
       static const char *hex = "0123456789ABCDEF";
       return hex[c & 15];
     };
 
-    std::string ret;
+    nostd::string ret;
 
     for (auto c : str)
     {
@@ -244,7 +244,7 @@ private:
   }
 
   // Uri decode key value pairs after extracting from header
-  static std::string UrlDecode(nostd::string_view str, bool &err)
+  static nostd::string UrlDecode(nostd::string_view str, bool &err)
   {
     auto IsHex = [](char c) {
       return std::isdigit(c) || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f');
@@ -256,7 +256,7 @@ private:
       return static_cast<char>(std::isdigit(c) ? c - '0' : std::toupper(c) - 'A' + 10);
     };
 
-    std::string ret;
+    nostd::string ret;
 
     for (size_t i = 0; i < str.size(); i++)
     {

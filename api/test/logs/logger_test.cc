@@ -26,7 +26,7 @@ namespace trace  = opentelemetry::trace;
 TEST(Logger, GetLoggerDefault)
 {
   auto lp = Provider::GetLoggerProvider();
-  const std::string schema_url{"https://opentelemetry.io/schemas/1.11.0"};
+  const nostd::string schema_url{"https://opentelemetry.io/schemas/1.11.0"};
   auto logger = lp->GetLogger("TestLogger", "opentelelemtry_library", "", schema_url);
   auto name   = logger->GetName();
   EXPECT_NE(nullptr, logger);
@@ -38,7 +38,7 @@ TEST(Logger, GetNoopLoggerNameWithArgs)
 {
   auto lp = Provider::GetLoggerProvider();
 
-  const std::string schema_url{"https://opentelemetry.io/schemas/1.11.0"};
+  const nostd::string schema_url{"https://opentelemetry.io/schemas/1.11.0"};
   lp->GetLogger("NoopLoggerWithArgs", "opentelelemtry_library", "", schema_url);
 
   lp->GetLogger("NoopLoggerWithOptions", "opentelelemtry_library", "", schema_url);
@@ -48,7 +48,7 @@ TEST(Logger, GetNoopLoggerNameWithArgs)
 TEST(Logger, LogMethodOverloads)
 {
   auto lp = Provider::GetLoggerProvider();
-  const std::string schema_url{"https://opentelemetry.io/schemas/1.11.0"};
+  const nostd::string schema_url{"https://opentelemetry.io/schemas/1.11.0"};
   auto logger = lp->GetLogger("TestLogger", "opentelelemtry_library", "", schema_url);
 
   EventId trace_event_id{0x1, "TraceEventId"};
@@ -59,7 +59,7 @@ TEST(Logger, LogMethodOverloads)
   EventId fatal_event_id{0x6, "FatalEventId"};
 
   // Create a map to test the logs with
-  std::map<std::string, std::string> m = {{"key1", "value1"}};
+  std::map<nostd::string, nostd::string> m = {{"key1", "value1"}};
 
   // EmitLogRecord overloads
   logger->EmitLogRecord(Severity::kTrace, "Test log message");
@@ -72,10 +72,10 @@ TEST(Logger, LogMethodOverloads)
                         opentelemetry::common::MakeAttributes({{"key1", "value 1"}, {"key2", 2}}));
   logger->EmitLogRecord(Severity::kDebug, opentelemetry::common::MakeAttributes(m));
   logger->EmitLogRecord(Severity::kDebug,
-                        common::KeyValueIterableView<std::map<std::string, std::string>>(m));
+                        common::KeyValueIterableView<std::map<nostd::string, nostd::string>>(m));
   std::pair<nostd::string_view, common::AttributeValue> array[] = {{"key1", "value1"}};
   logger->EmitLogRecord(Severity::kDebug, opentelemetry::common::MakeAttributes(array));
-  std::vector<std::pair<std::string, std::string>> vec = {{"key1", "value1"}};
+  std::vector<std::pair<nostd::string, nostd::string>> vec = {{"key1", "value1"}};
   logger->EmitLogRecord(Severity::kDebug, opentelemetry::common::MakeAttributes(vec));
 
   // Severity methods
@@ -149,13 +149,13 @@ TEST(Logger, LogMethodOverloads)
 TEST(Logger, EventLogMethodOverloads)
 {
   auto lp = Provider::GetLoggerProvider();
-  const std::string schema_url{"https://opentelemetry.io/schemas/1.11.0"};
+  const nostd::string schema_url{"https://opentelemetry.io/schemas/1.11.0"};
   auto logger = lp->GetLogger("TestLogger", "opentelelemtry_library", "", schema_url);
 
   auto elp          = Provider::GetEventLoggerProvider();
   auto event_logger = elp->CreateEventLogger(logger, "otel-cpp.test");
 
-  std::map<std::string, std::string> m = {{"key1", "value1"}};
+  std::map<nostd::string, nostd::string> m = {{"key1", "value1"}};
 
   event_logger->EmitEvent("event name", Severity::kTrace, "Test log message");
   event_logger->EmitEvent("event name", Severity::kInfo, "Test log message");
@@ -169,11 +169,11 @@ TEST(Logger, EventLogMethodOverloads)
       opentelemetry::common::MakeAttributes({{"key1", "value 1"}, {"key2", 2}}));
   event_logger->EmitEvent("event name", Severity::kDebug, opentelemetry::common::MakeAttributes(m));
   event_logger->EmitEvent("event name", Severity::kDebug,
-                          common::KeyValueIterableView<std::map<std::string, std::string>>(m));
+                          common::KeyValueIterableView<std::map<nostd::string, nostd::string>>(m));
   std::pair<nostd::string_view, common::AttributeValue> array[] = {{"key1", "value1"}};
   event_logger->EmitEvent("event name", Severity::kDebug,
                           opentelemetry::common::MakeAttributes(array));
-  std::vector<std::pair<std::string, std::string>> vec = {{"key1", "value1"}};
+  std::vector<std::pair<nostd::string, nostd::string>> vec = {{"key1", "value1"}};
   event_logger->EmitEvent("event name", Severity::kDebug,
                           opentelemetry::common::MakeAttributes(vec));
 }

@@ -11,7 +11,7 @@ using namespace opentelemetry;
 
 static int TakeKeyValues(const common::KeyValueIterable &iterable)
 {
-  std::map<std::string, common::AttributeValue> result;
+  std::map<nostd::string, common::AttributeValue> result;
   int count = 0;
   iterable.ForEachKeyValue(
       [&](nostd::string_view /* key */, common::AttributeValue /* value */) noexcept {
@@ -29,33 +29,33 @@ static int TakeKeyValues(const T &iterable)
 
 TEST(KeyValueIterableViewTest, is_key_value_iterable)
 {
-  using M1 = std::map<std::string, std::string>;
+  using M1 = std::map<nostd::string, nostd::string>;
   EXPECT_TRUE(bool{common::detail::is_key_value_iterable<M1>::value});
 
-  using M2 = std::map<std::string, int>;
+  using M2 = std::map<nostd::string, int>;
   EXPECT_TRUE(bool{common::detail::is_key_value_iterable<M2>::value});
 
-  using M3 = std::map<std::string, common::AttributeValue>;
+  using M3 = std::map<nostd::string, common::AttributeValue>;
   EXPECT_TRUE(bool{common::detail::is_key_value_iterable<M3>::value});
 
   struct A
   {};
-  using M4 = std::map<std::string, A>;
+  using M4 = std::map<nostd::string, A>;
   EXPECT_FALSE(bool{common::detail::is_key_value_iterable<M4>::value});
 }
 
 TEST(KeyValueIterableViewTest, ForEachKeyValue)
 {
-  std::map<std::string, std::string> m1 = {{"abc", "123"}, {"xyz", "456"}};
+  std::map<nostd::string, nostd::string> m1 = {{"abc", "123"}, {"xyz", "456"}};
   EXPECT_EQ(TakeKeyValues(m1), 2);
 
-  std::vector<std::pair<std::string, int>> v1 = {{"abc", 123}, {"xyz", 456}};
+  std::vector<std::pair<nostd::string, int>> v1 = {{"abc", 123}, {"xyz", 456}};
   EXPECT_EQ(TakeKeyValues(v1), 2);
 }
 
 TEST(KeyValueIterableViewTest, ForEachKeyValueWithExit)
 {
-  using M = std::map<std::string, std::string>;
+  using M = std::map<nostd::string, nostd::string>;
   M m1    = {{"abc", "123"}, {"xyz", "456"}};
   common::KeyValueIterableView<M> iterable{m1};
   int count = 0;

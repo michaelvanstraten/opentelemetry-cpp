@@ -20,7 +20,7 @@ const char *kLongString =
 
 // -------------------------- TraceState class tests ---------------------------
 
-std::string create_ts_return_header(std::string header)
+std::string create_ts_return_header(nostd::string header)
 {
   auto ts = TraceState::FromHeader(header);
   return ts->ToHeader();
@@ -28,12 +28,12 @@ std::string create_ts_return_header(std::string header)
 
 std::string header_with_max_members()
 {
-  std::string header = "";
+  nostd::string header = "";
   auto max_members   = TraceState::kMaxKeyValuePairs;
   for (int i = 0; i < max_members; i++)
   {
-    std::string key   = "key" + std::to_string(i);
-    std::string value = "value" + std::to_string(i);
+    nostd::string key   = "key" + std::to_string(i);
+    nostd::string value = "value" + std::to_string(i);
     header += key + "=" + value;
     if (i != max_members - 1)
     {
@@ -72,10 +72,10 @@ TEST(TraceStateTest, ValidateHeaderParsing)
 TEST(TraceStateTest, TraceStateGet)
 {
 
-  std::string trace_state_header = header_with_max_members();
+  nostd::string trace_state_header = header_with_max_members();
   auto ts                        = TraceState::FromHeader(trace_state_header);
 
-  std::string value;
+  nostd::string value;
   EXPECT_TRUE(ts->Get("key0", value));
   EXPECT_EQ(value, "value0");
   EXPECT_TRUE(ts->Get("key16", value));
@@ -87,7 +87,7 @@ TEST(TraceStateTest, TraceStateGet)
 
 TEST(TraceStateTest, TraceStateSet)
 {
-  std::string trace_state_header = "k1=v1,k2=v2";
+  nostd::string trace_state_header = "k1=v1,k2=v2";
   auto ts1                       = TraceState::FromHeader(trace_state_header);
   auto ts1_new                   = ts1->Set("k3", "v3");
   EXPECT_EQ(ts1_new->ToHeader(), "k3=v3,k1=v1,k2=v2");
@@ -106,25 +106,25 @@ TEST(TraceStateTest, TraceStateSet)
 
 TEST(TraceStateTest, TraceStateDelete)
 {
-  std::string trace_state_header = "k1=v1,k2=v2,k3=v3";
+  nostd::string trace_state_header = "k1=v1,k2=v2,k3=v3";
   auto ts1                       = TraceState::FromHeader(trace_state_header);
-  auto ts1_new                   = ts1->Delete(std::string("k1"));
+  auto ts1_new                   = ts1->Delete(nostd::string("k1"));
   EXPECT_EQ(ts1_new->ToHeader(), "k2=v2,k3=v3");
 
   trace_state_header = "k1=v1";  // single list member
   auto ts2           = TraceState::FromHeader(trace_state_header);
-  auto ts2_new       = ts2->Delete(std::string("k1"));
+  auto ts2_new       = ts2->Delete(nostd::string("k1"));
   EXPECT_EQ(ts2_new->ToHeader(), "");
 
   trace_state_header = "k1=v1";  // single list member, delete invalid entry
   auto ts3           = TraceState::FromHeader(trace_state_header);
-  auto ts3_new       = ts3->Delete(std::string("InvalidKey"));
+  auto ts3_new       = ts3->Delete(nostd::string("InvalidKey"));
   EXPECT_EQ(ts3_new->ToHeader(), "");
 }
 
 TEST(TraceStateTest, Empty)
 {
-  std::string trace_state_header = "";
+  nostd::string trace_state_header = "";
   auto ts                        = TraceState::FromHeader(trace_state_header);
   EXPECT_TRUE(ts->Empty());
 
@@ -135,7 +135,7 @@ TEST(TraceStateTest, Empty)
 
 TEST(TraceStateTest, GetAllEntries)
 {
-  std::string trace_state_header       = "k1=v1,k2=v2,k3=v3";
+  nostd::string trace_state_header       = "k1=v1,k2=v2,k3=v3";
   auto ts1                             = TraceState::FromHeader(trace_state_header);
   const int kNumPairs                  = 3;
   nostd::string_view keys[kNumPairs]   = {"k1", "k2", "k3"};
@@ -171,7 +171,7 @@ TEST(TraceStateTest, IsValidValue)
 // Tests that keys and values don't depend on null terminators
 TEST(TraceStateTest, MemorySafe)
 {
-  std::string trace_state_header       = "";
+  nostd::string trace_state_header       = "";
   auto ts                              = TraceState::FromHeader(trace_state_header);
   const int kNumPairs                  = 3;
   nostd::string_view key_string        = "test_key_1test_key_2test_key_3";

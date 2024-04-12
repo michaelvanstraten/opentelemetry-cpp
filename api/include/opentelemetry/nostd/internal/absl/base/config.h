@@ -542,7 +542,7 @@ static_assert(OTABSL_INTERNAL_INLINE_NAMESPACE_STR[0] != 'h' ||
 
 // OTABSL_HAVE_STD_STRING_VIEW
 //
-// Checks whether C++17 std::string_view is available.
+// Checks whether C++17 nostd::string_view is available.
 #ifdef OTABSL_HAVE_STD_STRING_VIEW
 #error "OTABSL_HAVE_STD_STRING_VIEW cannot be directly set."
 #endif
@@ -615,7 +615,7 @@ static_assert(OTABSL_INTERNAL_INLINE_NAMESPACE_STR[0] != 'h' ||
 
 // OTABSL_USES_STD_STRING_VIEW
 //
-// Indicates whether absl::string_view is an alias for std::string_view.
+// Indicates whether absl::string_view is an alias for nostd::string_view.
 #if !defined(OTABSL_OPTION_USE_STD_STRING_VIEW)
 #error options.h is misconfigured.
 #elif OTABSL_OPTION_USE_STD_STRING_VIEW == 0 || \

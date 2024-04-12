@@ -133,16 +133,16 @@
 // OTABSL_OPTION_USE_STD_STRING_VIEW
 //
 // This option controls whether absl::string_view is implemented as an alias to
-// std::string_view, or as an independent implementation.
+// nostd::string_view, or as an independent implementation.
 //
 // A value of 0 means to use Abseil's implementation.  This requires only C++11
 // support, and is expected to work on every toolchain we support.
 //
-// A value of 1 means to use an alias to std::string_view.  This requires that
+// A value of 1 means to use an alias to nostd::string_view.  This requires that
 // all code using Abseil is built in C++17 mode or later.
 //
 // A value of 2 means to detect the C++ version being used to compile Abseil,
-// and use an alias only if a working std::string_view is available.  This
+// and use an alias only if a working nostd::string_view is available.  This
 // option is useful when you are building your program from source.  It should
 // not be used otherwise -- for example, if you are distributing Abseil in a
 // binary package manager -- since in mode 2, absl::string_view will name a
@@ -151,7 +151,7 @@
 // https://abseil.io/about/design/dropin-types.
 //
 // User code should not inspect this macro.  To check in the preprocessor if
-// absl::string_view is a typedef of std::string_view, use the feature macro
+// absl::string_view is a typedef of nostd::string_view, use the feature macro
 // OTABSL_USES_STD_STRING_VIEW.
 
 #define OTABSL_OPTION_USE_STD_STRING_VIEW 0

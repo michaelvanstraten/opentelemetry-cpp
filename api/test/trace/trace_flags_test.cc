@@ -17,7 +17,7 @@ std::string Hex(const TraceFlags &flags)
 {
   char buf[2];
   flags.ToLowerBase16(buf);
-  return std::string(buf, sizeof(buf));
+  return nostd::string(buf, sizeof(buf));
 }
 
 TEST(TraceFlagsTest, DefaultConstruction)

@@ -22,7 +22,7 @@ namespace plugin
 {
 namespace detail
 {
-inline void GetLastErrorMessage(std::string &error_message) noexcept
+inline void GetLastErrorMessage(nostd::string &error_message) noexcept
 {
   auto error_code = ::GetLastError();
   // See https://stackoverflow.com/a/455533/4447365
@@ -51,7 +51,7 @@ private:
   HINSTANCE handle_;
 };
 
-inline std::unique_ptr<Factory> LoadFactory(const char *plugin, std::string &error_message) noexcept
+inline std::unique_ptr<Factory> LoadFactory(const char *plugin, nostd::string &error_message) noexcept
 {
   auto handle = ::LoadLibrary(plugin);
   if (handle == nullptr)

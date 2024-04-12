@@ -38,7 +38,7 @@ public:
 
   static nostd::string_view GetDefaultKeyOrValue()
   {
-    static std::string default_str = "";
+    static nostd::string default_str = "";
     return default_str;
   }
 
@@ -54,7 +54,7 @@ public:
     {
       bool is_empty_pair = false;
       size_t end         = str_.find(opts_.member_separator, index_);
-      if (end == std::string::npos)
+      if (end == nostd::string::npos)
       {
         end = str_.size() - 1;
       }
@@ -84,7 +84,7 @@ public:
       }
 
       auto key_end_pos = list_member.find(opts_.key_value_separator);
-      if (key_end_pos == std::string::npos)
+      if (key_end_pos == nostd::string::npos)
       {
         // invalid member
         valid_kv = false;
@@ -112,7 +112,7 @@ public:
     {
       ++cnt;
       size_t end = str_.find(opts_.member_separator, begin);
-      if (end == std::string::npos)
+      if (end == nostd::string::npos)
       {
         break;
       }
@@ -178,7 +178,7 @@ public:
     void SetValue(nostd::string_view value) noexcept { value_ = CopyStringToPointer(value); }
 
   private:
-    // Store key and value as raw char pointers to avoid using std::string.
+    // Store key and value as raw char pointers to avoid using nostd::string.
     nostd::unique_ptr<const char[]> key_;
     nostd::unique_ptr<const char[]> value_;
 
@@ -251,7 +251,7 @@ public:
   }
 
   // Return value for key if exists, return false otherwise
-  bool GetValue(nostd::string_view key, std::string &value) const noexcept
+  bool GetValue(nostd::string_view key, nostd::string &value) const noexcept
   {
     for (size_t i = 0; i < num_entries_; i++)
     {
@@ -259,7 +259,7 @@ public:
       if (entry.GetKey() == key)
       {
         const auto &entry_value = entry.GetValue();
-        value                   = std::string(entry_value.data(), entry_value.size());
+        value                   = nostd::string(entry_value.data(), entry_value.size());
         return true;
       }
     }

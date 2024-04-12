@@ -20,7 +20,7 @@ class TextMapCarrierTest : public context::propagation::TextMapCarrier
 public:
   virtual nostd::string_view Get(nostd::string_view key) const noexcept override
   {
-    auto it = headers_.find(std::string(key));
+    auto it = headers_.find(nostd::string(key));
     if (it != headers_.end())
     {
       return nostd::string_view(it->second);
@@ -29,10 +29,10 @@ public:
   }
   virtual void Set(nostd::string_view key, nostd::string_view value) noexcept override
   {
-    headers_[std::string(key)] = std::string(value);
+    headers_[nostd::string(key)] = nostd::string(value);
   }
 
-  std::map<std::string, std::string> headers_;
+  std::map<nostd::string, nostd::string> headers_;
 };
 
 using MapHttpTraceContext = trace::propagation::HttpTraceContext;
@@ -149,7 +149,7 @@ TEST(TextMapPropagatorTest, GetCurrentSpan)
 TEST(TextMapPropagatorTest, InvalidIdentitiesAreNotExtracted)
 {
   TextMapCarrierTest carrier;
-  std::vector<std::string> traces = {
+  std::vector<nostd::string> traces = {
       "ff-0af7651916cd43dd8448eb211c80319c-b9c7c989f97918e1-01",
       "00-0af7651916cd43dd8448eb211c80319c1-b9c7c989f97918e1-01",
       "00-0af7651916cd43dd8448eb211c80319c-b9c7c989f97918e11-01",
@@ -219,7 +219,7 @@ TEST(GlobalPropagator, SetAndGet)
   EXPECT_TRUE(carrier.headers_.count("tracestate") > 0);
   EXPECT_EQ(carrier.headers_["tracestate"], trace_state_value);
 
-  std::vector<std::string> fields;
+  std::vector<nostd::string> fields;
   propagator->Fields([&fields](nostd::string_view field) {
     fields.push_back(field.data());
     return true;

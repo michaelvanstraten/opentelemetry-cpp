@@ -102,18 +102,18 @@ TEST(VariantTest, Destructor)
 
 TEST(VariantTest, Conversion)
 {
-  nostd::variant<std::string> x("abc");
+  nostd::variant<nostd::string> x("abc");
   x = "def";
-  EXPECT_EQ(nostd::get<std::string>(x), "def");
+  EXPECT_EQ(nostd::get<nostd::string>(x), "def");
 
-  nostd::variant<std::string, void const *> y("abc");
+  nostd::variant<nostd::string, void const *> y("abc");
   EXPECT_TRUE(nostd::holds_alternative<void const *>(y));
-  y = std::string{"xyz"};
-  EXPECT_TRUE(nostd::holds_alternative<std::string>(y));
+  y = nostd::string{"xyz"};
+  EXPECT_TRUE(nostd::holds_alternative<nostd::string>(y));
 }
 
 TEST(VariantTest, Construction)
 {
-  nostd::variant<bool, const char *, std::string> v{"abc"};
+  nostd::variant<bool, const char *, nostd::string> v{"abc"};
   EXPECT_EQ(v.index(), 1);
 }

@@ -54,10 +54,10 @@ OTABSL_NAMESPACE_BEGIN
 //
 // Example:
 //
-//   absl::variant<int, std::string> v;
+//   absl::variant<int, nostd::string> v;
 //   v = 1;
 //   try {
-//     absl::get<std::string>(v);
+//     absl::get<nostd::string>(v);
 //   } catch(const absl::bad_variant_access& e) {
 //     std::cout << "Bad variant access: " << e.what() << '\n';
 //   }

@@ -21,11 +21,11 @@
 using namespace opentelemetry;
 
 template <typename T>
-static std::string Hex(const T &id_item)
+static nostd::string Hex(const T &id_item)
 {
   char buf[T::kSize * 2];
   id_item.ToLowerBase16(buf);
-  return std::string(buf, sizeof(buf));
+  return nostd::string(buf, sizeof(buf));
 }
 
 class TextMapCarrierTest : public context::propagation::TextMapCarrier
@@ -33,7 +33,7 @@ class TextMapCarrierTest : public context::propagation::TextMapCarrier
 public:
   virtual nostd::string_view Get(nostd::string_view key) const noexcept override
   {
-    auto it = headers_.find(std::string(key));
+    auto it = headers_.find(nostd::string(key));
     if (it != headers_.end())
     {
       return nostd::string_view(it->second);
@@ -42,10 +42,10 @@ public:
   }
   virtual void Set(nostd::string_view key, nostd::string_view value) noexcept override
   {
-    headers_[std::string(key)] = std::string(value);
+    headers_[nostd::string(key)] = nostd::string(value);
   }
 
-  std::map<std::string, std::string> headers_;
+  std::map<nostd::string, nostd::string> headers_;
 };
 
 class CompositePropagatorTest : public ::testing::Test
@@ -129,7 +129,7 @@ TEST_F(CompositePropagatorTest, Inject)
             "00-0102030405060708090a0b0c0d0e0f10-0102030405060708-01");
   EXPECT_EQ(carrier.headers_["b3"], "0102030405060708090a0b0c0d0e0f10-0102030405060708-1");
 
-  std::vector<std::string> fields;
+  std::vector<nostd::string> fields;
   composite_propagator_->Fields([&fields](nostd::string_view field) {
     fields.push_back(field.data());
     return true;

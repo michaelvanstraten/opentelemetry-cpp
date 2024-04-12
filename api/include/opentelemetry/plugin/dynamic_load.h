@@ -25,6 +25,6 @@ class Factory;
  * @param error_message on failure this is set to an error message
  * @return a Factory that can be used to create OpenTelemetry objects or nullptr on failure.
  */
-std::unique_ptr<Factory> LoadFactory(const char *plugin, std::string &error_message) noexcept;
+std::unique_ptr<Factory> LoadFactory(const char *plugin, nostd::string &error_message) noexcept;
 }  // namespace plugin
 OPENTELEMETRY_END_NAMESPACE

@@ -13,7 +13,7 @@ OPENTELEMETRY_BEGIN_NAMESPACE
 namespace baggage
 {
 
-static const std::string kBaggageHeader = "baggage";
+static const nostd::string kBaggageHeader = "baggage";
 
 inline nostd::shared_ptr<Baggage> GetBaggage(const context::Context &context) noexcept
 {

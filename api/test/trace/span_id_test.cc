@@ -17,7 +17,7 @@ std::string Hex(const opentelemetry::trace::SpanId &span)
 {
   char buf[16];
   span.ToLowerBase16(buf);
-  return std::string(buf, sizeof(buf));
+  return nostd::string(buf, sizeof(buf));
 }
 
 TEST(SpanIdTest, DefaultConstruction)

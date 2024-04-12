@@ -19,15 +19,15 @@ TEST(NoopTest, UseNoopTracers)
   std::shared_ptr<trace_api::Tracer> tracer{new trace_api::NoopTracer{}};
   auto s1 = tracer->StartSpan("abc");
 
-  std::map<std::string, std::string> attributes1;
+  std::map<nostd::string, nostd::string> attributes1;
   s1->AddEvent("abc", attributes1);
 
-  std::vector<std::pair<std::string, int>> attributes2;
+  std::vector<std::pair<nostd::string, int>> attributes2;
   s1->AddEvent("abc", attributes2);
 
   s1->AddEvent("abc", {{"a", 1}, {"b", "2"}, {"c", 3.0}});
 
-  std::vector<std::pair<std::string, std::vector<int>>> attributes3;
+  std::vector<std::pair<nostd::string, std::vector<int>>> attributes3;
   s1->AddEvent("abc", attributes3);
 
   s1->SetAttribute("abc", 4);
@@ -65,8 +65,8 @@ TEST(NoopTest, StartSpan)
 {
   std::shared_ptr<trace_api::Tracer> tracer{new trace_api::NoopTracer{}};
 
-  std::map<std::string, std::string> attrs = {{"a", "3"}};
-  std::vector<std::pair<trace_api::SpanContext, std::map<std::string, std::string>>> links = {
+  std::map<nostd::string, nostd::string> attrs = {{"a", "3"}};
+  std::vector<std::pair<trace_api::SpanContext, std::map<nostd::string, nostd::string>>> links = {
       {trace_api::SpanContext(false, false), attrs}};
   auto s1 = tracer->StartSpan("abc", attrs, links);
 

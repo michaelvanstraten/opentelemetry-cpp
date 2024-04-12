@@ -17,11 +17,11 @@ const size_t kNumEntries = 10;
 
 std::string header_with_custom_entries(size_t num_entries)
 {
-  std::string header;
+  nostd::string header;
   for (size_t i = 0; i < num_entries; i++)
   {
-    std::string key   = "ADecentlyLargekey" + std::to_string(i);
-    std::string value = "ADecentlyLargeValue" + std::to_string(i);
+    nostd::string key   = "ADecentlyLargekey" + std::to_string(i);
+    nostd::string value = "ADecentlyLargeValue" + std::to_string(i);
     header += key + "=" + value;
     if (i != num_entries - 1)
     {
@@ -33,7 +33,7 @@ std::string header_with_custom_entries(size_t num_entries)
 
 void BM_CreateBaggageFromTenEntries(benchmark::State &state)
 {
-  std::string header = header_with_custom_entries(kNumEntries);
+  nostd::string header = header_with_custom_entries(kNumEntries);
   while (state.KeepRunning())
   {
     auto baggage = Baggage::FromHeader(header);
@@ -54,7 +54,7 @@ BENCHMARK(BM_ExtractBaggageHavingTenEntries);
 
 void BM_CreateBaggageFrom180Entries(benchmark::State &state)
 {
-  std::string header = header_with_custom_entries(Baggage::kMaxKeyValuePairs);
+  nostd::string header = header_with_custom_entries(Baggage::kMaxKeyValuePairs);
   while (state.KeepRunning())
   {
     auto baggage = Baggage::FromHeader(header);

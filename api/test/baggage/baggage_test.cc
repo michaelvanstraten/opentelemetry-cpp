@@ -14,11 +14,11 @@ using namespace opentelemetry::baggage;
 
 std::string header_with_custom_entries(size_t num_entries)
 {
-  std::string header;
+  nostd::string header;
   for (size_t i = 0; i < num_entries; i++)
   {
-    std::string key   = "key" + std::to_string(i);
-    std::string value = "value" + std::to_string(i);
+    nostd::string key   = "key" + std::to_string(i);
+    nostd::string value = "value" + std::to_string(i);
     header += key + "=" + value;
     if (i != num_entries - 1)
     {
@@ -30,10 +30,10 @@ std::string header_with_custom_entries(size_t num_entries)
 
 std::string header_with_custom_size(size_t key_value_size, size_t num_entries)
 {
-  std::string header = "";
+  nostd::string header = "";
   for (size_t i = 0; i < num_entries; i++)
   {
-    std::string str = std::to_string(i + 1);
+    nostd::string str = std::to_string(i + 1);
     str += "=";
     assert(key_value_size > str.size());
     for (size_t j = str.size(); j < key_value_size; j++)
@@ -140,7 +140,7 @@ TEST(BaggageTest, BaggageGet)
   auto header  = header_with_custom_entries(Baggage::kMaxKeyValuePairs);
   auto baggage = Baggage::FromHeader(header);
 
-  std::string value;
+  nostd::string value;
   EXPECT_TRUE(baggage->GetValue("key0", value));
   EXPECT_EQ(value, "value0");
   EXPECT_TRUE(baggage->GetValue("key16", value));
@@ -154,10 +154,10 @@ TEST(BaggageTest, BaggageGet)
 
 TEST(BaggageTest, BaggageSet)
 {
-  std::string header = "k1=v1,k2=v2";
+  nostd::string header = "k1=v1,k2=v2";
   auto baggage       = Baggage::FromHeader(header);
 
-  std::string value;
+  nostd::string value;
   baggage = baggage->Set("k3", "v3");
   EXPECT_TRUE(baggage->GetValue("k3", value));
   EXPECT_EQ(value, "v3");
@@ -187,7 +187,7 @@ TEST(BaggageTest, BaggageRemove)
 {
   auto header  = header_with_custom_entries(Baggage::kMaxKeyValuePairs);
   auto baggage = Baggage::FromHeader(header);
-  std::string value;
+  nostd::string value;
 
   // existing key is removed
   EXPECT_TRUE(baggage->GetValue("key0", value));
@@ -202,7 +202,7 @@ TEST(BaggageTest, BaggageRemove)
 
 TEST(BaggageTest, BaggageGetAll)
 {
-  std::string baggage_header           = "k1=v1,k2=v2,k3=v3";
+  nostd::string baggage_header           = "k1=v1,k2=v2,k3=v3";
   auto baggage                         = Baggage::FromHeader(baggage_header);
   const int kNumPairs                  = 3;
   nostd::string_view keys[kNumPairs]   = {"k1", "k2", "k3"};
