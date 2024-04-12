@@ -21,7 +21,7 @@ struct PrometheusExporterOptions
   PrometheusExporterOptions();
 
   // The endpoint the Prometheus backend can collect metrics from
-  std::string url;
+  nostd::string url;
 
   // Populating target_info
   bool populate_target_info = true;

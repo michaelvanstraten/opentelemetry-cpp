@@ -109,18 +109,18 @@ struct OtlpGrpcClientAsyncData
 namespace
 {
 // ----------------------------- Helper functions ------------------------------
-static std::string GetFileContents(const char *fpath)
+static nostd::string GetFileContents(const char *fpath)
 {
   std::ifstream finstream(fpath);
-  std::string contents;
+  nostd::string contents;
   contents.assign((std::istreambuf_iterator<char>(finstream)), std::istreambuf_iterator<char>());
   finstream.close();
   return contents;
 }
 
 // If the file path is non-empty, returns the contents of the file. Otherwise returns contents.
-static std::string GetFileContentsOrInMemoryContents(const std::string &file_path,
-                                                     const std::string &contents)
+static nostd::string GetFileContentsOrInMemoryContents(const nostd::string &file_path,
+                                                     const nostd::string &contents)
 {
   if (!file_path.empty())
   {
@@ -286,7 +286,7 @@ std::shared_ptr<grpc::Channel> OtlpGrpcClient::MakeChannel(const OtlpGrpcClientO
   }
 
   std::shared_ptr<grpc::Channel> channel;
-  std::string grpc_target = url.host_ + ":" + std::to_string(static_cast<int>(url.port_));
+  nostd::string grpc_target = url.host_ + ":" + std::to_string(static_cast<int>(url.port_));
   grpc::ChannelArguments grpc_arguments;
   grpc_arguments.SetUserAgentPrefix(options.user_agent);
 

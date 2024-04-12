@@ -278,7 +278,7 @@ struct UUID
   /// Convert this UUID object to a string.
   /// </summary>
   /// <returns>This UUID object in a string.</returns>
-  std::string to_string() const
+  nostd::string to_string() const
   {
     static char inttoHex[16] = {'0', '1', '2', '3', '4', '5', '6', '7',
                                 '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
@@ -356,7 +356,7 @@ struct UUID
     buf[35]  = inttoHex[test];
     buf[36]  = 0;
 
-    return std::string(buf);
+    return nostd::string(buf);
   }
 
   /// <summary>

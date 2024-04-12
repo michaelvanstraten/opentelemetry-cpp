@@ -22,7 +22,7 @@ namespace exporter
 namespace otlp
 {
 
-inline std::string GetOtlpDefaultUserAgent()
+inline nostd::string GetOtlpDefaultUserAgent()
 {
   return "OTel-OTLP-Exporter-Cpp/" OPENTELEMETRY_SDK_VERSION;
 }
@@ -32,7 +32,7 @@ std::string GetOtlpDefaultGrpcMetricsEndpoint();
 std::string GetOtlpDefaultGrpcLogsEndpoint();
 
 // Compatibility with OTELCPP 1.8.2
-inline std::string GetOtlpDefaultGrpcEndpoint()
+inline nostd::string GetOtlpDefaultGrpcEndpoint()
 {
   return GetOtlpDefaultGrpcTracesEndpoint();
 }
@@ -46,13 +46,13 @@ std::string GetOtlpDefaultHttpMetricsProtocol();
 std::string GetOtlpDefaultHttpLogsProtocol();
 
 // Compatibility with OTELCPP 1.8.2
-inline std::string GetOtlpDefaultHttpEndpoint()
+inline nostd::string GetOtlpDefaultHttpEndpoint()
 {
   return GetOtlpDefaultHttpTracesEndpoint();
 }
 
 // Compatibility with OTELCPP 1.8.2
-inline std::string GetOtlpDefaultMetricsEndpoint()
+inline nostd::string GetOtlpDefaultMetricsEndpoint()
 {
   return GetOtlpDefaultHttpMetricsEndpoint();
 }
@@ -72,7 +72,7 @@ std::string GetOtlpDefaultMetricsSslCertificatePath();
 std::string GetOtlpDefaultLogsSslCertificatePath();
 
 // Compatibility with OTELCPP 1.8.2
-inline std::string GetOtlpDefaultSslCertificatePath()
+inline nostd::string GetOtlpDefaultSslCertificatePath()
 {
   return GetOtlpDefaultTracesSslCertificatePath();
 }
@@ -82,7 +82,7 @@ std::string GetOtlpDefaultMetricsSslCertificateString();
 std::string GetOtlpDefaultLogsSslCertificateString();
 
 // Compatibility with OTELCPP 1.8.2
-inline std::string GetOtlpDefaultSslCertificateString()
+inline nostd::string GetOtlpDefaultSslCertificateString()
 {
   return GetOtlpDefaultTracesSslCertificateString();
 }
@@ -133,14 +133,14 @@ inline std::chrono::system_clock::duration GetOtlpDefaultTimeout()
 
 struct cmp_ic
 {
-  bool operator()(const std::string &s1, const std::string &s2) const
+  bool operator()(const nostd::string &s1, const nostd::string &s2) const
   {
     return std::lexicographical_compare(
         s1.begin(), s1.end(), s2.begin(), s2.end(),
         [](char c1, char c2) { return ::tolower(c1) < ::tolower(c2); });
   }
 };
-using OtlpHeaders = std::multimap<std::string, std::string, cmp_ic>;
+using OtlpHeaders = std::multimap<nostd::string, nostd::string, cmp_ic>;
 
 OtlpHeaders GetOtlpDefaultTracesHeaders();
 OtlpHeaders GetOtlpDefaultMetricsHeaders();

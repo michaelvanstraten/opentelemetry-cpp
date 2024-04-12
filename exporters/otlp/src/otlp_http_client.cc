@@ -66,10 +66,10 @@ public:
       : result_callback_{std::move(callback)}, console_debug_{console_debug}
   {}
 
-  std::string BuildResponseLogMessage(http_client::Response &response,
-                                      const std::string &body) noexcept
+  nostd::string BuildResponseLogMessage(http_client::Response &response,
+                                      const nostd::string &body) noexcept
   {
-    std::stringstream ss;
+   std::stringstream ss;
     ss << "Status:" << response.GetStatusCode() << ", Header:";
     response.ForEachHeader([&ss](opentelemetry::nostd::string_view header_name,
                                  opentelemetry::nostd::string_view header_value) {
@@ -88,13 +88,13 @@ public:
   void OnResponse(http_client::Response &response) noexcept override
   {
     sdk::common::ExportResult result = sdk::common::ExportResult::kSuccess;
-    std::string log_message;
+    nostd::string log_message;
     // Lock the private members so they can't be read while being modified
     {
       std::unique_lock<std::mutex> lk(mutex_);
 
       // Store the body of the request
-      body_ = std::string(response.GetBody().begin(), response.GetBody().end());
+      body_ = nostd::string(response.GetBody().begin(), response.GetBody().end());
 
       if (response.GetStatusCode() != 200 && response.GetStatusCode() != 202)
       {
@@ -125,7 +125,7 @@ public:
   /**
    * Returns the body of the response
    */
-  std::string GetResponseBody()
+  nostd::string GetResponseBody()
   {
     // Lock so that body_ can't be written to while returning it
     std::unique_lock<std::mutex> lk(mutex_);
@@ -159,7 +159,7 @@ public:
     switch (state)
     {
       case http_client::SessionState::CreateFailed: {
-        std::stringstream error_message;
+       std::stringstream error_message;
         error_message << "[OTLP HTTP Client] Session state: session create failed.";
         if (!reason.empty())
         {
@@ -191,7 +191,7 @@ public:
         break;
 
       case http_client::SessionState::ConnectFailed: {
-        std::stringstream error_message;
+       std::stringstream error_message;
         error_message << "[OTLP HTTP Client] Session state: connection failed.";
         if (!reason.empty())
         {
@@ -216,7 +216,7 @@ public:
         break;
 
       case http_client::SessionState::SendFailed: {
-        std::stringstream error_message;
+       std::stringstream error_message;
         error_message << "[OTLP HTTP Client] Session state: request send failed.";
         if (!reason.empty())
         {
@@ -234,7 +234,7 @@ public:
         break;
 
       case http_client::SessionState::SSLHandshakeFailed: {
-        std::stringstream error_message;
+       std::stringstream error_message;
         error_message << "[OTLP HTTP Client] Session state: SSL handshake failed.";
         if (!reason.empty())
         {
@@ -245,7 +245,7 @@ public:
       break;
 
       case http_client::SessionState::TimedOut: {
-        std::stringstream error_message;
+       std::stringstream error_message;
         error_message << "[OTLP HTTP Client] Session state: request time out.";
         if (!reason.empty())
         {
@@ -256,7 +256,7 @@ public:
       break;
 
       case http_client::SessionState::NetworkError: {
-        std::stringstream error_message;
+       std::stringstream error_message;
         error_message << "[OTLP HTTP Client] Session state: network error.";
         if (!reason.empty())
         {
@@ -281,7 +281,7 @@ public:
         break;
 
       case http_client::SessionState::Cancelled: {
-        std::stringstream error_message;
+       std::stringstream error_message;
         error_message << "[OTLP HTTP Client] Session state: (manually) cancelled.";
         if (!reason.empty())
         {
@@ -346,7 +346,7 @@ private:
   std::atomic<bool> stopping_{false};
 
   // A string to store the response body
-  std::string body_ = "";
+  nostd::string body_ = "";
 
   // Result callback when in async mode
   std::function<bool(opentelemetry::sdk::common::ExportResult)> result_callback_;
@@ -372,11 +372,11 @@ static inline char HexEncode(unsigned char byte)
   }
 }
 
-static std::string HexEncode(const std::string &bytes)
+static nostd::string HexEncode(const nostd::string &bytes)
 {
-  std::string ret;
+  nostd::string ret;
   ret.reserve(bytes.size() * 2);
-  for (std::string::size_type i = 0; i < bytes.size(); ++i)
+  for (nostd::string::size_type i = 0; i < bytes.size(); ++i)
   {
     unsigned char byte = static_cast<unsigned char>(bytes[i]);
     ret.push_back(HexEncode(byte >> 4));
@@ -385,7 +385,7 @@ static std::string HexEncode(const std::string &bytes)
   return ret;
 }
 
-static std::string BytesMapping(const std::string &bytes,
+static nostd::string BytesMapping(const nostd::string &bytes,
                                 const google::protobuf::FieldDescriptor *field_descriptor,
                                 JsonBytesMappingKind kind)
 {
@@ -486,7 +486,7 @@ void ConvertGenericFieldToJson(nlohmann::json &value,
       break;
     }
     case google::protobuf::FieldDescriptor::CPPTYPE_STRING: {
-      std::string empty;
+      nostd::string empty;
       if (field_descriptor->type() == google::protobuf::FieldDescriptor::TYPE_BYTES)
       {
         value = BytesMapping(
@@ -574,7 +574,7 @@ void ConvertListFieldToJson(nlohmann::json &value,
       break;
     }
     case google::protobuf::FieldDescriptor::CPPTYPE_STRING: {
-      std::string empty;
+      nostd::string empty;
       if (field_descriptor->type() == google::protobuf::FieldDescriptor::TYPE_BYTES)
       {
         for (int i = 0; i < field_size; ++i)
@@ -865,10 +865,10 @@ OtlpHttpClient::createSession(
   // Parse uri and store it to cache
   if (http_uri_.empty())
   {
-    auto parse_url = opentelemetry::ext::http::common::UrlParser(std::string(options_.url));
+    auto parse_url = opentelemetry::ext::http::common::UrlParser(nostd::string(options_.url));
     if (!parse_url.success_)
     {
-      std::string error_message = "[OTLP HTTP Client] Export failed, invalid url: " + options_.url;
+      nostd::string error_message = "[OTLP HTTP Client] Export failed, invalid url: " + options_.url;
       if (options_.console_debug)
       {
         std::cerr << error_message << std::endl;
@@ -889,7 +889,7 @@ OtlpHttpClient::createSession(
   }
 
   http_client::Body body_vec;
-  std::string content_type;
+  nostd::string content_type;
   if (options_.content_type == HttpRequestContentType::kBinary)
   {
     if (SerializeToHttpBody(body_vec, message))
@@ -918,7 +918,7 @@ OtlpHttpClient::createSession(
     // Convert from proto into json object
     ConvertGenericMessageToJson(json_request, message, options_);
 
-    std::string post_body_json =
+    nostd::string post_body_json =
         json_request.dump(-1, ' ', false, nlohmann::detail::error_handler_t::replace);
     if (options_.console_debug)
     {

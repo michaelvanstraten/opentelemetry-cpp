@@ -101,9 +101,9 @@ sdk::common::ExportResult OStreamLogRecordExporter::Export(
     sout_ << "\n"
           << "  event_id           : " << event_id << "\n"
           << "  event_name         : " << log_record->GetEventName() << "\n"
-          << "  trace_id           : " << std::string(trace_id, trace_id_len) << "\n"
-          << "  span_id            : " << std::string(span_id, span_id__len) << "\n"
-          << "  trace_flags        : " << std::string(trace_flags, trace_flags_len) << "\n"
+          << "  trace_id           : " << nostd::string(trace_id, trace_id_len) << "\n"
+          << "  span_id            : " << nostd::string(span_id, span_id__len) << "\n"
+          << "  trace_flags        : " << nostd::string(trace_flags, trace_flags_len) << "\n"
           << "  scope              : \n"
           << "    name             : " << log_record->GetInstrumentationScope().GetName() << "\n"
           << "    version          : " << log_record->GetInstrumentationScope().GetVersion() << "\n"
@@ -138,8 +138,8 @@ bool OStreamLogRecordExporter::isShutdown() const noexcept
 }
 
 void OStreamLogRecordExporter::printAttributes(
-    const std::unordered_map<std::string, sdkcommon::OwnedAttributeValue> &map,
-    const std::string prefix)
+    const std::unordered_map<nostd::string, sdkcommon::OwnedAttributeValue> &map,
+    const nostd::string prefix)
 {
   for (const auto &kv : map)
   {
@@ -149,8 +149,8 @@ void OStreamLogRecordExporter::printAttributes(
 }
 
 void OStreamLogRecordExporter::printAttributes(
-    const std::unordered_map<std::string, opentelemetry::common::AttributeValue> &map,
-    const std::string prefix)
+    const std::unordered_map<nostd::string, opentelemetry::common::AttributeValue> &map,
+    const nostd::string prefix)
 {
   for (const auto &kv : map)
   {

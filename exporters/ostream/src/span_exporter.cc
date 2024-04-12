@@ -72,10 +72,10 @@ sdk::common::ExportResult OStreamSpanExporter::Export(
 
       sout_ << "{"
             << "\n  name          : " << span->GetName()
-            << "\n  trace_id      : " << std::string(trace_id, 32)
-            << "\n  span_id       : " << std::string(span_id, 16)
+            << "\n  trace_id      : " << nostd::string(trace_id, 32)
+            << "\n  span_id       : " << nostd::string(span_id, 16)
             << "\n  tracestate    : " << span->GetSpanContext().trace_state()->ToHeader()
-            << "\n  parent_span_id: " << std::string(parent_span_id, 16)
+            << "\n  parent_span_id: " << nostd::string(parent_span_id, 16)
             << "\n  start         : " << span->GetStartTime().time_since_epoch().count()
             << "\n  duration      : " << span->GetDuration().count()
             << "\n  description   : " << span->GetDescription()
@@ -117,8 +117,8 @@ bool OStreamSpanExporter::isShutdown() const noexcept
   return is_shutdown_;
 }
 void OStreamSpanExporter::printAttributes(
-    const std::unordered_map<std::string, sdkcommon::OwnedAttributeValue> &map,
-    const std::string prefix)
+    const std::unordered_map<nostd::string, sdkcommon::OwnedAttributeValue> &map,
+    const nostd::string prefix)
 {
   for (const auto &kv : map)
   {
@@ -149,8 +149,8 @@ void OStreamSpanExporter::printLinks(const std::vector<trace_sdk::SpanDataLink> 
     link.GetSpanContext().trace_id().ToLowerBase16(trace_id);
     link.GetSpanContext().span_id().ToLowerBase16(span_id);
     sout_ << "\n\t{"
-          << "\n\t  trace_id      : " << std::string(trace_id, 32)
-          << "\n\t  span_id       : " << std::string(span_id, 16)
+          << "\n\t  trace_id      : " << nostd::string(trace_id, 32)
+          << "\n\t  span_id       : " << nostd::string(span_id, 16)
           << "\n\t  tracestate    : " << link.GetSpanContext().trace_state()->ToHeader()
           << "\n\t  attributes    : ";
     printAttributes(link.GetAttributes(), "\n\t\t");

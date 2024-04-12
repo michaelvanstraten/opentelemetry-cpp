@@ -84,12 +84,12 @@ public:
   void SetAttribute(nostd::string_view key,
                     const opentelemetry::common::AttributeValue &value) noexcept override
   {
-    attributes_map_[static_cast<std::string>(key)] = value;
+    attributes_map_[static_cast<nostd::string>(key)] = value;
   }
 
   void SetEventId(int64_t /* id */, nostd::string_view /* name */) noexcept override {}
 
-  const std::unordered_map<std::string, opentelemetry::common::AttributeValue> &GetAttributes()
+  const std::unordered_map<nostd::string, opentelemetry::common::AttributeValue> &GetAttributes()
       const noexcept
   {
     return attributes_map_;
@@ -119,7 +119,7 @@ public:
 private:
   opentelemetry::logs::Severity severity_ = opentelemetry::logs::Severity::kInvalid;
 
-  std::unordered_map<std::string, opentelemetry::common::AttributeValue> attributes_map_;
+  std::unordered_map<nostd::string, opentelemetry::common::AttributeValue> attributes_map_;
   opentelemetry::common::AttributeValue body_ = opentelemetry::nostd::string_view();
   opentelemetry::common::SystemTimestamp timestamp_;
   opentelemetry::common::SystemTimestamp observed_timestamp_ = std::chrono::system_clock::now();
@@ -143,7 +143,7 @@ class Logger : public opentelemetry::logs::Logger
   /**
    * @brief ProviderId (Name or GUID)
    */
-  std::string provId;
+  nostd::string provId;
 
   /**
    * @brief Encoding (Manifest, MessagePack or XML)
@@ -299,7 +299,7 @@ public:
         ActivityIdPtr = &ActivityId;
       }
     }
-    evt[ETW_FIELD_PAYLOAD_NAME]              = std::string(name.data(), name.size());
+    evt[ETW_FIELD_PAYLOAD_NAME]              = nostd::string(name.data(), name.size());
     std::chrono::system_clock::time_point ts = timestamp;
     int64_t tsNs =
         std::chrono::duration_cast<std::chrono::nanoseconds>(ts.time_since_epoch()).count();
@@ -308,7 +308,7 @@ public:
     if (severity_index < 0 ||
         severity_index >= std::extent<decltype(opentelemetry::logs::SeverityNumToText)>::value)
     {
-      std::stringstream sout;
+     std::stringstream sout;
       sout << "Invalid severity(" << severity_index << ")";
       evt[ETW_FIELD_LOG_SEVERITY_TEXT] = sout.str();
     }
@@ -318,11 +318,11 @@ public:
           opentelemetry::logs::SeverityNumToText[severity_index].data();
     }
     evt[ETW_FIELD_LOG_SEVERITY_NUM] = static_cast<uint32_t>(severity);
-    evt[ETW_FIELD_LOG_BODY]         = std::string(body.data(), body.length());
+    evt[ETW_FIELD_LOG_BODY]         = nostd::string(body.data(), body.length());
     etwProvider().write(provHandle, evt, nullptr, nullptr, 0, encoding);
   }
 
-  const nostd::string_view GetName() noexcept override { return std::string(); }
+  const nostd::string_view GetName() noexcept override { return nostd::string(); }
   // TODO : Flush and Shutdown method in main Logger API
   ~Logger() { etwProvider().close(provHandle); }
 };

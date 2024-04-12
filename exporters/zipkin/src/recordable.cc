@@ -20,7 +20,7 @@ namespace common    = opentelemetry::common;
 namespace sdk       = opentelemetry::sdk;
 
 // constexpr needs keys to be constexpr, const is next best to use.
-static const std::map<trace_api::SpanKind, std::string> kSpanKindMap = {
+static const std::map<trace_api::SpanKind, nostd::string> kSpanKindMap = {
     {trace_api::SpanKind::kClient, "CLIENT"},
     {trace_api::SpanKind::kServer, "SERVER"},
     {trace_api::SpanKind::kConsumer, "CONSUMER"},
@@ -43,11 +43,11 @@ void Recordable::SetIdentity(const trace_api::SpanContext &span_context,
   {
     char parent_span_id_lower_base16[trace::SpanId::kSize * 2] = {0};
     parent_span_id.ToLowerBase16(parent_span_id_lower_base16);
-    span_["parentId"] = std::string(parent_span_id_lower_base16, 16);
+    span_["parentId"] = nostd::string(parent_span_id_lower_base16, 16);
   }
 
-  span_["id"]      = std::string(span_id_lower_base16, 16);
-  span_["traceId"] = std::string(trace_id_lower_base16, 32);
+  span_["id"]      = nostd::string(span_id_lower_base16, 16);
+  span_["traceId"] = nostd::string(trace_id_lower_base16, 32);
 }
 
 void PopulateAttribute(nlohmann::json &attribute,
@@ -153,7 +153,7 @@ void PopulateAttribute(nlohmann::json &attribute,
     attribute[key.data()] = {};
     for (const auto &val : nostd::get<nostd::span<const nostd::string_view>>(value))
     {
-      attribute[key.data()].push_back(std::string(val.data(), val.size()));
+      attribute[key.data()].push_back(nostd::string(val.data(), val.size()));
     }
   }
 }
@@ -225,7 +225,7 @@ void Recordable::SetResource(const sdk::resource::Resource &resource) noexcept
   auto attributes = resource.GetAttributes();
   if (attributes.find(SemanticConventions::kServiceName) != attributes.end())
   {
-    service_name_ = nostd::get<std::string>(attributes[SemanticConventions::kServiceName]);
+    service_name_ = nostd::get<nostd::string>(attributes[SemanticConventions::kServiceName]);
   }
 }
 

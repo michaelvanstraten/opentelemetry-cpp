@@ -42,13 +42,13 @@ TEST(OtlpRecordable, SetIdentity)
 
   rec.SetIdentity(span_context, parent_span_id);
 
-  EXPECT_EQ(rec.span().trace_id(), std::string(reinterpret_cast<const char *>(trace_id.Id().data()),
+  EXPECT_EQ(rec.span().trace_id(), nostd::string(reinterpret_cast<const char *>(trace_id.Id().data()),
                                                trace::TraceId::kSize));
   EXPECT_EQ(rec.span().span_id(),
-            std::string(reinterpret_cast<const char *>(span_id.Id().data()), trace::SpanId::kSize));
+            nostd::string(reinterpret_cast<const char *>(span_id.Id().data()), trace::SpanId::kSize));
   EXPECT_EQ(rec.span().trace_state(), "key1=value");
   EXPECT_EQ(rec.span().parent_span_id(),
-            std::string(reinterpret_cast<const char *>(parent_span_id.Id().data()),
+            nostd::string(reinterpret_cast<const char *>(parent_span_id.Id().data()),
                         trace::SpanId::kSize));
 
   OtlpRecordable rec_invalid_parent;
@@ -57,7 +57,7 @@ TEST(OtlpRecordable, SetIdentity)
   trace_api::SpanId invalid_parent_span_id{invalid_parent_span_id_buf};
   rec_invalid_parent.SetIdentity(span_context, invalid_parent_span_id);
 
-  EXPECT_EQ(rec_invalid_parent.span().parent_span_id(), std::string{});
+  EXPECT_EQ(rec_invalid_parent.span().parent_span_id(), nostd::string{});
 }
 
 TEST(OtlpRecordable, SetSpanKind)
@@ -81,7 +81,7 @@ TEST(OtlpRecordable, SetInstrumentationScope)
 TEST(OtlpRecordable, SetInstrumentationLibraryWithSchemaURL)
 {
   OtlpRecordable rec;
-  const std::string expected_schema_url{"https://opentelemetry.io/schemas/1.11.0"};
+  const nostd::string expected_schema_url{"https://opentelemetry.io/schemas/1.11.0"};
   auto inst_lib = trace_sdk::InstrumentationScope::Create("test", "v1", expected_schema_url);
   rec.SetInstrumentationScope(*inst_lib);
   EXPECT_EQ(expected_schema_url, rec.GetInstrumentationLibrarySchemaURL());
@@ -154,13 +154,13 @@ TEST(OtlpRecordable, AddEventWithAttributes)
 {
   OtlpRecordable rec;
   const int kNumAttributes              = 3;
-  std::string keys[kNumAttributes]      = {"attr1", "attr2", "attr3"};
+  nostd::string keys[kNumAttributes]      = {"attr1", "attr2", "attr3"};
   int values[kNumAttributes]            = {4, 7, 23};
-  std::map<std::string, int> attributes = {
+  std::map<nostd::string, int> attributes = {
       {keys[0], values[0]}, {keys[1], values[1]}, {keys[2], values[2]}};
 
   rec.AddEvent("Test Event", std::chrono::system_clock::now(),
-               common::KeyValueIterableView<std::map<std::string, int>>(attributes));
+               common::KeyValueIterableView<std::map<nostd::string, int>>(attributes));
 
   for (int i = 0; i < kNumAttributes; i++)
   {
@@ -173,20 +173,20 @@ TEST(OtlpRecordable, AddLink)
 {
   OtlpRecordable rec;
   const int kNumAttributes              = 3;
-  std::string keys[kNumAttributes]      = {"attr1", "attr2", "attr3"};
+  nostd::string keys[kNumAttributes]      = {"attr1", "attr2", "attr3"};
   int values[kNumAttributes]            = {5, 12, 40};
-  std::map<std::string, int> attributes = {
+  std::map<nostd::string, int> attributes = {
       {keys[0], values[0]}, {keys[1], values[1]}, {keys[2], values[2]}};
 
   auto trace_id = rec.span().trace_id();
   auto span_id  = rec.span().span_id();
 
   trace::TraceFlags flags;
-  std::string trace_state_header = "k1=v1,k2=v2";
+  nostd::string trace_state_header = "k1=v1,k2=v2";
   auto ts                        = trace::TraceState::FromHeader(trace_state_header);
 
   rec.AddLink(trace::SpanContext(trace::TraceId(), trace::SpanId(), flags, false, ts),
-              common::KeyValueIterableView<std::map<std::string, int>>(attributes));
+              common::KeyValueIterableView<std::map<nostd::string, int>>(attributes));
 
   EXPECT_EQ(rec.span().trace_id(), trace_id);
   EXPECT_EQ(rec.span().span_id(), span_id);
@@ -201,8 +201,8 @@ TEST(OtlpRecordable, AddLink)
 TEST(OtlpRecordable, SetResource)
 {
   OtlpRecordable rec;
-  const std::string service_name_key = "service.name";
-  std::string service_name           = "test-otlp";
+  const nostd::string service_name_key = "service.name";
+  nostd::string service_name           = "test-otlp";
   auto resource = resource::Resource::Create({{service_name_key, service_name}});
   rec.SetResource(resource);
 
@@ -222,9 +222,9 @@ TEST(OtlpRecordable, SetResource)
 TEST(OtlpRecordable, SetResourceWithSchemaURL)
 {
   OtlpRecordable rec;
-  const std::string service_name_key    = "service.name";
-  const std::string service_name        = "test-otlp";
-  const std::string expected_schema_url = "https://opentelemetry.io/schemas/1.11.0";
+  const nostd::string service_name_key    = "service.name";
+  const nostd::string service_name        = "test-otlp";
+  const nostd::string expected_schema_url = "https://opentelemetry.io/schemas/1.11.0";
   auto resource =
       resource::Resource::Create({{service_name_key, service_name}}, expected_schema_url);
   rec.SetResource(resource);

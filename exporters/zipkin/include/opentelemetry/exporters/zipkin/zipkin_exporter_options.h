@@ -13,12 +13,12 @@ namespace exporter
 namespace zipkin
 {
 
-inline const std::string GetDefaultZipkinEndpoint()
+inline const nostd::string GetDefaultZipkinEndpoint()
 {
   const char *otel_exporter_zipkin_endpoint_env = "OTEL_EXPORTER_ZIPKIN_ENDPOINT";
   const char *kZipkinEndpointDefault            = "http://localhost:9411/api/v2/spans";
 
-  std::string endpoint;
+  nostd::string endpoint;
 
   auto exists = opentelemetry::sdk::common::GetStringEnvironmentVariable(
       otel_exporter_zipkin_endpoint_env, endpoint);
@@ -37,11 +37,11 @@ enum class TransportFormat
 struct ZipkinExporterOptions
 {
   // The endpoint to export to. By default the OpenTelemetry Collector's default endpoint.
-  std::string endpoint     = GetDefaultZipkinEndpoint();
+  nostd::string endpoint     = GetDefaultZipkinEndpoint();
   TransportFormat format   = TransportFormat::kJson;
-  std::string service_name = "default-service";
-  std::string ipv4;
-  std::string ipv6;
+  nostd::string service_name = "default-service";
+  nostd::string ipv4;
+  nostd::string ipv6;
   ext::http::client::Headers headers = {{"content-type", "application/json"}};
 };
 

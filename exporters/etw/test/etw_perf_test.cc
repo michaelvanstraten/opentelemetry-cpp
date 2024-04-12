@@ -30,7 +30,7 @@ static exporter::etw::TelemetryProviderOptions providerOptions = {
 class ETWProviderStressTest
 {
   exporter::etw::TracerProvider provider_;
-  std::string mode_;
+  nostd::string mode_;
   nostd::shared_ptr<trace::Tracer> tracer_;
   nostd::shared_ptr<trace::Span> span_;
 
@@ -39,7 +39,7 @@ public:
    * @brief Construct ETW Provider stress test object
    * @param mode Operational mode: "TLD" or "MsgPack"
    */
-  ETWProviderStressTest(std::string mode = "TLD") : mode_(mode), provider_(providerOptions) {}
+  ETWProviderStressTest(nostd::string mode = "TLD") : mode_(mode), provider_(providerOptions) {}
 
   /**
    * @brief Initializer tracer and start a Span
@@ -60,7 +60,7 @@ public:
    */
   bool AddProperties()
   {
-    std::string eventName = "MyEvent";
+    nostd::string eventName = "MyEvent";
     Properties event      = {{"uint32Key", (uint32_t)1234},
                         {"uint64Key", (uint64_t)1234567890},
                         {"strKey", "someValue"}};
@@ -76,7 +76,7 @@ public:
    */
   bool AddPropertiesStatic()
   {
-    std::string eventName   = "MyEvent";
+    nostd::string eventName   = "MyEvent";
     static Properties event = {{"uint32Key", (uint32_t)1234},
                                {"uint64Key", (uint64_t)1234567890},
                                {"strKey", "someValue"}};
@@ -89,7 +89,7 @@ public:
    */
   bool AddInitList()
   {
-    std::string eventName = "MyEvent";
+    nostd::string eventName = "MyEvent";
     span_->AddEvent(eventName, {{"uint32Key", (uint32_t)1234},
                                 {"uint64Key", (uint64_t)1234567890},
                                 {"strKey", "someValue"}});
@@ -101,7 +101,7 @@ public:
    */
   bool AddMap()
   {
-    std::string eventName                                      = "MyEvent";
+    nostd::string eventName                                      = "MyEvent";
     std::unordered_map<const char *, common::AttributeValue> m = {
         {"uint32Key", (uint32_t)1234},
         {"uint64Key", (uint64_t)1234567890},
@@ -168,7 +168,7 @@ void BM_AddInitListToTracer(benchmark::State &state)
 BENCHMARK(BM_AddInitListToTracer);
 
 /**
- * @brief Create event as `std::map<std::string, common::AttributeValue>`
+ * @brief Create event as `std::map<nostd::string, common::AttributeValue>`
  * and AddEvent(event) to Tracer.
  * @param state Benchmark state.
  */

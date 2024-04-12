@@ -59,7 +59,7 @@ OtlpHttpClientOptions MakeOtlpHttpClientOptions(HttpRequestContentType content_t
   options.console_debug = true;
   options.timeout       = std::chrono::system_clock::duration::zero();
   options.http_headers.insert(
-      std::make_pair<const std::string, std::string>("Custom-Header-Key", "Custom-Header-Value"));
+      std::make_pair<const nostd::string, nostd::string>("Custom-Header-Key", "Custom-Header-Value"));
   OtlpHttpClientOptions otlp_http_client_options(
       options.url, false,                 /* ssl_insecure_skip_verify */
       "", /* ssl_ca_cert_path */ "",      /* ssl_ca_cert_string */
@@ -125,7 +125,7 @@ public:
     resource_attributes["vec_int64_value"]           = std::vector<int64_t>{5, 6};
     resource_attributes["vec_uint64_value"]          = std::vector<uint64_t>{7, 8};
     resource_attributes["vec_double_value"]          = std::vector<double>{3.2, 3.3};
-    resource_attributes["vec_string_value"]          = std::vector<std::string>{"vector", "string"};
+    resource_attributes["vec_string_value"]          = std::vector<nostd::string>{"vector", "string"};
     auto resource = resource::Resource::Create(resource_attributes);
 
     auto processor_opts                  = sdk::trace::BatchSpanProcessorOptions();
@@ -138,7 +138,7 @@ public:
     auto provider = nostd::shared_ptr<trace::TracerProvider>(
         new sdk::trace::TracerProvider(std::move(processor), resource));
 
-    std::string report_trace_id;
+    nostd::string report_trace_id;
 
     char trace_id_hex[2 * trace_api::TraceId::kSize] = {0};
     auto tracer                                      = provider->GetTracer("test");
@@ -165,7 +165,7 @@ public:
           auto resource_span     = *check_json["resourceSpans"].begin();
           auto scope_span        = *resource_span["scopeSpans"].begin();
           auto span              = *scope_span["spans"].begin();
-          auto received_trace_id = span["traceId"].get<std::string>();
+          auto received_trace_id = span["traceId"].get<nostd::string>();
           EXPECT_EQ(received_trace_id, report_trace_id);
 
           auto custom_header = mock_session->GetRequest()->headers_.find("Custom-Header-Key");
@@ -216,7 +216,7 @@ public:
     resource_attributes["vec_int64_value"]           = std::vector<int64_t>{5, 6};
     resource_attributes["vec_uint64_value"]          = std::vector<uint64_t>{7, 8};
     resource_attributes["vec_double_value"]          = std::vector<double>{3.2, 3.3};
-    resource_attributes["vec_string_value"]          = std::vector<std::string>{"vector", "string"};
+    resource_attributes["vec_string_value"]          = std::vector<nostd::string>{"vector", "string"};
     auto resource = resource::Resource::Create(resource_attributes);
 
     auto processor_opts                  = sdk::trace::BatchSpanProcessorOptions();
@@ -229,7 +229,7 @@ public:
     auto provider = nostd::shared_ptr<trace::TracerProvider>(
         new sdk::trace::TracerProvider(std::move(processor), resource));
 
-    std::string report_trace_id;
+    nostd::string report_trace_id;
 
     char trace_id_hex[2 * trace_api::TraceId::kSize] = {0};
     auto tracer                                      = provider->GetTracer("test");
@@ -256,7 +256,7 @@ public:
           auto resource_span     = *check_json["resourceSpans"].begin();
           auto scope_span        = *resource_span["scopeSpans"].begin();
           auto span              = *scope_span["spans"].begin();
-          auto received_trace_id = span["traceId"].get<std::string>();
+          auto received_trace_id = span["traceId"].get<nostd::string>();
           EXPECT_EQ(received_trace_id, report_trace_id);
 
           auto custom_header = mock_session->GetRequest()->headers_.find("Custom-Header-Key");
@@ -311,7 +311,7 @@ public:
     resource_attributes["vec_int64_value"]           = std::vector<int64_t>{5, 6};
     resource_attributes["vec_uint64_value"]          = std::vector<uint64_t>{7, 8};
     resource_attributes["vec_double_value"]          = std::vector<double>{3.2, 3.3};
-    resource_attributes["vec_string_value"]          = std::vector<std::string>{"vector", "string"};
+    resource_attributes["vec_string_value"]          = std::vector<nostd::string>{"vector", "string"};
     auto resource = resource::Resource::Create(resource_attributes);
 
     auto processor_opts                  = sdk::trace::BatchSpanProcessorOptions();
@@ -324,7 +324,7 @@ public:
     auto provider = nostd::shared_ptr<trace::TracerProvider>(
         new sdk::trace::TracerProvider(std::move(processor), resource));
 
-    std::string report_trace_id;
+    nostd::string report_trace_id;
 
     uint8_t trace_id_binary[trace_api::TraceId::kSize] = {0};
     auto tracer                                        = provider->GetTracer("test");
@@ -392,7 +392,7 @@ public:
     resource_attributes["vec_int64_value"]           = std::vector<int64_t>{5, 6};
     resource_attributes["vec_uint64_value"]          = std::vector<uint64_t>{7, 8};
     resource_attributes["vec_double_value"]          = std::vector<double>{3.2, 3.3};
-    resource_attributes["vec_string_value"]          = std::vector<std::string>{"vector", "string"};
+    resource_attributes["vec_string_value"]          = std::vector<nostd::string>{"vector", "string"};
     auto resource = resource::Resource::Create(resource_attributes);
 
     auto processor_opts                  = sdk::trace::BatchSpanProcessorOptions();
@@ -405,7 +405,7 @@ public:
     auto provider = nostd::shared_ptr<trace::TracerProvider>(
         new sdk::trace::TracerProvider(std::move(processor), resource));
 
-    std::string report_trace_id;
+    nostd::string report_trace_id;
 
     uint8_t trace_id_binary[trace_api::TraceId::kSize] = {0};
     auto tracer                                        = provider->GetTracer("test");
@@ -532,7 +532,7 @@ TEST(OtlpHttpExporterTest, ConfigDefaultProtocolTest)
 // Test exporter configuration options with use_ssl_credentials
 TEST_F(OtlpHttpExporterTestPeer, ConfigFromEnv)
 {
-  const std::string url = "http://localhost:9999/v1/traces";
+  const nostd::string url = "http://localhost:9999/v1/traces";
   setenv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://localhost:9999", 1);
   setenv("OTEL_EXPORTER_OTLP_TIMEOUT", "20s", 1);
   setenv("OTEL_EXPORTER_OTLP_HEADERS", "k1=v1,k2=v2", 1);
@@ -550,7 +550,7 @@ TEST_F(OtlpHttpExporterTestPeer, ConfigFromEnv)
     // Test k2
     auto range = GetOptions(exporter).http_headers.equal_range("k2");
     EXPECT_TRUE(range.first != range.second);
-    EXPECT_EQ(range.first->second, std::string("v2"));
+    EXPECT_EQ(range.first->second, nostd::string("v2"));
     ++range.first;
     EXPECT_TRUE(range.first == range.second);
   }
@@ -558,9 +558,9 @@ TEST_F(OtlpHttpExporterTestPeer, ConfigFromEnv)
     // k1
     auto range = GetOptions(exporter).http_headers.equal_range("k1");
     EXPECT_TRUE(range.first != range.second);
-    EXPECT_EQ(range.first->second, std::string("v3"));
+    EXPECT_EQ(range.first->second, nostd::string("v3"));
     ++range.first;
-    EXPECT_EQ(range.first->second, std::string("v4"));
+    EXPECT_EQ(range.first->second, nostd::string("v4"));
     ++range.first;
     EXPECT_TRUE(range.first == range.second);
   }
@@ -575,7 +575,7 @@ TEST_F(OtlpHttpExporterTestPeer, ConfigFromEnv)
 
 TEST_F(OtlpHttpExporterTestPeer, ConfigFromTracesEnv)
 {
-  const std::string url = "http://localhost:9999/v1/traces";
+  const nostd::string url = "http://localhost:9999/v1/traces";
   setenv("OTEL_EXPORTER_OTLP_TRACES_ENDPOINT", url.c_str(), 1);
   setenv("OTEL_EXPORTER_OTLP_TRACES_TIMEOUT", "1eternity", 1);
   setenv("OTEL_EXPORTER_OTLP_HEADERS", "k1=v1,k2=v2", 1);
@@ -593,7 +593,7 @@ TEST_F(OtlpHttpExporterTestPeer, ConfigFromTracesEnv)
     // Test k2
     auto range = GetOptions(exporter).http_headers.equal_range("k2");
     EXPECT_TRUE(range.first != range.second);
-    EXPECT_EQ(range.first->second, std::string("v2"));
+    EXPECT_EQ(range.first->second, nostd::string("v2"));
     ++range.first;
     EXPECT_TRUE(range.first == range.second);
   }
@@ -601,9 +601,9 @@ TEST_F(OtlpHttpExporterTestPeer, ConfigFromTracesEnv)
     // k1
     auto range = GetOptions(exporter).http_headers.equal_range("k1");
     EXPECT_TRUE(range.first != range.second);
-    EXPECT_EQ(range.first->second, std::string("v3"));
+    EXPECT_EQ(range.first->second, nostd::string("v3"));
     ++range.first;
-    EXPECT_EQ(range.first->second, std::string("v4"));
+    EXPECT_EQ(range.first->second, nostd::string("v4"));
     ++range.first;
     EXPECT_TRUE(range.first == range.second);
   }

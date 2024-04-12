@@ -34,12 +34,12 @@ public:
   /**
    * Returns the captured data from the stream.
    */
-  std::string GetCaptured() const { return captured_.str(); }
+  nostd::string GetCaptured() const { return captured_.str(); }
 
 private:
   std::ostream &stream_;
   std::streambuf *buf_;
-  std::stringstream captured_;
+ std::stringstream captured_;
 };
 
 /**

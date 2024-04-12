@@ -28,9 +28,9 @@ namespace logs
 struct ElasticsearchExporterOptions
 {
   // Configuration options to establish Elasticsearch connection
-  std::string host_;
+  nostd::string host_;
   int port_;
-  std::string index_;
+  nostd::string index_;
 
   // Maximum time to wait for response after sending request to Elasticsearch
   int response_timeout_;
@@ -48,9 +48,9 @@ struct ElasticsearchExporterOptions
    * from elasticsearch
    * @param console_debug If true, print the status of the exporter methods in the console
    */
-  ElasticsearchExporterOptions(std::string host     = "localhost",
+  ElasticsearchExporterOptions(nostd::string host     = "localhost",
                                int port             = 9200,
-                               std::string index    = "logs",
+                               nostd::string index    = "logs",
                                int response_timeout = 30,
                                bool console_debug   = false)
       : host_{host},

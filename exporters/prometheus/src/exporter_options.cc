@@ -13,12 +13,12 @@ namespace exporter
 namespace metrics
 {
 
-inline const std::string GetPrometheusDefaultHttpEndpoint()
+inline const nostd::string GetPrometheusDefaultHttpEndpoint()
 {
   constexpr char kPrometheusEndpointEnv[]     = "PROMETHEUS_EXPORTER_ENDPOINT";
   constexpr char kPrometheusEndpointDefault[] = "localhost:9464";
 
-  std::string endpoint;
+  nostd::string endpoint;
 
   auto exists =
       opentelemetry::sdk::common::GetStringEnvironmentVariable(kPrometheusEndpointEnv, endpoint);

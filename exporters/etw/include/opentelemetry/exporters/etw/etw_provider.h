@@ -85,7 +85,7 @@ public:
   /// </summary>
   /// <param name="providerId"></param>
   /// <returns></returns>
-  bool is_registered(const std::string &providerId)
+  bool is_registered(const nostd::string &providerId)
   {
     std::lock_guard<std::mutex> lock(m_providerMapLock);
     auto it = providers().find(providerId);
@@ -104,7 +104,7 @@ public:
   /// </summary>
   /// <param name="providerId"></param>
   /// <returns></returns>
-  Handle &open(const std::string &providerId, EventFormat format = EventFormat::ETW_MSGPACK)
+  Handle &open(const nostd::string &providerId, EventFormat format = EventFormat::ETW_MSGPACK)
   {
     std::lock_guard<std::mutex> lock(m_providerMapLock);
 
@@ -250,7 +250,7 @@ public:
       return STATUS_ERROR;
     }
 
-    std::string eventName = "NoName";
+    nostd::string eventName = "NoName";
     auto nameField        = eventData[ETW_FIELD_NAME];
 
 #  ifdef HAVE_FIELD_TIME
@@ -269,7 +269,7 @@ public:
     switch (nameField.index())
     {
       case exporter_etw::PropertyType::kTypeString:
-        eventName = (char *)(nostd::get<std::string>(nameField).data());  // must be 0-terminated!
+        eventName = (char *)(nostd::get<nostd::string>(nameField).data());  // must be 0-terminated!
         break;
       case exporter_etw::PropertyType::kTypeCString:
         eventName = (char *)(nostd::get<const char *>(nameField));
@@ -286,7 +286,7 @@ public:
     };
     /* clang-format on */
 
-    std::string eventFieldName(ETW_FIELD_NAME);
+    nostd::string eventFieldName(ETW_FIELD_NAME);
     for (auto &kv : eventData)
     {
       const char *name = kv.first.data();
@@ -329,7 +329,7 @@ public:
           break;
         }
         case exporter_etw::PropertyType::kTypeString: {
-          jObj[name] = nostd::get<std::string>(value);
+          jObj[name] = nostd::get<nostd::string>(value);
           break;
         }
         case exporter_etw::PropertyType::kTypeCString: {
@@ -454,13 +454,13 @@ public:
     tld::EventMetadataBuilder<std::vector<BYTE>> builder(byteVector);
     tld::EventDataBuilder<std::vector<BYTE>> dbuilder(byteDataVector);
 
-    const std::string EVENT_NAME = ETW_FIELD_NAME;
-    std::string eventName        = "NoName";
+    const nostd::string EVENT_NAME = ETW_FIELD_NAME;
+    nostd::string eventName        = "NoName";
     auto nameField               = eventData[EVENT_NAME];
     switch (nameField.index())
     {
       case exporter_etw::PropertyType::kTypeString:
-        eventName = (char *)(nostd::get<std::string>(nameField).data());
+        eventName = (char *)(nostd::get<nostd::string>(nameField).data());
         break;
       case exporter_etw::PropertyType::kTypeCString:
         eventName = (char *)(nostd::get<const char *>(nameField));
@@ -517,7 +517,7 @@ public:
         }
         case exporter_etw::PropertyType::kTypeString: {
           builder.AddField(name, tld::TypeUtf8String);
-          dbuilder.AddString(nostd::get<std::string>(value).data());
+          dbuilder.AddString(nostd::get<nostd::string>(value).data());
           break;
         }
         case exporter_etw::PropertyType::kTypeCString: {
@@ -619,11 +619,11 @@ protected:
 
   mutable std::mutex m_providerMapLock;
 
-  using ProviderMap = std::map<std::string, Handle>;
+  using ProviderMap = std::map<nostd::string, Handle>;
 
   ProviderMap &providers()
   {
-    static std::map<std::string, Handle> providers;
+    static std::map<nostd::string, Handle> providers;
     return providers;
   }
 };

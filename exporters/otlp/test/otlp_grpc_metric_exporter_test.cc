@@ -75,7 +75,7 @@ TEST_F(OtlpGrpcMetricExporterTestPeer, ConfigTest)
 // Test exporter configuration options with use_ssl_credentials
 TEST_F(OtlpGrpcMetricExporterTestPeer, ConfigSslCredentialsTest)
 {
-  std::string cacert_str = "--begin and end fake cert--";
+  nostd::string cacert_str = "--begin and end fake cert--";
   OtlpGrpcMetricExporterOptions opts;
   opts.use_ssl_credentials              = true;
   opts.ssl_credentials_cacert_as_string = cacert_str;
@@ -88,10 +88,10 @@ TEST_F(OtlpGrpcMetricExporterTestPeer, ConfigSslCredentialsTest)
 // Test exporter configuration options with use_ssl_credentials
 TEST_F(OtlpGrpcMetricExporterTestPeer, ConfigFromEnv)
 {
-  const std::string cacert_str = "--begin and end fake cert--";
+  const nostd::string cacert_str = "--begin and end fake cert--";
   setenv("OTEL_EXPORTER_OTLP_CERTIFICATE_STRING", cacert_str.c_str(), 1);
   setenv("OTEL_EXPORTER_OTLP_SSL_ENABLE", "True", 1);
-  const std::string endpoint = "https://localhost:9999";
+  const nostd::string endpoint = "https://localhost:9999";
   setenv("OTEL_EXPORTER_OTLP_ENDPOINT", endpoint.c_str(), 1);
   setenv("OTEL_EXPORTER_OTLP_TIMEOUT", "20050ms", 1);
   setenv("OTEL_EXPORTER_OTLP_HEADERS", "k1=v1,k2=v2", 1);
@@ -110,7 +110,7 @@ TEST_F(OtlpGrpcMetricExporterTestPeer, ConfigFromEnv)
     // Test k2
     auto range = GetOptions(exporter).metadata.equal_range("k2");
     EXPECT_TRUE(range.first != range.second);
-    EXPECT_EQ(range.first->second, std::string("v2"));
+    EXPECT_EQ(range.first->second, nostd::string("v2"));
     ++range.first;
     EXPECT_TRUE(range.first == range.second);
   }
@@ -118,9 +118,9 @@ TEST_F(OtlpGrpcMetricExporterTestPeer, ConfigFromEnv)
     // Test k1
     auto range = GetOptions(exporter).metadata.equal_range("k1");
     EXPECT_TRUE(range.first != range.second);
-    EXPECT_EQ(range.first->second, std::string("v3"));
+    EXPECT_EQ(range.first->second, nostd::string("v3"));
     ++range.first;
-    EXPECT_EQ(range.first->second, std::string("v4"));
+    EXPECT_EQ(range.first->second, nostd::string("v4"));
     ++range.first;
     EXPECT_TRUE(range.first == range.second);
   }
@@ -139,7 +139,7 @@ TEST_F(OtlpGrpcMetricExporterTestPeer, ConfigFromEnv)
 TEST_F(OtlpGrpcMetricExporterTestPeer, ConfigHttpsSecureFromEnv)
 {
   // https takes precedence over insecure
-  const std::string endpoint = "https://localhost:9999";
+  const nostd::string endpoint = "https://localhost:9999";
   setenv("OTEL_EXPORTER_OTLP_ENDPOINT", endpoint.c_str(), 1);
   setenv("OTEL_EXPORTER_OTLP_METRICS_INSECURE", "true", 1);
 
@@ -157,7 +157,7 @@ TEST_F(OtlpGrpcMetricExporterTestPeer, ConfigHttpsSecureFromEnv)
 TEST_F(OtlpGrpcMetricExporterTestPeer, ConfigHttpInsecureFromEnv)
 {
   // http takes precedence over secure
-  const std::string endpoint = "http://localhost:9999";
+  const nostd::string endpoint = "http://localhost:9999";
   setenv("OTEL_EXPORTER_OTLP_ENDPOINT", endpoint.c_str(), 1);
   setenv("OTEL_EXPORTER_OTLP_METRICS_INSECURE", "false", 1);
 
@@ -174,7 +174,7 @@ TEST_F(OtlpGrpcMetricExporterTestPeer, ConfigHttpInsecureFromEnv)
 // Test exporter configuration options with use_ssl_credentials
 TEST_F(OtlpGrpcMetricExporterTestPeer, ConfigUnknownSecureFromEnv)
 {
-  const std::string endpoint = "localhost:9999";
+  const nostd::string endpoint = "localhost:9999";
   setenv("OTEL_EXPORTER_OTLP_ENDPOINT", endpoint.c_str(), 1);
   setenv("OTEL_EXPORTER_OTLP_METRICS_INSECURE", "false", 1);
 
@@ -191,7 +191,7 @@ TEST_F(OtlpGrpcMetricExporterTestPeer, ConfigUnknownSecureFromEnv)
 // Test exporter configuration options with use_ssl_credentials
 TEST_F(OtlpGrpcMetricExporterTestPeer, ConfigUnknownInsecureFromEnv)
 {
-  const std::string endpoint = "localhost:9999";
+  const nostd::string endpoint = "localhost:9999";
   setenv("OTEL_EXPORTER_OTLP_ENDPOINT", endpoint.c_str(), 1);
   setenv("OTEL_EXPORTER_OTLP_METRICS_INSECURE", "true", 1);
 

@@ -126,7 +126,7 @@ TEST(ZipkinSpanRecordable, SetInstrumentationScope)
 
 TEST(ZipkinSpanRecordable, SetStatus)
 {
-  std::string description                     = "Error description";
+  nostd::string description                     = "Error description";
   std::vector<trace::StatusCode> status_codes = {trace::StatusCode::kError, trace::StatusCode::kOk};
   for (auto &status_code : status_codes)
   {
@@ -180,13 +180,13 @@ TEST(ZipkinSpanRecordable, AddEventWithAttributes)
       std::chrono::duration_cast<std::chrono::microseconds>(event_time.time_since_epoch()).count();
 
   const int kNumAttributes              = 3;
-  std::string keys[kNumAttributes]      = {"attr1", "attr2", "attr3"};
+  nostd::string keys[kNumAttributes]      = {"attr1", "attr2", "attr3"};
   int values[kNumAttributes]            = {4, 7, 23};
-  std::map<std::string, int> attributes = {
+  std::map<nostd::string, int> attributes = {
       {keys[0], values[0]}, {keys[1], values[1]}, {keys[2], values[2]}};
 
   rec.AddEvent("Test Event", event_timestamp,
-               common::KeyValueIterableView<std::map<std::string, int>>(attributes));
+               common::KeyValueIterableView<std::map<nostd::string, int>>(attributes));
 
   nlohmann::json j_span = {
       {"annotations",
@@ -244,7 +244,7 @@ TEST(ZipkinSpanRecordable, SetArrayAtrribute)
 TEST(ZipkinSpanRecordable, SetResource)
 {
   zipkin::Recordable rec;
-  std::string service_name = "test";
+  nostd::string service_name = "test";
   auto resource = opentelemetry::sdk::resource::Resource::Create({{"service.name", service_name}});
   rec.SetResource(resource);
   EXPECT_EQ(rec.GetServiceName(), service_name);

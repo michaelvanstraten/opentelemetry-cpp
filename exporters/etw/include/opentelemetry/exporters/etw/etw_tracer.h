@@ -97,7 +97,7 @@ template <class T>
 std::string GetName(T &t)
 {
   auto sV = t.GetName();
-  return std::string(sV.data(), sV.length());
+  return nostd::string(sV.data(), sV.length());
 }
 
 /**
@@ -172,7 +172,7 @@ class Tracer : public opentelemetry::trace::Tracer,
   /**
    * @brief ProviderId (Name or GUID)
    */
-  std::string provId;
+  nostd::string provId;
 
   /**
    * @brief Encoding (Manifest, MessagePack or XML)
@@ -213,7 +213,7 @@ class Tracer : public opentelemetry::trace::Tracer,
     if (links.size())
     {
       size_t idx = 0;
-      std::string linksValue;
+      nostd::string linksValue;
       links.ForEachKeyValue([&](opentelemetry::trace::SpanContext ctx,
                                 const opentelemetry::common::KeyValueIterable &) {
         if (!linksValue.empty())
@@ -469,11 +469,11 @@ public:
     auto traceId = parentContext.IsValid() ? parentContext.trace_id() : traceId_;
 
     // Sampling based on attributes is not supported for now, so passing empty below.
-    std::map<std::string, int> emptyAttributes = {{}};
+    std::map<nostd::string, int> emptyAttributes = {{}};
     opentelemetry::sdk::trace::SamplingResult sampling_result =
         GetSampler(tracerProvider_)
             .ShouldSample(parentContext, traceId, name, options.kind,
-                          opentelemetry::common::KeyValueIterableView<std::map<std::string, int>>(
+                          opentelemetry::common::KeyValueIterableView<std::map<nostd::string, int>>(
                               emptyAttributes),
                           links);
 
@@ -518,7 +518,7 @@ public:
     nostd::shared_ptr<opentelemetry::trace::Span> result = to_span_ptr<Span>(currentSpan);
 
     // Decorate with additional standard fields
-    std::string eventName = name.data();
+    nostd::string eventName = name.data();
 
     // Populate Etw.EventName attribute at envelope level
     evt[ETW_FIELD_NAME] = eventName;
@@ -735,7 +735,7 @@ protected:
   opentelemetry::common::SystemTimestamp end_time_;
 
   opentelemetry::trace::StatusCode status_code_{opentelemetry::trace::StatusCode::kUnset};
-  std::string status_description_;
+  nostd::string status_description_;
 
   /**
    * @brief Owner Tracer of this Span
@@ -914,7 +914,7 @@ public:
     {
       return;
     }
-    attributes_[std::string{key}].FromAttributeValue(value);
+    attributes_[nostd::string{key}].FromAttributeValue(value);
   }
 
   /**

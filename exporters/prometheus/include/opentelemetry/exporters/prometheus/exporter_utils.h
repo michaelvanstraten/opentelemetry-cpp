@@ -46,7 +46,7 @@ private:
    * name should only contain alphanumeric characters and '_'.
    * @param name name
    */
-  static std::string SanitizeNames(std::string name);
+  static nostd::string SanitizeNames(nostd::string name);
 
   /**
    * Sanitize the given metric name or label according to Prometheus rule.
@@ -55,12 +55,12 @@ private:
    * @param value label value
    * @param labels target labels
    */
-  static void AddPrometheusLabel(std::string name,
-                                 std::string value,
+  static void AddPrometheusLabel(nostd::string name,
+                                 nostd::string value,
                                  std::vector<::prometheus::ClientMetric::Label> *labels);
 
-  static std::string MapToPrometheusName(const std::string &name,
-                                         const std::string &unit,
+  static nostd::string MapToPrometheusName(const nostd::string &name,
+                                         const nostd::string &unit,
                                          ::prometheus::MetricType prometheus_type);
 
   /**
@@ -71,7 +71,7 @@ private:
    *     computed.
    * @return the computed Prometheus metric unit equivalent of the OTLP metric unit
    */
-  static std::string GetEquivalentPrometheusUnit(const std::string &raw_metric_unitName);
+  static nostd::string GetEquivalentPrometheusUnit(const nostd::string &raw_metric_unitName);
 
   /**
    * This method retrieves the expanded Prometheus unit name for known abbreviations. OTLP metrics
@@ -84,7 +84,7 @@ private:
    *     units.
    * @return The expanded/converted unit name if known, otherwise returns the input unit name as-is.
    */
-  static std::string GetPrometheusUnit(const std::string &unit_abbreviation);
+  static nostd::string GetPrometheusUnit(const nostd::string &unit_abbreviation);
 
   /**
    * This method retrieves the expanded Prometheus unit name to be used with "per" units for known
@@ -94,7 +94,7 @@ private:
    * @return The expanded unit equivalent to be used in 'per' unit if the input is a known unit,
    *     otherwise returns the input as-is.
    */
-  static std::string GetPrometheusPerUnit(const std::string &per_unit_abbreviation);
+  static nostd::string GetPrometheusPerUnit(const nostd::string &per_unit_abbreviation);
 
   /**
    * Replaces all characters that are not a letter or a digit with '_' to make the resulting string
@@ -104,7 +104,7 @@ private:
    * @param str The string input that needs to be made Prometheus compliant.
    * @return the cleaned-up Prometheus compliant string.
    */
-  static std::string CleanUpString(const std::string &str);
+  static nostd::string CleanUpString(const nostd::string &str);
 
   /**
    * This method is used to convert the units expressed as a rate via '/' symbol in their name to
@@ -118,7 +118,7 @@ private:
    * @return The text equivalent of unit expressed as rate. If the input does not contain '/', the
    *     function returns it as-is.
    */
-  static std::string ConvertRateExpressedToPrometheusUnit(const std::string &rate_expressed_unit);
+  static nostd::string ConvertRateExpressedToPrometheusUnit(const nostd::string &rate_expressed_unit);
 
   /**
    * This method drops all characters enclosed within '{}' (including the curly braces) by replacing
@@ -130,7 +130,7 @@ private:
    * @param unit The input unit from which text within curly braces needs to be removed.
    * @return The resulting unit after removing the text within '{}'.
    */
-  static std::string RemoveUnitPortionInBraces(const std::string &unit);
+  static nostd::string RemoveUnitPortionInBraces(const nostd::string &unit);
 
   static opentelemetry::sdk::metrics::AggregationType getAggregationType(
       const opentelemetry::sdk::metrics::PointType &point_type);
@@ -189,7 +189,7 @@ private:
   /**
    * Convert attribute value to string
    */
-  static std::string AttributeValueToString(
+  static nostd::string AttributeValueToString(
       const opentelemetry::sdk::common::OwnedAttributeValue &value);
 
   /**

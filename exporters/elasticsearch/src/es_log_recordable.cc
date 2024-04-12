@@ -16,7 +16,7 @@ namespace logs
 {
 void ElasticSearchRecordable::WriteKeyValue(nostd::string_view key,
                                             const opentelemetry::common::AttributeValue &value,
-                                            std::string name)
+                                            nostd::string name)
 {
   switch (value.index())
   {
@@ -53,7 +53,7 @@ void ElasticSearchRecordable::WriteKeyValue(nostd::string_view key,
 void ElasticSearchRecordable::WriteKeyValue(
     nostd::string_view key,
     const opentelemetry::sdk::common::OwnedAttributeValue &value,
-    std::string name)
+    nostd::string name)
 {
   namespace common = opentelemetry::sdk::common;
   switch (value.index())
@@ -77,7 +77,7 @@ void ElasticSearchRecordable::WriteKeyValue(
       json_[name][key.data()] = opentelemetry::nostd::get<double>(value);
       return;
     case common::kTypeString:
-      json_[name][key.data()] = opentelemetry::nostd::get<std::string>(value).data();
+      json_[name][key.data()] = opentelemetry::nostd::get<nostd::string>(value).data();
       return;
     default:
       return;
@@ -85,7 +85,7 @@ void ElasticSearchRecordable::WriteKeyValue(
 }
 
 void ElasticSearchRecordable::WriteValue(const opentelemetry::common::AttributeValue &value,
-                                         std::string name)
+                                         nostd::string name)
 {
 
   // Assert size of variant to ensure that this method gets updated if the variant
@@ -117,11 +117,11 @@ void ElasticSearchRecordable::WriteValue(const opentelemetry::common::AttributeV
   }
   else if (nostd::holds_alternative<const char *>(value))
   {
-    json_[name] = std::string(nostd::get<const char *>(value));
+    json_[name] = nostd::string(nostd::get<const char *>(value));
   }
   else if (nostd::holds_alternative<nostd::string_view>(value))
   {
-    json_[name] = static_cast<std::string>(opentelemetry::nostd::get<nostd::string_view>(value));
+    json_[name] = static_cast<nostd::string>(opentelemetry::nostd::get<nostd::string_view>(value));
   }
   else if (nostd::holds_alternative<nostd::span<const uint8_t>>(value))
   {
@@ -191,7 +191,7 @@ void ElasticSearchRecordable::WriteValue(const opentelemetry::common::AttributeV
     nlohmann::json array_value = nlohmann::json::array();
     for (const auto &val : nostd::get<nostd::span<const nostd::string_view>>(value))
     {
-      array_value.push_back(static_cast<std::string>(val));
+      array_value.push_back(static_cast<nostd::string>(val));
     }
     json_[name] = array_value;
   }
@@ -220,7 +220,7 @@ void ElasticSearchRecordable::SetSeverity(opentelemetry::logs::Severity severity
   std::uint32_t severity_index = static_cast<std::uint32_t>(severity);
   if (severity_index >= std::extent<decltype(opentelemetry::logs::SeverityNumToText)>::value)
   {
-    std::stringstream sout;
+   std::stringstream sout;
     sout << "Invalid severity(" << severity_index << ")";
     json_["severity"] = sout.str();
   }
@@ -241,7 +241,7 @@ void ElasticSearchRecordable::SetTraceId(const opentelemetry::trace::TraceId &tr
   {
     char trace_buf[32];
     trace_id.ToLowerBase16(trace_buf);
-    json_["traceid"] = std::string(trace_buf, sizeof(trace_buf));
+    json_["traceid"] = nostd::string(trace_buf, sizeof(trace_buf));
   }
   else
   {
@@ -255,7 +255,7 @@ void ElasticSearchRecordable::SetSpanId(const opentelemetry::trace::SpanId &span
   {
     char span_buf[16];
     span_id.ToLowerBase16(span_buf);
-    json_["spanid"] = std::string(span_buf, sizeof(span_buf));
+    json_["spanid"] = nostd::string(span_buf, sizeof(span_buf));
   }
   else
   {
@@ -268,7 +268,7 @@ void ElasticSearchRecordable::SetTraceFlags(
 {
   char flag_buf[2];
   trace_flags.ToLowerBase16(flag_buf);
-  json_["traceflags"] = std::string(flag_buf, sizeof(flag_buf));
+  json_["traceflags"] = nostd::string(flag_buf, sizeof(flag_buf));
 }
 
 void ElasticSearchRecordable::SetAttribute(

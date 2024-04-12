@@ -53,7 +53,7 @@ TEST(OStreamLogRecordExporter, Shutdown)
   std::streambuf *original = std::cout.rdbuf();
 
   // Redirect cout to our stringstream buffer
-  std::stringstream output;
+ std::stringstream output;
   std::cout.rdbuf(output.rdbuf());
 
   EXPECT_TRUE(exporter->Shutdown());
@@ -65,9 +65,9 @@ TEST(OStreamLogRecordExporter, Shutdown)
 
   // Restore original stringstream buffer
   std::cout.rdbuf(original);
-  std::string err_message =
+  nostd::string err_message =
       "[Ostream Log Exporter] Exporting 1 log(s) failed, exporter is shutdown";
-  EXPECT_TRUE(output.str().find(err_message) != std::string::npos);
+  EXPECT_TRUE(output.str().find(err_message) != nostd::string::npos);
 }
 
 // ---------------------------------- Print to cout -------------------------
@@ -83,7 +83,7 @@ TEST(OstreamLogExporter, DefaultLogRecordToCout)
   std::streambuf *original = std::cout.rdbuf();
 
   // Redirect cout to our stringstream buffer
-  std::stringstream output;
+ std::stringstream output;
   std::cout.rdbuf(output.rdbuf());
 
   // Pass a default recordable created by the exporter to be exported
@@ -96,7 +96,7 @@ TEST(OstreamLogExporter, DefaultLogRecordToCout)
   // Restore cout's original stringstream
   std::cout.rdbuf(original);
 
-  std::vector<std::string> expected_output{
+  std::vector<nostd::string> expected_output{
       "{\n"
       "  timestamp          : 0\n",
       "  severity_num       : 0\n"
@@ -120,15 +120,15 @@ TEST(OstreamLogExporter, DefaultLogRecordToCout)
       "      scope.attr.key: scope.attr.value\n",
       "}\n"};
 
-  std::string ostream_output = output.str();
+  nostd::string ostream_output = output.str();
   for (auto &expected : expected_output)
   {
-    std::string::size_type result = ostream_output.find(expected);
-    if (result == std::string::npos)
+    nostd::string::size_type result = ostream_output.find(expected);
+    if (result == nostd::string::npos)
     {
       std::cout << "Can not find: \"" << expected << "\" in\n" << ostream_output << std::endl;
     }
-    ASSERT_NE(result, std::string::npos);
+    ASSERT_NE(result, nostd::string::npos);
   }
 }
 
@@ -142,7 +142,7 @@ TEST(OStreamLogRecordExporter, SimpleLogToCout)
 
   // Save original stream buffer, then redirect cout to our new stream buffer
   std::streambuf *original = std::cout.rdbuf();
-  std::stringstream output;
+ std::stringstream output;
   std::cout.rdbuf(output.rdbuf());
 
   // Pass a default recordable created by the exporter to be exported
@@ -166,7 +166,7 @@ TEST(OStreamLogRecordExporter, SimpleLogToCout)
   // Reset cout's original stringstream buffer
   std::cout.rdbuf(original);
 
-  std::vector<std::string> expected_output{
+  std::vector<nostd::string> expected_output{
       "{\n"
       "  timestamp          : " +
           std::to_string(now.time_since_epoch().count()) +
@@ -195,15 +195,15 @@ TEST(OStreamLogRecordExporter, SimpleLogToCout)
       "      scope.attr.key: scope.attr.value\n",
       "}\n"};
 
-  std::string ostream_output = output.str();
+  nostd::string ostream_output = output.str();
   for (auto &expected : expected_output)
   {
-    std::string::size_type result = ostream_output.find(expected);
-    if (result == std::string::npos)
+    nostd::string::size_type result = ostream_output.find(expected);
+    if (result == nostd::string::npos)
     {
       std::cout << "Can not find: \"" << expected << "\" in\n" << ostream_output << std::endl;
     }
-    ASSERT_NE(result, std::string::npos);
+    ASSERT_NE(result, nostd::string::npos);
   }
 }
 
@@ -219,7 +219,7 @@ TEST(OStreamLogRecordExporter, LogWithStringAttributesToCerr)
 
   // Save original stream buffer, then redirect cout to our new stream buffer
   std::streambuf *original = std::cerr.rdbuf();
-  std::stringstream stdcerrOutput;
+ std::stringstream stdcerrOutput;
   std::cerr.rdbuf(stdcerrOutput.rdbuf());
 
   // Pass a recordable created by the exporter to be exported
@@ -242,7 +242,7 @@ TEST(OStreamLogRecordExporter, LogWithStringAttributesToCerr)
   // Reset cerr's original stringstream buffer
   std::cerr.rdbuf(original);
 
-  std::vector<std::string> expected_output{
+  std::vector<nostd::string> expected_output{
       "{\n"
       "  timestamp          : 0\n",
       "  severity_num       : 0\n"
@@ -269,15 +269,15 @@ TEST(OStreamLogRecordExporter, LogWithStringAttributesToCerr)
       "      scope.attr.key: scope.attr.value\n",
       "}\n"};
 
-  std::string ostream_output = stdcerrOutput.str();
+  nostd::string ostream_output = stdcerrOutput.str();
   for (auto &expected : expected_output)
   {
-    std::string::size_type result = ostream_output.find(expected);
-    if (result == std::string::npos)
+    nostd::string::size_type result = ostream_output.find(expected);
+    if (result == nostd::string::npos)
     {
       std::cout << "Can not find: \"" << expected << "\" in\n" << ostream_output << std::endl;
     }
-    ASSERT_NE(result, std::string::npos);
+    ASSERT_NE(result, nostd::string::npos);
   }
 }
 
@@ -294,7 +294,7 @@ TEST(OStreamLogRecordExporter, LogWithVariantTypesToClog)
 
   // Save original stream buffer, then redirect cout to our new stream buffer
   std::streambuf *original = std::clog.rdbuf();
-  std::stringstream stdclogOutput;
+ std::stringstream stdclogOutput;
   std::clog.rdbuf(stdclogOutput.rdbuf());
 
   // Pass a recordable created by the exporter to be exported
@@ -323,7 +323,7 @@ TEST(OStreamLogRecordExporter, LogWithVariantTypesToClog)
   // Reset clog's original stringstream buffer
   std::clog.rdbuf(original);
 
-  std::vector<std::string> expected_output{
+  std::vector<nostd::string> expected_output{
       "{\n"
       "  timestamp          : 0\n",
       "  severity_num       : 0\n"
@@ -350,15 +350,15 @@ TEST(OStreamLogRecordExporter, LogWithVariantTypesToClog)
       "      scope.attr.key: scope.attr.value\n",
       "}\n"};
 
-  std::string ostream_output = stdclogOutput.str();
+  nostd::string ostream_output = stdclogOutput.str();
   for (auto &expected : expected_output)
   {
-    std::string::size_type result = ostream_output.find(expected);
-    if (result == std::string::npos)
+    nostd::string::size_type result = ostream_output.find(expected);
+    if (result == nostd::string::npos)
     {
       std::cout << "Can not find: \"" << expected << "\" in\n" << ostream_output << std::endl;
     }
-    ASSERT_NE(result, std::string::npos);
+    ASSERT_NE(result, nostd::string::npos);
   }
 }
 
@@ -377,7 +377,7 @@ TEST(OStreamLogRecordExporter, IntegrationTest)
   auto apiProvider = nostd::shared_ptr<logs_api::LoggerProvider>(sdkProvider);
   auto provider    = nostd::shared_ptr<logs_api::LoggerProvider>(apiProvider);
   logs_api::Provider::SetLoggerProvider(provider);
-  const std::string schema_url{"https://opentelemetry.io/schemas/1.11.0"};
+  const nostd::string schema_url{"https://opentelemetry.io/schemas/1.11.0"};
   auto logger = logs_api::Provider::GetLoggerProvider()->GetLogger(
       "Logger", "opentelelemtry_library", OPENTELEMETRY_SDK_VERSION, schema_url,
       {{"scope.attr.key", 123}});
@@ -386,7 +386,7 @@ TEST(OStreamLogRecordExporter, IntegrationTest)
   std::streambuf *original = std::cout.rdbuf();
 
   // Redirect cout to our string stream
-  std::stringstream stdcoutOutput;
+ std::stringstream stdcoutOutput;
   std::cout.rdbuf(stdcoutOutput.rdbuf());
 
   // Write a log to ostream exporter
@@ -397,7 +397,7 @@ TEST(OStreamLogRecordExporter, IntegrationTest)
   std::cout.rdbuf(original);
 
   // Compare actual vs expected outputs
-  std::vector<std::string> expected_output{
+  std::vector<nostd::string> expected_output{
       "{\n"
       "  timestamp          : " +
           std::to_string(now.time_since_epoch().count()) + "\n",
@@ -423,15 +423,15 @@ TEST(OStreamLogRecordExporter, IntegrationTest)
       "      scope.attr.key: 123\n",
       "}\n"};
 
-  std::string ostream_output = stdcoutOutput.str();
+  nostd::string ostream_output = stdcoutOutput.str();
   for (auto &expected : expected_output)
   {
-    std::string::size_type result = ostream_output.find(expected);
-    if (result == std::string::npos)
+    nostd::string::size_type result = ostream_output.find(expected);
+    if (result == nostd::string::npos)
     {
       std::cout << "Can not find: \"" << expected << "\" in\n" << ostream_output << std::endl;
     }
-    ASSERT_NE(result, std::string::npos);
+    ASSERT_NE(result, nostd::string::npos);
   }
 }
 
@@ -449,7 +449,7 @@ TEST(OStreamLogRecordExporter, IntegrationTestWithEventId)
   auto apiProvider = nostd::shared_ptr<logs_api::LoggerProvider>(sdkProvider);
   auto provider    = nostd::shared_ptr<logs_api::LoggerProvider>(apiProvider);
   logs_api::Provider::SetLoggerProvider(provider);
-  const std::string schema_url{"https://opentelemetry.io/schemas/1.11.0"};
+  const nostd::string schema_url{"https://opentelemetry.io/schemas/1.11.0"};
   auto logger = logs_api::Provider::GetLoggerProvider()->GetLogger(
       "Logger", "opentelelemtry_library", OPENTELEMETRY_SDK_VERSION, schema_url,
       {{"scope.attr.key", 123}});
@@ -458,7 +458,7 @@ TEST(OStreamLogRecordExporter, IntegrationTestWithEventId)
   std::streambuf *original = std::cout.rdbuf();
 
   // Redirect cout to our string stream
-  std::stringstream stdcoutOutput;
+ std::stringstream stdcoutOutput;
   std::cout.rdbuf(stdcoutOutput.rdbuf());
 
   logs_api::EventId event_id{12345678, "test_event_id"};
@@ -471,7 +471,7 @@ TEST(OStreamLogRecordExporter, IntegrationTestWithEventId)
   std::cout.rdbuf(original);
 
   // Compare actual vs expected outputs
-  std::vector<std::string> expected_output{
+  std::vector<nostd::string> expected_output{
       "  severity_num       : 5\n"
       "  severity_text      : DEBUG\n"
       "  body               : Hello {key1} {key2}\n",
@@ -494,15 +494,15 @@ TEST(OStreamLogRecordExporter, IntegrationTestWithEventId)
       "      scope.attr.key: 123\n",
       "}\n"};
 
-  std::string ostream_output = stdcoutOutput.str();
+  nostd::string ostream_output = stdcoutOutput.str();
   for (auto &expected : expected_output)
   {
-    std::string::size_type result = ostream_output.find(expected);
-    if (result == std::string::npos)
+    nostd::string::size_type result = ostream_output.find(expected);
+    if (result == nostd::string::npos)
     {
       std::cout << "Can not find: \"" << expected << "\" in\n" << ostream_output << std::endl;
     }
-    ASSERT_NE(result, std::string::npos);
+    ASSERT_NE(result, nostd::string::npos);
   }
 }
 

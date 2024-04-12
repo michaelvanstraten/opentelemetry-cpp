@@ -34,14 +34,14 @@ TEST(OtlpLogRecordable, Basic)
 
   uint8_t trace_id_bin[opentelemetry::trace::TraceId::kSize] = {
       '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
-  std::string expected_trace_id_bytes;
+  nostd::string expected_trace_id_bytes;
   expected_trace_id_bytes.assign(
       reinterpret_cast<char *>(trace_id_bin),
       reinterpret_cast<char *>(trace_id_bin) + opentelemetry::trace::TraceId::kSize);
   rec.SetTraceId(opentelemetry::trace::TraceId{trace_id_bin});
   uint8_t span_id_bin[opentelemetry::trace::SpanId::kSize] = {'7', '6', '5', '4',
                                                               '3', '2', '1', '0'};
-  std::string expected_span_id_bytes;
+  nostd::string expected_span_id_bytes;
   expected_span_id_bytes.assign(
       reinterpret_cast<char *>(span_id_bin),
       reinterpret_cast<char *>(span_id_bin) + opentelemetry::trace::SpanId::kSize);
@@ -58,8 +58,8 @@ TEST(OtlpLogRecordable, Basic)
 TEST(OtlpLogRecordable, GetResource)
 {
   OtlpLogRecordable rec;
-  const std::string service_name_key = "service.name";
-  std::string service_name           = "test-otlp";
+  const nostd::string service_name_key = "service.name";
+  nostd::string service_name           = "test-otlp";
   auto resource =
       opentelemetry::sdk::resource::Resource::Create({{service_name_key, service_name}});
   rec.SetResource(resource);

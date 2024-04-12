@@ -56,12 +56,12 @@ private:
   bool isShutdown() const noexcept;
 
   // Mapping status number to the string from api/include/opentelemetry/trace/span_metadata.h
-  std::map<int, std::string> statusMap{{0, "Unset"}, {1, "Ok"}, {2, "Error"}};
+  std::map<int, nostd::string> statusMap{{0, "Unset"}, {1, "Ok"}, {2, "Error"}};
 
   // various print helpers
   void printAttributes(
-      const std::unordered_map<std::string, opentelemetry::sdk::common::OwnedAttributeValue> &map,
-      const std::string prefix = "\n\t");
+      const std::unordered_map<nostd::string, opentelemetry::sdk::common::OwnedAttributeValue> &map,
+      const nostd::string prefix = "\n\t");
 
   void printEvents(const std::vector<opentelemetry::sdk::trace::SpanDataEvent> &events);
 

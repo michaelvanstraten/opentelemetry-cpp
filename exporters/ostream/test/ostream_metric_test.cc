@@ -57,7 +57,7 @@ TEST(OStreamMetricsExporter, ExportSumPointData)
   data.scope_metric_data_ = std::vector<metric_sdk::ScopeMetrics>{
       {scope.get(), std::vector<metric_sdk::MetricData>{metric_data}}};
 
-  std::stringstream stdoutOutput;
+ std::stringstream stdoutOutput;
   std::streambuf *sbuf = std::cout.rdbuf();
   std::cout.rdbuf(stdoutOutput.rdbuf());
 
@@ -65,7 +65,7 @@ TEST(OStreamMetricsExporter, ExportSumPointData)
   EXPECT_EQ(result, opentelemetry::sdk::common::ExportResult::kSuccess);
   std::cout.rdbuf(sbuf);
 
-  std::string expected_output =
+  nostd::string expected_output =
       "{"
       "\n  scope name\t: library_name"
       "\n  schema url\t: "
@@ -128,7 +128,7 @@ TEST(OStreamMetricsExporter, ExportHistogramPointData)
   data.scope_metric_data_ = std::vector<metric_sdk::ScopeMetrics>{
       {scope.get(), std::vector<metric_sdk::MetricData>{metric_data}}};
 
-  std::stringstream stdoutOutput;
+ std::stringstream stdoutOutput;
   std::streambuf *sbuf = std::cout.rdbuf();
   std::cout.rdbuf(stdoutOutput.rdbuf());
 
@@ -136,7 +136,7 @@ TEST(OStreamMetricsExporter, ExportHistogramPointData)
   EXPECT_EQ(result, opentelemetry::sdk::common::ExportResult::kSuccess);
   std::cout.rdbuf(sbuf);
 
-  std::string expected_output =
+  nostd::string expected_output =
       "{"
       "\n  scope name\t: library_name"
       "\n  schema url\t: "
@@ -206,7 +206,7 @@ TEST(OStreamMetricsExporter, ExportLastValuePointData)
   data.scope_metric_data_ = std::vector<metric_sdk::ScopeMetrics>{
       {scope.get(), std::vector<metric_sdk::MetricData>{metric_data}}};
 
-  std::stringstream stdoutOutput;
+ std::stringstream stdoutOutput;
   std::streambuf *sbuf = std::cout.rdbuf();
   std::cout.rdbuf(stdoutOutput.rdbuf());
 
@@ -214,7 +214,7 @@ TEST(OStreamMetricsExporter, ExportLastValuePointData)
   EXPECT_EQ(result, opentelemetry::sdk::common::ExportResult::kSuccess);
   std::cout.rdbuf(sbuf);
 
-  std::string expected_output =
+  nostd::string expected_output =
       "{"
       "\n  scope name\t: library_name"
       "\n  schema url\t: "
@@ -269,7 +269,7 @@ TEST(OStreamMetricsExporter, ExportDropPointData)
   data.scope_metric_data_ = std::vector<metric_sdk::ScopeMetrics>{
       {scope.get(), std::vector<metric_sdk::MetricData>{metric_data}}};
 
-  std::stringstream stdoutOutput;
+ std::stringstream stdoutOutput;
   std::streambuf *sbuf = std::cout.rdbuf();
   std::cout.rdbuf(stdoutOutput.rdbuf());
 
@@ -277,7 +277,7 @@ TEST(OStreamMetricsExporter, ExportDropPointData)
   EXPECT_EQ(result, opentelemetry::sdk::common::ExportResult::kSuccess);
   std::cout.rdbuf(sbuf);
 
-  std::string expected_output =
+  nostd::string expected_output =
       "{"
       "\n  scope name\t: library_name"
       "\n  schema url\t: "

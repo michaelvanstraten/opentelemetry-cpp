@@ -89,7 +89,7 @@ int main(int argc, const char* argv[])
   auto span = tracer->StartSpan("MySpan", attribs);
 
   // Emit an event on Span
-  std::string eventName = "MyEvent1";
+  nostd::string eventName = "MyEvent1";
   Properties event =
   {
     {"uint32Key", (uint32_t)1234},

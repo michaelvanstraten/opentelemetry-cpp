@@ -52,7 +52,7 @@ static IntegerType JsonToInteger(nlohmann::json value)
 {
   if (value.is_string())
   {
-    return static_cast<IntegerType>(strtol(value.get<std::string>().c_str(), nullptr, 10));
+    return static_cast<IntegerType>(strtol(value.get<nostd::string>().c_str(), nullptr, 10));
   }
 
   return value.get<IntegerType>();
@@ -65,7 +65,7 @@ OtlpHttpClientOptions MakeOtlpHttpClientOptions(HttpRequestContentType content_t
   options.content_type  = content_type;
   options.console_debug = true;
   options.http_headers.insert(
-      std::make_pair<const std::string, std::string>("Custom-Header-Key", "Custom-Header-Value"));
+      std::make_pair<const nostd::string, nostd::string>("Custom-Header-Key", "Custom-Header-Value"));
   OtlpHttpClientOptions otlp_http_client_options(
       options.url, false,                 /* ssl_insecure_skip_verify */
       "", /* ssl_ca_cert_path */ "",      /* ssl_ca_cert_string */
@@ -162,13 +162,13 @@ public:
           auto resource_metrics = *check_json["resourceMetrics"].begin();
           auto scope_metrics    = *resource_metrics["scopeMetrics"].begin();
           auto scope            = scope_metrics["scope"];
-          EXPECT_EQ("library_name", scope["name"].get<std::string>());
-          EXPECT_EQ("1.5.0", scope["version"].get<std::string>());
+          EXPECT_EQ("library_name", scope["name"].get<nostd::string>());
+          EXPECT_EQ("1.5.0", scope["version"].get<nostd::string>());
 
           auto metric = *scope_metrics["metrics"].begin();
-          EXPECT_EQ("metrics_library_name", metric["name"].get<std::string>());
-          EXPECT_EQ("metrics_description", metric["description"].get<std::string>());
-          EXPECT_EQ("metrics_unit", metric["unit"].get<std::string>());
+          EXPECT_EQ("metrics_library_name", metric["name"].get<nostd::string>());
+          EXPECT_EQ("metrics_description", metric["description"].get<nostd::string>());
+          EXPECT_EQ("metrics_unit", metric["unit"].get<nostd::string>());
 
           auto data_points = metric["sum"]["dataPoints"];
           EXPECT_EQ(10.0, data_points[0]["asDouble"].get<double>());
@@ -343,13 +343,13 @@ public:
           auto resource_metrics = *check_json["resourceMetrics"].begin();
           auto scope_metrics    = *resource_metrics["scopeMetrics"].begin();
           auto scope            = scope_metrics["scope"];
-          EXPECT_EQ("library_name", scope["name"].get<std::string>());
-          EXPECT_EQ("1.5.0", scope["version"].get<std::string>());
+          EXPECT_EQ("library_name", scope["name"].get<nostd::string>());
+          EXPECT_EQ("1.5.0", scope["version"].get<nostd::string>());
 
           auto metric = *scope_metrics["metrics"].begin();
-          EXPECT_EQ("metrics_library_name", metric["name"].get<std::string>());
-          EXPECT_EQ("metrics_description", metric["description"].get<std::string>());
-          EXPECT_EQ("metrics_unit", metric["unit"].get<std::string>());
+          EXPECT_EQ("metrics_library_name", metric["name"].get<nostd::string>());
+          EXPECT_EQ("metrics_description", metric["description"].get<nostd::string>());
+          EXPECT_EQ("metrics_unit", metric["unit"].get<nostd::string>());
 
           auto data_points = metric["gauge"]["dataPoints"];
           EXPECT_EQ(10.0, data_points[0]["asDouble"].get<double>());
@@ -538,13 +538,13 @@ public:
           auto resource_metrics = *check_json["resourceMetrics"].begin();
           auto scope_metrics    = *resource_metrics["scopeMetrics"].begin();
           auto scope            = scope_metrics["scope"];
-          EXPECT_EQ("library_name", scope["name"].get<std::string>());
-          EXPECT_EQ("1.5.0", scope["version"].get<std::string>());
+          EXPECT_EQ("library_name", scope["name"].get<nostd::string>());
+          EXPECT_EQ("1.5.0", scope["version"].get<nostd::string>());
 
           auto metric = *scope_metrics["metrics"].begin();
-          EXPECT_EQ("metrics_library_name", metric["name"].get<std::string>());
-          EXPECT_EQ("metrics_description", metric["description"].get<std::string>());
-          EXPECT_EQ("metrics_unit", metric["unit"].get<std::string>());
+          EXPECT_EQ("metrics_library_name", metric["name"].get<nostd::string>());
+          EXPECT_EQ("metrics_description", metric["description"].get<nostd::string>());
+          EXPECT_EQ("metrics_unit", metric["unit"].get<nostd::string>());
 
           auto data_points = metric["histogram"]["dataPoints"];
           EXPECT_EQ(3, JsonToInteger<int64_t>(data_points[0]["count"]));
@@ -872,7 +872,7 @@ TEST(OtlpHttpMetricExporterTest, ConfigDefaultProtocolTest)
 // Test exporter configuration options with use_ssl_credentials
 TEST_F(OtlpHttpMetricExporterTestPeer, ConfigFromEnv)
 {
-  const std::string url = "http://localhost:9999/v1/metrics";
+  const nostd::string url = "http://localhost:9999/v1/metrics";
   setenv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://localhost:9999", 1);
   setenv("OTEL_EXPORTER_OTLP_TIMEOUT", "20s", 1);
   setenv("OTEL_EXPORTER_OTLP_HEADERS", "k1=v1,k2=v2", 1);
@@ -890,7 +890,7 @@ TEST_F(OtlpHttpMetricExporterTestPeer, ConfigFromEnv)
     // Test k2
     auto range = GetOptions(exporter).http_headers.equal_range("k2");
     EXPECT_TRUE(range.first != range.second);
-    EXPECT_EQ(range.first->second, std::string("v2"));
+    EXPECT_EQ(range.first->second, nostd::string("v2"));
     ++range.first;
     EXPECT_TRUE(range.first == range.second);
   }
@@ -898,9 +898,9 @@ TEST_F(OtlpHttpMetricExporterTestPeer, ConfigFromEnv)
     // k1
     auto range = GetOptions(exporter).http_headers.equal_range("k1");
     EXPECT_TRUE(range.first != range.second);
-    EXPECT_EQ(range.first->second, std::string("v3"));
+    EXPECT_EQ(range.first->second, nostd::string("v3"));
     ++range.first;
-    EXPECT_EQ(range.first->second, std::string("v4"));
+    EXPECT_EQ(range.first->second, nostd::string("v4"));
     ++range.first;
     EXPECT_TRUE(range.first == range.second);
   }
@@ -915,7 +915,7 @@ TEST_F(OtlpHttpMetricExporterTestPeer, ConfigFromEnv)
 
 TEST_F(OtlpHttpMetricExporterTestPeer, ConfigFromMetricsEnv)
 {
-  const std::string url = "http://localhost:9999/v1/metrics";
+  const nostd::string url = "http://localhost:9999/v1/metrics";
   setenv("OTEL_EXPORTER_OTLP_METRICS_ENDPOINT", url.c_str(), 1);
   setenv("OTEL_EXPORTER_OTLP_METRICS_TIMEOUT", "20s", 1);
   setenv("OTEL_EXPORTER_OTLP_HEADERS", "k1=v1,k2=v2", 1);
@@ -933,7 +933,7 @@ TEST_F(OtlpHttpMetricExporterTestPeer, ConfigFromMetricsEnv)
     // Test k2
     auto range = GetOptions(exporter).http_headers.equal_range("k2");
     EXPECT_TRUE(range.first != range.second);
-    EXPECT_EQ(range.first->second, std::string("v2"));
+    EXPECT_EQ(range.first->second, nostd::string("v2"));
     ++range.first;
     EXPECT_TRUE(range.first == range.second);
   }
@@ -941,9 +941,9 @@ TEST_F(OtlpHttpMetricExporterTestPeer, ConfigFromMetricsEnv)
     // k1
     auto range = GetOptions(exporter).http_headers.equal_range("k1");
     EXPECT_TRUE(range.first != range.second);
-    EXPECT_EQ(range.first->second, std::string("v3"));
+    EXPECT_EQ(range.first->second, nostd::string("v3"));
     ++range.first;
-    EXPECT_EQ(range.first->second, std::string("v4"));
+    EXPECT_EQ(range.first->second, nostd::string("v4"));
     ++range.first;
     EXPECT_TRUE(range.first == range.second);
   }

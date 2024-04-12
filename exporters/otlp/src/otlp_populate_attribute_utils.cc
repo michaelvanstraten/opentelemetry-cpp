@@ -170,9 +170,9 @@ void OtlpPopulateAttributeUtils::PopulateAnyValue(
   {
     proto_value->set_double_value(nostd::get<double>(value));
   }
-  else if (nostd::holds_alternative<std::string>(value))
+  else if (nostd::holds_alternative<nostd::string>(value))
   {
-    proto_value->set_string_value(nostd::get<std::string>(value));
+    proto_value->set_string_value(nostd::get<nostd::string>(value));
   }
   else if (nostd::holds_alternative<std::vector<bool>>(value))
   {
@@ -222,10 +222,10 @@ void OtlpPopulateAttributeUtils::PopulateAnyValue(
       array_value->add_values()->set_double_value(val);
     }
   }
-  else if (nostd::holds_alternative<std::vector<std::string>>(value))
+  else if (nostd::holds_alternative<std::vector<nostd::string>>(value))
   {
     auto array_value = proto_value->mutable_array_value();
-    for (const auto &val : nostd::get<std::vector<std::string>>(value))
+    for (const auto &val : nostd::get<std::vector<nostd::string>>(value))
     {
       array_value->add_values()->set_string_value(val);
     }

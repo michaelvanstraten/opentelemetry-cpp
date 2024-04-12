@@ -47,7 +47,7 @@ constexpr char kHttpBinaryContentType[] = "application/x-protobuf";
  */
 struct OtlpHttpClientOptions
 {
-  std::string url;
+  nostd::string url;
 
   /** SSL options. */
   ext::http::client::HttpSslOptions ssl_options;
@@ -60,7 +60,7 @@ struct OtlpHttpClientOptions
   JsonBytesMappingKind json_bytes_mapping = JsonBytesMappingKind::kHexId;
 
   // By default, do not compress data
-  std::string compression = "none";
+  nostd::string compression = "none";
 
   // If using the json name of protobuf field to set the key of json. By default, we will use the
   // field name just like proto files.
@@ -81,7 +81,7 @@ struct OtlpHttpClientOptions
   std::size_t max_requests_per_connection = 8;
 
   // User agent
-  std::string user_agent;
+  nostd::string user_agent;
 
   inline OtlpHttpClientOptions(nostd::string_view input_url,
                                bool input_ssl_insecure_skip_verify,
@@ -285,7 +285,7 @@ private:
   std::shared_ptr<ext::http::client::HttpClient> http_client_;
 
   // Cached parsed URI
-  std::string http_uri_;
+  nostd::string http_uri_;
 
   // Running sessions and event handles
   std::unordered_map<const opentelemetry::ext::http::client::Session *, HttpSessionData>

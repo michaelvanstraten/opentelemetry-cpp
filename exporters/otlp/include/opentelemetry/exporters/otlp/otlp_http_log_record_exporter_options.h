@@ -33,7 +33,7 @@ struct OPENTELEMETRY_EXPORT OtlpHttpLogRecordExporterOptions
   ~OtlpHttpLogRecordExporterOptions();
 
   /** The endpoint to export to. */
-  std::string url;
+  nostd::string url;
 
   /** HTTP content type. */
   HttpRequestContentType content_type;
@@ -72,37 +72,37 @@ struct OPENTELEMETRY_EXPORT OtlpHttpLogRecordExporterOptions
   bool ssl_insecure_skip_verify;
 
   /** CA CERT, path to a file. */
-  std::string ssl_ca_cert_path;
+  nostd::string ssl_ca_cert_path;
 
   /** CA CERT, as a string. */
-  std::string ssl_ca_cert_string;
+  nostd::string ssl_ca_cert_string;
 
   /** CLIENT KEY, path to a file. */
-  std::string ssl_client_key_path;
+  nostd::string ssl_client_key_path;
 
   /** CLIENT KEY, as a string. */
-  std::string ssl_client_key_string;
+  nostd::string ssl_client_key_string;
 
   /** CLIENT CERT, path to a file. */
-  std::string ssl_client_cert_path;
+  nostd::string ssl_client_cert_path;
 
   /** CLIENT CERT, as a string. */
-  std::string ssl_client_cert_string;
+  nostd::string ssl_client_cert_string;
 
   /** Minimum TLS version. */
-  std::string ssl_min_tls;
+  nostd::string ssl_min_tls;
 
   /** Maximum TLS version. */
-  std::string ssl_max_tls;
+  nostd::string ssl_max_tls;
 
   /** TLS cipher. */
-  std::string ssl_cipher;
+  nostd::string ssl_cipher;
 
   /** TLS cipher suite. */
-  std::string ssl_cipher_suite;
+  nostd::string ssl_cipher_suite;
 
   /** Compression type. */
-  std::string compression;
+  nostd::string compression;
 };
 
 }  // namespace otlp

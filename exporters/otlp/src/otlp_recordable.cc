@@ -45,9 +45,9 @@ const opentelemetry::sdk::resource::Resource *OtlpRecordable::GetResource() cons
   return resource_;
 }
 
-const std::string OtlpRecordable::GetResourceSchemaURL() const noexcept
+const nostd::string OtlpRecordable::GetResourceSchemaURL() const noexcept
 {
-  std::string schema_url;
+  nostd::string schema_url;
   if (resource_)
   {
     schema_url = resource_->GetSchemaURL();
@@ -62,9 +62,9 @@ OtlpRecordable::GetInstrumentationScope() const noexcept
   return instrumentation_scope_;
 }
 
-const std::string OtlpRecordable::GetInstrumentationLibrarySchemaURL() const noexcept
+const nostd::string OtlpRecordable::GetInstrumentationLibrarySchemaURL() const noexcept
 {
-  std::string schema_url;
+  nostd::string schema_url;
   if (instrumentation_scope_)
   {
     schema_url = instrumentation_scope_->GetSchemaURL();

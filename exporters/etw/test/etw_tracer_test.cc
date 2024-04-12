@@ -20,7 +20,7 @@ const char *kGlobalProviderName = "OpenTelemetry-ETW-TLD";
 
 std::string getTemporaryValue()
 {
-  return std::string("Value from Temporary std::string");
+  return nostd::string("Value from Temporary nostd::string");
 }
 
 /**
@@ -114,7 +114,7 @@ TEST(ETWTracer, TracerCheck)
   // Windows Defender Firewall API - GP       {0EFF663F-8B6E-4E6D-8182-087A8EAA29CB}
   // Windows Defender Firewall Driver         {D5E09122-D0B2-4235-ADC1-C89FAAAF1069}
 
-  std::string providerName = kGlobalProviderName; // supply unique instrumentation name here
+  nostd::string providerName = kGlobalProviderName; // supply unique instrumentation name here
   exporter::etw::TracerProvider tp;
 
   auto tracer = tp.GetTracer(providerName);
@@ -145,7 +145,7 @@ TEST(ETWTracer, TracerCheck)
         EXPECT_NO_THROW(outerSpan->SetAttribute("AttrName1", "AttrValue1"));
 
         // Add first event
-        std::string eventName1 = "MyEvent1";
+        nostd::string eventName1 = "MyEvent1";
         Properties event1 =
         {
           {"uint32Key", (uint32_t)1234},
@@ -155,7 +155,7 @@ TEST(ETWTracer, TracerCheck)
         EXPECT_NO_THROW(outerSpan->AddEvent(eventName1, event1));
 
         // Add second event
-        std::string eventName2 = "MyEvent2";
+        nostd::string eventName2 = "MyEvent2";
         Properties event2 =
         {
           {"uint32Key", (uint32_t)9876},
@@ -164,7 +164,7 @@ TEST(ETWTracer, TracerCheck)
         };
         EXPECT_NO_THROW(outerSpan->AddEvent(eventName2, event2));
 
-        std::string eventName3= "MyEvent3";
+        nostd::string eventName3= "MyEvent3";
         Properties event3 =
         {
           /* Extra metadata that allows event to flow to A.I. pipeline */
@@ -207,7 +207,7 @@ TEST(ETWTracer, TracerCheck)
 */
 TEST(ETWTracer, TracerCheckMinDecoration)
 {
-  std::string providerName = kGlobalProviderName;
+  nostd::string providerName = kGlobalProviderName;
   exporter::etw::TracerProvider tp
   ({
       {"enableTraceId", false},
@@ -259,7 +259,7 @@ TEST(ETWTracer, TracerCheckMinDecoration)
 */
 TEST(ETWTracer, TracerCheckMaxDecoration)
 {
-  std::string providerName = kGlobalProviderName;
+  nostd::string providerName = kGlobalProviderName;
   exporter::etw::TracerProvider tp
   ({
       {"enableTraceId", true},
@@ -289,7 +289,7 @@ TEST(ETWTracer, TracerCheckMaxDecoration)
 
 TEST(ETWTracer, TracerCheckMsgPack)
 {
-  std::string providerName = "OpenTelemetry-ETW-MsgPack";
+  nostd::string providerName = "OpenTelemetry-ETW-MsgPack";
   exporter::etw::TracerProvider tp
   ({
       {"enableTraceId", true},
@@ -308,7 +308,7 @@ TEST(ETWTracer, TracerCheckMsgPack)
           {
               auto cSpan = tracer->StartSpan("C.max");
               auto cScope = tracer->WithActiveSpan(cSpan);
-              std::string eventName = "MyMsgPackEvent";
+              nostd::string eventName = "MyMsgPackEvent";
               Properties event =
               {
                   {"uint32Key", (uint32_t)1234},
@@ -457,7 +457,7 @@ TEST(ETWTracer, GlobalSingletonTracer)
 
 TEST(ETWTracer, AlwayOffSampler)
 {
-  std::string providerName = kGlobalProviderName; // supply unique instrumentation name here
+  nostd::string providerName = kGlobalProviderName; // supply unique instrumentation name here
   std::unique_ptr<sdk::trace::Sampler> always_off{new sdk::trace::AlwaysOffSampler()};
   exporter::etw::TracerProvider tp
     ({
@@ -476,7 +476,7 @@ TEST(ETWTracer, AlwayOffSampler)
 
 TEST(ETWTracer, AlwayOffTailSampler)
 {
-  std::string providerName = kGlobalProviderName; // supply unique instrumentation name here
+  nostd::string providerName = kGlobalProviderName; // supply unique instrumentation name here
   std::unique_ptr<sdk::trace::Sampler> always_on{new sdk::trace::AlwaysOnSampler()};
   sdk::trace::IdGenerator *id_generator = new MockIdGenerator();
   std::unique_ptr<TailSampler> always_off_tail{new AlwaysOffTailSampler()};
@@ -496,7 +496,7 @@ TEST(ETWTracer, AlwayOffTailSampler)
 
 TEST(ETWTracer, CustomIdGenerator)
 {
-  std::string providerName = kGlobalProviderName; // supply unique instrumentation name here
+  nostd::string providerName = kGlobalProviderName; // supply unique instrumentation name here
   sdk::trace::IdGenerator *id_generator = new MockIdGenerator();
   std::unique_ptr<sdk::trace::Sampler> always_on{new sdk::trace::AlwaysOnSampler()};
   exporter::etw::TracerProvider tp
@@ -516,7 +516,7 @@ TEST(ETWTracer, CustomIdGenerator)
 
 TEST(ETWTracer, CustomSampler)
 {
-  std::string providerName = kGlobalProviderName; // supply unique instrumentation name here
+  nostd::string providerName = kGlobalProviderName; // supply unique instrumentation name here
   auto parent_off = std::unique_ptr<Sampler>(new MockSampler(std::make_shared<AlwaysOnSampler>()));
   exporter::etw::TracerProvider tp
     ({

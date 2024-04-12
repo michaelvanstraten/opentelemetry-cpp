@@ -1,7 +1,7 @@
 // Copyright The OpenTelemetry Authors
 // SPDX-License-Identifier: Apache-2.0
 
-#include <sstream>  // std::stringstream
+#include <sstream>  //std::stringstream
 
 #include <condition_variable>
 #include <mutex>
@@ -29,10 +29,10 @@ public:
    */
   ResponseHandler(bool console_debug = false) : console_debug_{console_debug} {}
 
-  std::string BuildResponseLogMessage(http_client::Response &response,
-                                      const std::string &body) noexcept
+  nostd::string BuildResponseLogMessage(http_client::Response &response,
+                                      const nostd::string &body) noexcept
   {
-    std::stringstream ss;
+   std::stringstream ss;
     ss << "Status:" << response.GetStatusCode() << ", Header:";
     response.ForEachHeader([&ss](opentelemetry::nostd::string_view header_name,
                                  opentelemetry::nostd::string_view header_value) {
@@ -50,14 +50,14 @@ public:
    */
   void OnResponse(http_client::Response &response) noexcept override
   {
-    std::string log_message;
+    nostd::string log_message;
 
     // Lock the private members so they can't be read while being modified
     {
       std::unique_lock<std::mutex> lk(mutex_);
 
       // Store the body of the request
-      body_ = std::string(response.GetBody().begin(), response.GetBody().end());
+      body_ = nostd::string(response.GetBody().begin(), response.GetBody().end());
 
       if (response.GetStatusCode() != 200 && response.GetStatusCode() != 202)
       {
@@ -97,7 +97,7 @@ public:
   /**
    * Returns the body of the response
    */
-  std::string GetResponseBody()
+  nostd::string GetResponseBody()
   {
     // Lock so that body_ can't be written to while returning it
     std::unique_lock<std::mutex> lk(mutex_);
@@ -174,7 +174,7 @@ private:
   bool response_received_ = false;
 
   // A string to store the response body
-  std::string body_ = "";
+  nostd::string body_ = "";
 
   // Whether to print the results from the callback
   bool console_debug_ = false;
@@ -211,13 +211,13 @@ public:
   {
 
     // Store the body of the response
-    body_ = std::string(response.GetBody().begin(), response.GetBody().end());
+    body_ = nostd::string(response.GetBody().begin(), response.GetBody().end());
     if (console_debug_)
     {
       OTEL_INTERNAL_LOG_DEBUG(
           "[ES Log Exporter] Got response from Elasticsearch,  response body: " << body_);
     }
-    if (body_.find("\"failed\" : 0") == std::string::npos)
+    if (body_.find("\"failed\" : 0") == nostd::string::npos)
     {
       OTEL_INTERNAL_LOG_ERROR(
           "[ES Log Exporter] Logs were not written to Elasticsearch correctly, response body: "
@@ -280,7 +280,7 @@ private:
   std::function<bool(opentelemetry::sdk::common::ExportResult)> result_callback_;
 
   // A string to store the response body
-  std::string body_ = "";
+  nostd::string body_ = "";
 
   // Whether to print the results from the callback
   bool console_debug_ = false;
@@ -334,7 +334,7 @@ sdk::common::ExportResult ElasticsearchLogRecordExporter::Export(
   request->SetTimeoutMs(std::chrono::milliseconds(1000 * options_.response_timeout_));
 
   // Create the request body
-  std::string body = "";
+  nostd::string body = "";
   for (auto &record : records)
   {
     // Append {"index":{}} before JSON body, which tells Elasticsearch to write to index specified
@@ -400,8 +400,8 @@ sdk::common::ExportResult ElasticsearchLogRecordExporter::Export(
   }
 
   // Parse the response output to determine if Elasticsearch consumed it correctly
-  std::string responseBody = handler->GetResponseBody();
-  if (responseBody.find("\"failed\" : 0") == std::string::npos)
+  nostd::string responseBody = handler->GetResponseBody();
+  if (responseBody.find("\"failed\" : 0") == nostd::string::npos)
   {
     OTEL_INTERNAL_LOG_ERROR(
         "[ES Log Exporter] Logs were not written to Elasticsearch correctly, response body: "

@@ -22,36 +22,36 @@ namespace metrics
 class SanitizeNameTester
 {
 public:
-  static std::string sanitize(std::string name)
+  static nostd::string sanitize(nostd::string name)
   {
     return PrometheusExporterUtils::SanitizeNames(name);
   }
-  static std::string getPrometheusUnit(const std::string &unit_abbreviation)
+  static nostd::string getPrometheusUnit(const nostd::string &unit_abbreviation)
   {
     return PrometheusExporterUtils::GetPrometheusUnit(unit_abbreviation);
   }
-  static std::string getPrometheusPerUnit(const std::string &per_unit_abbreviation)
+  static nostd::string getPrometheusPerUnit(const nostd::string &per_unit_abbreviation)
   {
     return PrometheusExporterUtils::GetPrometheusPerUnit(per_unit_abbreviation);
   }
-  static std::string removeUnitPortionInBraces(const std::string &unit)
+  static nostd::string removeUnitPortionInBraces(const nostd::string &unit)
   {
     return PrometheusExporterUtils::RemoveUnitPortionInBraces(unit);
   }
-  static std::string convertRateExpressedToPrometheusUnit(const std::string &rate_expressed_unit)
+  static nostd::string convertRateExpressedToPrometheusUnit(const nostd::string &rate_expressed_unit)
   {
     return PrometheusExporterUtils::ConvertRateExpressedToPrometheusUnit(rate_expressed_unit);
   }
-  static std::string cleanUpString(const std::string &str)
+  static nostd::string cleanUpString(const nostd::string &str)
   {
     return PrometheusExporterUtils::CleanUpString(str);
   }
-  static std::string getEquivalentPrometheusUnit(const std::string &raw_metric_unit_name)
+  static nostd::string getEquivalentPrometheusUnit(const nostd::string &raw_metric_unit_name)
   {
     return PrometheusExporterUtils::GetEquivalentPrometheusUnit(raw_metric_unit_name);
   }
-  static std::string mapToPrometheusName(const std::string &name,
-                                         const std::string &unit,
+  static nostd::string mapToPrometheusName(const nostd::string &name,
+                                         const nostd::string &unit,
                                          prometheus_client::MetricType prometheus_type)
   {
     return PrometheusExporterUtils::MapToPrometheusName(name, unit, prometheus_type);
@@ -62,8 +62,8 @@ public:
 
 template <typename T>
 void assert_basic(prometheus_client::MetricFamily &metric,
-                  const std::string &expected_name,
-                  const std::string &description,
+                  const nostd::string &expected_name,
+                  const nostd::string &description,
                   prometheus_client::MetricType type,
                   size_t label_num,
                   std::vector<T> vals)
@@ -273,7 +273,7 @@ class SanitizeTest : public ::testing::Test
       InstrumentationScope::Create("library_name", "1.2.0");
 
 protected:
-  void CheckSanitizeLabel(const std::string &original, const std::string &sanitized)
+  void CheckSanitizeLabel(const nostd::string &original, const nostd::string &sanitized)
   {
     metric_sdk::InstrumentDescriptor instrument_descriptor{
         "name", "description", "unit", metric_sdk::InstrumentType::kCounter,

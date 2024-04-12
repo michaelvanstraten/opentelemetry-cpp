@@ -81,14 +81,14 @@ public:
 class IsValidMessageMatcher
 {
 public:
-  IsValidMessageMatcher(const std::string &trace_id) : trace_id_(trace_id) {}
+  IsValidMessageMatcher(const nostd::string &trace_id) : trace_id_(trace_id) {}
   template <typename T>
   bool MatchAndExplain(const T &p, MatchResultListener * /* listener */) const
   {
-    auto body                 = std::string(p.begin(), p.end());
+    auto body                 = nostd::string(p.begin(), p.end());
     nlohmann::json check_json = nlohmann::json::parse(body);
     auto trace_id_kv          = check_json.at(0).find("traceId");
-    auto received_trace_id    = trace_id_kv.value().get<std::string>();
+    auto received_trace_id    = trace_id_kv.value().get<nostd::string>();
     return trace_id_ == received_trace_id;
   }
 
@@ -97,10 +97,10 @@ public:
   void DescribeNegationTo(std::ostream *os) const { *os << "received trace_id does not matche"; }
 
 private:
-  std::string trace_id_;
+  nostd::string trace_id_;
 };
 
-PolymorphicMatcher<IsValidMessageMatcher> IsValidMessage(const std::string &trace_id)
+PolymorphicMatcher<IsValidMessageMatcher> IsValidMessage(const nostd::string &trace_id)
 {
   return MakePolymorphicMatcher(IsValidMessageMatcher(trace_id));
 }
@@ -127,7 +127,7 @@ TEST_F(ZipkinExporterTestPeer, ExportJsonIntegrationTest)
   resource_attributes["vec_int64_value"]           = std::vector<int64_t>{5, 6};
   resource_attributes["vec_uint64_value"]          = std::vector<uint64_t>{7, 8};
   resource_attributes["vec_double_value"]          = std::vector<double>{3.2, 3.3};
-  resource_attributes["vec_string_value"]          = std::vector<std::string>{"vector", "string"};
+  resource_attributes["vec_string_value"]          = std::vector<nostd::string>{"vector", "string"};
   auto resource = resource::Resource::Create(resource_attributes);
 
   auto processor_opts                  = sdk::trace::BatchSpanProcessorOptions();
@@ -139,7 +139,7 @@ TEST_F(ZipkinExporterTestPeer, ExportJsonIntegrationTest)
   auto provider = nostd::shared_ptr<trace::TracerProvider>(
       new sdk::trace::TracerProvider(std::move(processor), resource));
 
-  std::string report_trace_id;
+  nostd::string report_trace_id;
   char trace_id_hex[2 * trace_api::TraceId::kSize] = {0};
   auto tracer                                      = provider->GetTracer("test");
   auto parent_span                                 = tracer->StartSpan("Test parent span");
@@ -210,7 +210,7 @@ TEST_F(ZipkinExporterTestPeer, ConfigTest)
 // Test exporter configuration options from env
 TEST_F(ZipkinExporterTestPeer, ConfigFromEnv)
 {
-  const std::string endpoint = "http://localhost:9999/v1/traces";
+  const nostd::string endpoint = "http://localhost:9999/v1/traces";
   setenv("OTEL_EXPORTER_ZIPKIN_ENDPOINT", endpoint.c_str(), 1);
 
   std::unique_ptr<ZipkinExporter> exporter(new ZipkinExporter());

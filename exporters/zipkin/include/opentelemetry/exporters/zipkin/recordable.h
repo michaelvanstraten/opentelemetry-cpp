@@ -19,7 +19,7 @@ class Recordable final : public sdk::trace::Recordable
 public:
   const ZipkinSpan &span() const noexcept { return span_; }
 
-  const std::string &GetServiceName() const noexcept { return service_name_; }
+  const nostd::string &GetServiceName() const noexcept { return service_name_; }
 
   void SetIdentity(const opentelemetry::trace::SpanContext &span_context,
                    opentelemetry::trace::SpanId parent_span_id) noexcept override;
@@ -54,7 +54,7 @@ public:
 
 private:
   ZipkinSpan span_;
-  std::string service_name_;
+  nostd::string service_name_;
 };
 }  // namespace zipkin
 }  // namespace exporter

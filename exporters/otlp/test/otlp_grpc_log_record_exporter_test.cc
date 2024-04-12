@@ -299,7 +299,7 @@ TEST_F(OtlpGrpcLogRecordExporterTestPeer, ExportIntegrationTest)
       .WillRepeatedly(Return(grpc::Status::OK));
 
   {
-    const std::string schema_url{"https://opentelemetry.io/schemas/1.11.0"};
+    const nostd::string schema_url{"https://opentelemetry.io/schemas/1.11.0"};
 
     auto tracer = trace_provider->GetTracer("opentelelemtry_library", "", schema_url);
     opentelemetry::trace::Provider::SetTracerProvider(std::move(trace_provider));
@@ -308,7 +308,7 @@ TEST_F(OtlpGrpcLogRecordExporterTestPeer, ExportIntegrationTest)
 
     auto logger = provider->GetLogger("test", "opentelelemtry_library", "", schema_url,
                                       {{"scope_key1", "scope_value"}, {"scope_key2", 2}});
-    std::unordered_map<std::string, opentelemetry::common::AttributeValue> attributes;
+    std::unordered_map<nostd::string, opentelemetry::common::AttributeValue> attributes;
     attributes["service.name"]     = "unit_test_service";
     attributes["tenant.id"]        = "test_user";
     attributes["bool_value"]       = true;

@@ -33,7 +33,7 @@ using PropertyVariant =
                    uint32_t,
                    uint64_t,
                    double,
-                   std::string,
+                   nostd::string,
                    const char *,
                    // 8-bit byte arrays / binary blobs are not part of OT spec yet!
                    // Ref: https://github.com/open-telemetry/opentelemetry-specification/issues/780
@@ -44,7 +44,7 @@ using PropertyVariant =
                    std::vector<uint32_t>,
                    std::vector<uint64_t>,
                    std::vector<double>,
-                   std::vector<std::string>>;
+                   std::vector<nostd::string>>;
 
 enum PropertyType
 {
@@ -90,12 +90,12 @@ class PropertyValue : public PropertyVariant
    * @param source Span of non-owning string views.
    * @return Vector of owned strings.
    */
-  std::vector<std::string> static to_vector(const nostd::span<const nostd::string_view> &source)
+  std::vector<nostd::string> static to_vector(const nostd::span<const nostd::string_view> &source)
   {
-    std::vector<std::string> result(source.size());
+    std::vector<nostd::string> result(source.size());
     for (const auto &item : source)
     {
-      result.push_back(std::string(item.data()));
+      result.push_back(nostd::string(item.data()));
     }
     return result;
   }
@@ -165,7 +165,7 @@ public:
    * @param v
    * @return
    */
-  PropertyValue(char value[]) : PropertyVariant(std::string(value)) {}
+  PropertyValue(char value[]) : PropertyVariant(nostd::string(value)) {}
 
   /**
    * @brief PropertyValue from array of characters as string.
@@ -173,7 +173,7 @@ public:
    * @param v
    * @return
    */
-  PropertyValue(const char *value) : PropertyVariant(std::string(value)) {}
+  PropertyValue(const char *value) : PropertyVariant(nostd::string(value)) {}
 
   /**
    * @brief PropertyValue from string.
@@ -181,7 +181,7 @@ public:
    * @param v
    * @return
    */
-  PropertyValue(const std::string &value) : PropertyVariant(value) {}
+  PropertyValue(const nostd::string &value) : PropertyVariant(value) {}
 
   /**
    * @brief PropertyValue from vector as array.
@@ -223,7 +223,7 @@ public:
       }
       case opentelemetry::common::AttributeType::kTypeString: {
         PropertyVariant::operator=
-            (std::string{nostd::string_view(nostd::get<nostd::string_view>(v)).data()});
+            (nostd::string{nostd::string_view(nostd::get<nostd::string_view>(v)).data()});
         break;
       }
 
@@ -294,7 +294,7 @@ public:
         value = nostd::get<double>(*this);
         break;
       case PropertyType::kTypeString: {
-        const std::string &str = nostd::get<std::string>(*this);
+        const nostd::string &str = nostd::get<nostd::string>(*this);
         return nostd::string_view(str.data(), str.size());
         break;
       }
@@ -335,7 +335,7 @@ public:
 
       case PropertyType::kTypeSpanString:
         // FIXME: sort out how to remap from vector<string> to span<string_view>
-        // value = to_span(nostd::get<std::vector<std::string>>(self));
+        // value = to_span(nostd::get<std::vector<nostd::string>>(self));
         break;
 
       default:
@@ -348,7 +348,7 @@ public:
 /**
  * @brief Map of PropertyValue
  */
-using PropertyValueMap = std::map<std::string, PropertyValue>;
+using PropertyValueMap = std::map<nostd::string, PropertyValue>;
 
 /**
  * @brief Map of PropertyValue with common::KeyValueIterable interface.
@@ -359,7 +359,7 @@ class Properties : public opentelemetry::common::KeyValueIterable, public Proper
   /**
    * @brief Helper tyoe for map constructor.
    */
-  using PropertyValueType = std::pair<const std::string, PropertyValue>;
+  using PropertyValueType = std::pair<const nostd::string, PropertyValue>;
 
 public:
   /**
@@ -414,7 +414,7 @@ public:
     clear();
     other.ForEachKeyValue(
         [&](nostd::string_view key, opentelemetry::common::AttributeValue value) noexcept {
-          std::string k(key.data(), key.length());
+          nostd::string k(key.data(), key.length());
           (*this)[k].FromAttributeValue(value);
           return true;
         });
@@ -424,7 +424,7 @@ public:
   /**
    * @brief PropertyValueMap property accessor.
    */
-  PropertyValue &operator[](const std::string &k) { return PropertyValueMap::operator[](k); }
+  PropertyValue &operator[](const nostd::string &k) { return PropertyValueMap::operator[](k); }
 
   /**
    * Iterate over key-value pairs

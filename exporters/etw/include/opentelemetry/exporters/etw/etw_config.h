@@ -24,7 +24,7 @@ namespace etw
  * @brief TelemetryProvider Options passed via SDK API.
  */
 using TelemetryProviderOptions =
-    std::map<std::string, nostd::variant<std::string, uint64_t, float, bool>>;
+    std::map<nostd::string, nostd::variant<nostd::string, uint64_t, float, bool>>;
 
 /**
  * @brief TelemetryProvider runtime configuration class. Internal representation
@@ -99,7 +99,7 @@ static inline ETWProvider::EventFormat GetEncoding(const TelemetryProviderOption
   if (it != options.end())
   {
     auto varValue   = it->second;
-    std::string val = nostd::get<std::string>(varValue);
+    nostd::string val = nostd::get<nostd::string>(varValue);
 
 #pragma warning(push)
 #pragma warning(disable : 4307) /* Integral constant overflow - OK while computing hash */
@@ -182,11 +182,11 @@ TailSampler &GetTailSampler(T &t)
  * @return Hexadecimal representation of Id as string.
  */
 template <class T>
-static inline std::string ToLowerBase16(const T &id)
+static inline nostd::string ToLowerBase16(const T &id)
 {
   char buf[2 * T::kSize] = {0};
   id.ToLowerBase16(buf);
-  return std::string(buf, sizeof(buf));
+  return nostd::string(buf, sizeof(buf));
 }
 
 /**

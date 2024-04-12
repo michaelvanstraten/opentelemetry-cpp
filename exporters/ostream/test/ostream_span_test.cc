@@ -51,9 +51,9 @@ TEST(OStreamSpanExporter, Shutdown)
     EXPECT_TRUE(processor->Shutdown());
     processor->OnEnd(std::move(recordable));
   });
-  std::string err_message =
+  nostd::string err_message =
       "[Ostream Trace Exporter] Exporting 1 span(s) failed, exporter is shutdown";
-  EXPECT_TRUE(captured.find(err_message) != std::string::npos);
+  EXPECT_TRUE(captured.find(err_message) != nostd::string::npos);
 }
 
 constexpr const char *kDefaultSpanPrinted =
@@ -78,7 +78,7 @@ constexpr const char *kDefaultSpanPrinted =
 // Testing what a default span that is not changed will print out, either all 0's or empty values
 TEST(OStreamSpanExporter, PrintDefaultSpan)
 {
-  std::stringstream output;
+ std::stringstream output;
   auto exporter =
       std::unique_ptr<trace_sdk::SpanExporter>(new exportertrace::OStreamSpanExporter(output));
   auto processor = std::shared_ptr<trace_sdk::SpanProcessor>(
@@ -93,7 +93,7 @@ TEST(OStreamSpanExporter, PrintDefaultSpan)
 
 TEST(OStreamSpanExporter, PrintSpanWithBasicFields)
 {
-  std::stringstream output;
+ std::stringstream output;
   auto exporter =
       std::unique_ptr<trace_sdk::SpanExporter>(new exportertrace::OStreamSpanExporter(output));
   auto processor = std::shared_ptr<trace_sdk::SpanProcessor>(
@@ -124,9 +124,9 @@ TEST(OStreamSpanExporter, PrintSpanWithBasicFields)
 
   processor->OnEnd(std::move(recordable));
 
-  std::string start = std::to_string(now.time_since_epoch().count());
+  nostd::string start = std::to_string(now.time_since_epoch().count());
 
-  std::string expectedOutput =
+  nostd::string expectedOutput =
       "{\n"
       "  name          : Test Span\n"
       "  trace_id      : 01020304050607080102030405060708\n"
@@ -152,7 +152,7 @@ TEST(OStreamSpanExporter, PrintSpanWithBasicFields)
 
 TEST(OStreamSpanExporter, PrintSpanWithAttribute)
 {
-  std::stringstream output;
+ std::stringstream output;
   auto exporter =
       std::unique_ptr<trace_sdk::SpanExporter>(new exportertrace::OStreamSpanExporter(output));
   auto processor = std::shared_ptr<trace_sdk::SpanProcessor>(
@@ -164,7 +164,7 @@ TEST(OStreamSpanExporter, PrintSpanWithAttribute)
 
   processor->OnEnd(std::move(recordable));
 
-  std::string expectedOutput =
+  nostd::string expectedOutput =
       "{\n"
       "  name          : \n"
       "  trace_id      : 00000000000000000000000000000000\n"
@@ -188,7 +188,7 @@ TEST(OStreamSpanExporter, PrintSpanWithAttribute)
 
 TEST(OStreamSpanExporter, PrintSpanWithArrayAttribute)
 {
-  std::stringstream output;
+ std::stringstream output;
   auto exporter =
       std::unique_ptr<trace_sdk::SpanExporter>(new exportertrace::OStreamSpanExporter(output));
   auto processor = std::shared_ptr<trace_sdk::SpanProcessor>(
@@ -202,7 +202,7 @@ TEST(OStreamSpanExporter, PrintSpanWithArrayAttribute)
 
   processor->OnEnd(std::move(recordable));
 
-  std::string expectedOutput =
+  nostd::string expectedOutput =
       "{\n"
       "  name          : \n"
       "  trace_id      : 00000000000000000000000000000000\n"
@@ -226,7 +226,7 @@ TEST(OStreamSpanExporter, PrintSpanWithArrayAttribute)
 
 TEST(OStreamSpanExporter, PrintSpanWithEvents)
 {
-  std::stringstream output;
+ std::stringstream output;
   auto exporter =
       std::unique_ptr<trace_sdk::SpanExporter>(new exportertrace::OStreamSpanExporter(output));
   auto processor = std::shared_ptr<trace_sdk::SpanProcessor>(
@@ -236,8 +236,8 @@ TEST(OStreamSpanExporter, PrintSpanWithEvents)
   common::SystemTimestamp now(std::chrono::system_clock::now());
   common::SystemTimestamp next(std::chrono::system_clock::now() + std::chrono::seconds(1));
 
-  std::string now_str  = std::to_string(now.time_since_epoch().count());
-  std::string next_str = std::to_string(next.time_since_epoch().count());
+  nostd::string now_str  = std::to_string(now.time_since_epoch().count());
+  nostd::string next_str = std::to_string(next.time_since_epoch().count());
 
   recordable->AddEvent("hello", now);
   recordable->AddEvent("world", next,
@@ -245,7 +245,7 @@ TEST(OStreamSpanExporter, PrintSpanWithEvents)
 
   processor->OnEnd(std::move(recordable));
 
-  std::string expectedOutput =
+  nostd::string expectedOutput =
       "{\n"
       "  name          : \n"
       "  trace_id      : 00000000000000000000000000000000\n"
@@ -283,7 +283,7 @@ TEST(OStreamSpanExporter, PrintSpanWithEvents)
 
 TEST(OStreamSpanExporter, PrintSpanWithLinks)
 {
-  std::stringstream output;
+ std::stringstream output;
   auto exporter =
       std::unique_ptr<trace_sdk::SpanExporter>(new exportertrace::OStreamSpanExporter(output));
   auto processor = std::shared_ptr<trace_sdk::SpanProcessor>(
@@ -318,7 +318,7 @@ TEST(OStreamSpanExporter, PrintSpanWithLinks)
 
   processor->OnEnd(std::move(recordable));
 
-  std::string expectedOutput =
+  nostd::string expectedOutput =
       "{\n"
       "  name          : \n"
       "  trace_id      : 00000000000000000000000000000000\n"

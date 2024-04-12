@@ -47,7 +47,7 @@ std::string timeToString(opentelemetry::common::SystemTimestamp time_stamp)
     OTEL_INTERNAL_LOG_ERROR("[OStream Metric] strftime failed for " << epoch_time);
   }
 
-  return std::string{date_str};
+  return nostd::string{date_str};
 }
 }  // namespace
 
@@ -100,8 +100,8 @@ sdk::common::ExportResult OStreamMetricExporter::Export(
 }
 
 void OStreamMetricExporter::printAttributes(
-    const std::map<std::string, sdk::common::OwnedAttributeValue> &map,
-    const std::string prefix)
+    const std::map<nostd::string, sdk::common::OwnedAttributeValue> &map,
+    const nostd::string prefix)
 {
   for (const auto &kv : map)
   {
@@ -117,7 +117,7 @@ void OStreamMetricExporter::printResources(const opentelemetry::sdk::resource::R
   {
     // Convert unordered_map to map for printing so that iteration
     // order is guaranteed.
-    std::map<std::string, sdk::common::OwnedAttributeValue> attr_map;
+    std::map<nostd::string, sdk::common::OwnedAttributeValue> attr_map;
     for (auto &kv : attributes)
       attr_map[kv.first] = std::move(kv.second);
     printAttributes(attr_map, "\n\t");

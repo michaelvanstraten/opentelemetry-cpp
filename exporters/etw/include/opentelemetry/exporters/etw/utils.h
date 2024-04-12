@@ -130,7 +130,7 @@ CleanUp:
 /// </summary>
 /// <param name="in"></param>
 /// <returns></returns>
-static inline std::wstring to_utf16_string(const std::string &in)
+static inline std::wstring to_utf16_string(const nostd::string &in)
 {
 #  ifdef _WIN32
   int in_length  = static_cast<int>(in.size());
@@ -152,7 +152,7 @@ static inline std::wstring to_utf16_string(const std::string &in)
 /// <returns></returns>
 static inline GUID GetProviderGuid(const char *providerName)
 {
-  std::string name(providerName);
+  nostd::string name(providerName);
   std::transform(name.begin(), name.end(), name.begin(),
                  [](unsigned char c) { return (char)::toupper(c); });
 
@@ -251,7 +251,7 @@ constexpr unsigned int NANOSECS_PRECISION = 1000000000;
  *
  * @return ISO8601 UTC string with nanoseconds
  */
-static inline std::string formatUtcTimestampNsAsISO8601(int64_t timestampNs)
+static inline nostd::string formatUtcTimestampNsAsISO8601(int64_t timestampNs)
 {
   char buf[sizeof("YYYY-MM-DDTHH:MM:SS.sssssssssZ") + 1] = {0};
 #ifdef _WIN32
@@ -311,11 +311,11 @@ static inline void PopulateAttribute(nlohmann::json &attribute,
   }
   else if (nostd::holds_alternative<const char *>(value))
   {
-    attribute[key.data()] = std::string(nostd::get<const char *>(value));
+    attribute[key.data()] = nostd::string(nostd::get<const char *>(value));
   }
-  else if (nostd::holds_alternative<std::string>(value))
+  else if (nostd::holds_alternative<nostd::string>(value))
   {
-    attribute[key.data()] = nostd::get<std::string>(value);
+    attribute[key.data()] = nostd::get<nostd::string>(value);
   }
   else if (nostd::holds_alternative<std::vector<uint8_t>>(value))
   {
@@ -373,10 +373,10 @@ static inline void PopulateAttribute(nlohmann::json &attribute,
       attribute[key.data()].push_back(val);
     }
   }
-  else if (nostd::holds_alternative<std::vector<std::string>>(value))
+  else if (nostd::holds_alternative<std::vector<nostd::string>>(value))
   {
     attribute[key.data()] = {};
-    for (const auto &val : nostd::get<std::vector<std::string>>(value))
+    for (const auto &val : nostd::get<std::vector<nostd::string>>(value))
     {
       attribute[key.data()].push_back(val);
     }

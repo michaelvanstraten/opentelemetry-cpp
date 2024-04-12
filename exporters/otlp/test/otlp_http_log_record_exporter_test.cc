@@ -58,7 +58,7 @@ OtlpHttpClientOptions MakeOtlpHttpClientOptions(HttpRequestContentType content_t
   options.content_type  = content_type;
   options.console_debug = true;
   options.http_headers.insert(
-      std::make_pair<const std::string, std::string>("Custom-Header-Key", "Custom-Header-Value"));
+      std::make_pair<const nostd::string, nostd::string>("Custom-Header-Key", "Custom-Header-Value"));
   OtlpHttpClientOptions otlp_http_client_options(
       options.url, false,                 /* ssl_insecure_skip_verify */
       "", /* ssl_ca_cert_path */ "",      /* ssl_ca_cert_string */
@@ -126,8 +126,8 @@ public:
         std::unique_ptr<sdk::logs::LogRecordProcessor>(new sdk::logs::BatchLogRecordProcessor(
             std::move(exporter), 5, std::chrono::milliseconds(256), 5)));
 
-    std::string report_trace_id;
-    std::string report_span_id;
+    nostd::string report_trace_id;
+    nostd::string report_span_id;
     uint8_t trace_id_bin[opentelemetry::trace::TraceId::kSize] = {
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
     char trace_id_hex[2 * opentelemetry::trace::TraceId::kSize] = {0};
@@ -137,7 +137,7 @@ public:
     char span_id_hex[2 * opentelemetry::trace::SpanId::kSize] = {0};
     opentelemetry::trace::SpanId span_id{span_id_bin};
 
-    const std::string schema_url{"https://opentelemetry.io/schemas/1.2.0"};
+    const nostd::string schema_url{"https://opentelemetry.io/schemas/1.2.0"};
     auto logger = provider->GetLogger("test", "opentelelemtry_library", "", schema_url,
                                       {{"scope_key1", "scope_value"}, {"scope_key2", 2}});
 
@@ -159,11 +159,11 @@ public:
           auto scope_logs        = *resource_logs["scopeLogs"].begin();
           auto scope             = scope_logs["scope"];
           auto log               = *scope_logs["logRecords"].begin();
-          auto received_trace_id = log["traceId"].get<std::string>();
-          auto received_span_id  = log["spanId"].get<std::string>();
+          auto received_trace_id = log["traceId"].get<nostd::string>();
+          auto received_span_id  = log["spanId"].get<nostd::string>();
           EXPECT_EQ(received_trace_id, report_trace_id);
           EXPECT_EQ(received_span_id, report_span_id);
-          EXPECT_EQ("Log message", log["body"]["stringValue"].get<std::string>());
+          EXPECT_EQ("Log message", log["body"]["stringValue"].get<nostd::string>());
           EXPECT_LE(15, log["attributes"].size());
           auto custom_header = mock_session->GetRequest()->headers_.find("Custom-Header-Key");
           ASSERT_TRUE(custom_header != mock_session->GetRequest()->headers_.end());
@@ -183,7 +183,7 @@ public:
             if ("scope_key1" == attribute["key"])
             {
               check_scope_attribute = true;
-              EXPECT_EQ("scope_value", attribute["value"]["stringValue"].get<std::string>());
+              EXPECT_EQ("scope_value", attribute["value"]["stringValue"].get<nostd::string>());
             }
           }
           ASSERT_TRUE(check_scope_attribute);
@@ -243,8 +243,8 @@ public:
     provider->AddProcessor(std::unique_ptr<sdk::logs::LogRecordProcessor>(
         new sdk::logs::BatchLogRecordProcessor(std::move(exporter), options)));
 
-    std::string report_trace_id;
-    std::string report_span_id;
+    nostd::string report_trace_id;
+    nostd::string report_span_id;
     uint8_t trace_id_bin[opentelemetry::trace::TraceId::kSize] = {
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
     char trace_id_hex[2 * opentelemetry::trace::TraceId::kSize] = {0};
@@ -254,7 +254,7 @@ public:
     char span_id_hex[2 * opentelemetry::trace::SpanId::kSize] = {0};
     opentelemetry::trace::SpanId span_id{span_id_bin};
 
-    const std::string schema_url{"https://opentelemetry.io/schemas/1.2.0"};
+    const nostd::string schema_url{"https://opentelemetry.io/schemas/1.2.0"};
     auto logger = provider->GetLogger("test", "opentelelemtry_library", "1.2.0", schema_url,
                                       {{"scope_key1", "scope_value"}, {"scope_key2", 2}});
 
@@ -274,19 +274,19 @@ public:
               nlohmann::json::parse(mock_session->GetRequest()->body_, nullptr, false);
           auto resource_logs     = *check_json["resourceLogs"].begin();
           auto scope_logs        = *resource_logs["scopeLogs"].begin();
-          auto schema_url        = scope_logs["schemaUrl"].get<std::string>();
+          auto schema_url        = scope_logs["schemaUrl"].get<nostd::string>();
           auto scope             = scope_logs["scope"];
           auto scope_name        = scope["name"];
           auto scope_version     = scope["version"];
           auto log               = *scope_logs["logRecords"].begin();
-          auto received_trace_id = log["traceId"].get<std::string>();
-          auto received_span_id  = log["spanId"].get<std::string>();
+          auto received_trace_id = log["traceId"].get<nostd::string>();
+          auto received_span_id  = log["spanId"].get<nostd::string>();
           EXPECT_EQ(schema_url, "https://opentelemetry.io/schemas/1.2.0");
           EXPECT_EQ(scope_name, "opentelelemtry_library");
           EXPECT_EQ(scope_version, "1.2.0");
           EXPECT_EQ(received_trace_id, report_trace_id);
           EXPECT_EQ(received_span_id, report_span_id);
-          EXPECT_EQ("Log message", log["body"]["stringValue"].get<std::string>());
+          EXPECT_EQ("Log message", log["body"]["stringValue"].get<nostd::string>());
           EXPECT_LE(15, log["attributes"].size());
           auto custom_header = mock_session->GetRequest()->headers_.find("Custom-Header-Key");
           ASSERT_TRUE(custom_header != mock_session->GetRequest()->headers_.end());
@@ -306,7 +306,7 @@ public:
             if ("scope_key1" == attribute["key"])
             {
               check_scope_attribute = true;
-              EXPECT_EQ("scope_value", attribute["value"]["stringValue"].get<std::string>());
+              EXPECT_EQ("scope_value", attribute["value"]["stringValue"].get<nostd::string>());
             }
           }
           ASSERT_TRUE(check_scope_attribute);
@@ -370,8 +370,8 @@ public:
     provider->AddProcessor(std::unique_ptr<sdk::logs::LogRecordProcessor>(
         new sdk::logs::BatchLogRecordProcessor(std::move(exporter), processor_options)));
 
-    std::string report_trace_id;
-    std::string report_span_id;
+    nostd::string report_trace_id;
+    nostd::string report_span_id;
     uint8_t trace_id_bin[opentelemetry::trace::TraceId::kSize] = {
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
     opentelemetry::trace::TraceId trace_id{trace_id_bin};
@@ -379,7 +379,7 @@ public:
                                                                 '3', '2', '1', '0'};
     opentelemetry::trace::SpanId span_id{span_id_bin};
 
-    const std::string schema_url{"https://opentelemetry.io/schemas/1.2.0"};
+    const nostd::string schema_url{"https://opentelemetry.io/schemas/1.2.0"};
     auto logger = provider->GetLogger("test", "opentelelemtry_library", "1.2.0", schema_url,
                                       {{"scope_key1", "scope_value"}, {"scope_key2", 2}});
 
@@ -483,8 +483,8 @@ public:
     provider->AddProcessor(std::unique_ptr<sdk::logs::LogRecordProcessor>(
         new sdk::logs::BatchLogRecordProcessor(std::move(exporter), processor_options)));
 
-    std::string report_trace_id;
-    std::string report_span_id;
+    nostd::string report_trace_id;
+    nostd::string report_span_id;
     uint8_t trace_id_bin[opentelemetry::trace::TraceId::kSize] = {
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
     opentelemetry::trace::TraceId trace_id{trace_id_bin};
@@ -492,7 +492,7 @@ public:
                                                                 '3', '2', '1', '0'};
     opentelemetry::trace::SpanId span_id{span_id_bin};
 
-    const std::string schema_url{"https://opentelemetry.io/schemas/1.2.0"};
+    const nostd::string schema_url{"https://opentelemetry.io/schemas/1.2.0"};
     auto logger = provider->GetLogger("test", "opentelelemtry_library", "", schema_url,
                                       {{"scope_key1", "scope_value"}, {"scope_key2", 2}});
 
@@ -652,7 +652,7 @@ TEST(OtlpHttpLogRecordExporterTest, ConfigDefaultProtocolTest)
 // Test exporter configuration options with use_ssl_credentials
 TEST_F(OtlpHttpLogRecordExporterTestPeer, ConfigFromEnv)
 {
-  const std::string url = "http://localhost:9999/v1/logs";
+  const nostd::string url = "http://localhost:9999/v1/logs";
   setenv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://localhost:9999", 1);
   setenv("OTEL_EXPORTER_OTLP_TIMEOUT", "20s", 1);
   setenv("OTEL_EXPORTER_OTLP_HEADERS", "k1=v1,k2=v2", 1);
@@ -670,7 +670,7 @@ TEST_F(OtlpHttpLogRecordExporterTestPeer, ConfigFromEnv)
     // Test k2
     auto range = GetOptions(exporter).http_headers.equal_range("k2");
     EXPECT_TRUE(range.first != range.second);
-    EXPECT_EQ(range.first->second, std::string("v2"));
+    EXPECT_EQ(range.first->second, nostd::string("v2"));
     ++range.first;
     EXPECT_TRUE(range.first == range.second);
   }
@@ -678,9 +678,9 @@ TEST_F(OtlpHttpLogRecordExporterTestPeer, ConfigFromEnv)
     // k1
     auto range = GetOptions(exporter).http_headers.equal_range("k1");
     EXPECT_TRUE(range.first != range.second);
-    EXPECT_EQ(range.first->second, std::string("v3"));
+    EXPECT_EQ(range.first->second, nostd::string("v3"));
     ++range.first;
-    EXPECT_EQ(range.first->second, std::string("v4"));
+    EXPECT_EQ(range.first->second, nostd::string("v4"));
     ++range.first;
     EXPECT_TRUE(range.first == range.second);
   }
@@ -695,7 +695,7 @@ TEST_F(OtlpHttpLogRecordExporterTestPeer, ConfigFromEnv)
 
 TEST_F(OtlpHttpLogRecordExporterTestPeer, ConfigFromLogsEnv)
 {
-  const std::string url = "http://localhost:9999/v1/logs";
+  const nostd::string url = "http://localhost:9999/v1/logs";
   setenv("OTEL_EXPORTER_OTLP_LOGS_ENDPOINT", url.c_str(), 1);
   setenv("OTEL_EXPORTER_OTLP_LOGS_TIMEOUT", "20s", 1);
   setenv("OTEL_EXPORTER_OTLP_HEADERS", "k1=v1,k2=v2", 1);
@@ -713,7 +713,7 @@ TEST_F(OtlpHttpLogRecordExporterTestPeer, ConfigFromLogsEnv)
     // Test k2
     auto range = GetOptions(exporter).http_headers.equal_range("k2");
     EXPECT_TRUE(range.first != range.second);
-    EXPECT_EQ(range.first->second, std::string("v2"));
+    EXPECT_EQ(range.first->second, nostd::string("v2"));
     ++range.first;
     EXPECT_TRUE(range.first == range.second);
   }
@@ -721,9 +721,9 @@ TEST_F(OtlpHttpLogRecordExporterTestPeer, ConfigFromLogsEnv)
     // k1
     auto range = GetOptions(exporter).http_headers.equal_range("k1");
     EXPECT_TRUE(range.first != range.second);
-    EXPECT_EQ(range.first->second, std::string("v3"));
+    EXPECT_EQ(range.first->second, nostd::string("v3"));
     ++range.first;
-    EXPECT_EQ(range.first->second, std::string("v4"));
+    EXPECT_EQ(range.first->second, nostd::string("v4"));
     ++range.first;
     EXPECT_TRUE(range.first == range.second);
   }

@@ -46,7 +46,7 @@ static constexpr const char *kScopeVersionKey = "otel_scope_version";
  * @param name the string to sanitize
  */
 template <typename T>
-inline std::string Sanitize(std::string name, const T &valid)
+inline nostd::string Sanitize(nostd::string name, const T &valid)
 {
   static_assert(std::is_convertible<T, std::function<bool(int, char)>>::value,
                 "valid should be a callable with the signature "
@@ -75,7 +75,7 @@ inline std::string Sanitize(std::string name, const T &valid)
   if (has_dup)
   {
     auto end = std::remove(name.begin(), name.end(), replacement_dup);
-    return std::string{name.begin(), end};
+    return nostd::string{name.begin(), end};
   }
   return name;
 }
@@ -86,7 +86,7 @@ inline std::string Sanitize(std::string name, const T &valid)
  *   [a-zA-Z_]([a-zA-Z0-9_])*
  * and multiple consecutive _ characters must be collapsed to a single _.
  */
-std::string SanitizeLabel(std::string label_key)
+std::string SanitizeLabel(nostd::string label_key)
 {
   return Sanitize(label_key, [](int i, char c) {
     return (c >= 'a' && c <= 'z') ||  //
@@ -227,8 +227,8 @@ std::vector<prometheus_client::MetricFamily> PrometheusExporterUtils::TranslateT
 }
 
 void PrometheusExporterUtils::AddPrometheusLabel(
-    std::string name,
-    std::string value,
+    nostd::string name,
+    nostd::string value,
     std::vector<::prometheus::ClientMetric::Label> *labels)
 {
   prometheus_client::ClientMetric::Label prometheus_label;
@@ -244,7 +244,7 @@ void PrometheusExporterUtils::AddPrometheusLabel(
  * alphanumeric characters, '_', '.', and '-', whereas in Prometheus the
  * name should only contain alphanumeric characters and '_'.
  */
-std::string PrometheusExporterUtils::SanitizeNames(std::string name)
+std::string PrometheusExporterUtils::SanitizeNames(nostd::string name)
 {
   constexpr const auto replacement     = '_';
   constexpr const auto replacement_dup = '=';
@@ -278,7 +278,7 @@ std::string PrometheusExporterUtils::SanitizeNames(std::string name)
   if (has_dup)
   {
     auto end = std::remove(name.begin(), name.end(), replacement_dup);
-    return std::string{name.begin(), end};
+    return nostd::string{name.begin(), end};
   }
   return name;
 }
@@ -292,22 +292,22 @@ std::regex SANITIZE_CONSECUTIVE_UNDERSCORES("[_]{2,}");
 #endif
 
 std::string PrometheusExporterUtils::GetEquivalentPrometheusUnit(
-    const std::string &raw_metric_unit_name)
+    const nostd::string &raw_metric_unit_name)
 {
   if (raw_metric_unit_name.empty())
   {
     return raw_metric_unit_name;
   }
 
-  std::string converted_metric_unit_name = RemoveUnitPortionInBraces(raw_metric_unit_name);
+  nostd::string converted_metric_unit_name = RemoveUnitPortionInBraces(raw_metric_unit_name);
   converted_metric_unit_name = ConvertRateExpressedToPrometheusUnit(converted_metric_unit_name);
 
   return CleanUpString(GetPrometheusUnit(converted_metric_unit_name));
 }
 
-std::string PrometheusExporterUtils::GetPrometheusUnit(const std::string &unit_abbreviation)
+std::string PrometheusExporterUtils::GetPrometheusUnit(const nostd::string &unit_abbreviation)
 {
-  static std::unordered_map<std::string, std::string> units{// Time
+  static std::unordered_map<nostd::string, nostd::string> units{// Time
                                                             {"d", "days"},
                                                             {"h", "hours"},
                                                             {"min", "minutes"},
@@ -350,9 +350,9 @@ std::string PrometheusExporterUtils::GetPrometheusUnit(const std::string &unit_a
   return res_it->second;
 }
 
-std::string PrometheusExporterUtils::GetPrometheusPerUnit(const std::string &per_unit_abbreviation)
+std::string PrometheusExporterUtils::GetPrometheusPerUnit(const nostd::string &per_unit_abbreviation)
 {
-  static std::unordered_map<std::string, std::string> per_units{
+  static std::unordered_map<nostd::string, nostd::string> per_units{
       {"s", "second"}, {"m", "minute"}, {"h", "hour"}, {"d", "day"},
       {"w", "week"},   {"mo", "month"}, {"y", "year"}};
   auto res_it = per_units.find(per_unit_abbreviation);
@@ -363,13 +363,13 @@ std::string PrometheusExporterUtils::GetPrometheusPerUnit(const std::string &per
   return res_it->second;
 }
 
-std::string PrometheusExporterUtils::RemoveUnitPortionInBraces(const std::string &unit)
+std::string PrometheusExporterUtils::RemoveUnitPortionInBraces(const nostd::string &unit)
 {
 #if OPENTELEMETRY_HAVE_WORKING_REGEX
   return std::regex_replace(unit, CHARACTERS_BETWEEN_BRACES_PATTERN, "");
 #else
   bool in_braces = false;
-  std::string cleaned_unit;
+  nostd::string cleaned_unit;
   cleaned_unit.reserve(unit.size());
   for (auto c : unit)
   {
@@ -394,15 +394,15 @@ std::string PrometheusExporterUtils::RemoveUnitPortionInBraces(const std::string
 }
 
 std::string PrometheusExporterUtils::ConvertRateExpressedToPrometheusUnit(
-    const std::string &rate_expressed_unit)
+    const nostd::string &rate_expressed_unit)
 {
   size_t pos = rate_expressed_unit.find("/");
-  if (pos == std::string::npos)
+  if (pos == nostd::string::npos)
   {
     return rate_expressed_unit;
   }
 
-  std::vector<std::string> rate_entities;
+  std::vector<nostd::string> rate_entities;
   rate_entities.push_back(rate_expressed_unit.substr(0, pos));
   rate_entities.push_back(rate_expressed_unit.substr(pos + 1));
 
@@ -411,22 +411,22 @@ std::string PrometheusExporterUtils::ConvertRateExpressedToPrometheusUnit(
     return rate_expressed_unit;
   }
 
-  std::string prometheus_unit     = GetPrometheusUnit(rate_entities[0]);
-  std::string prometheus_per_unit = GetPrometheusPerUnit(rate_entities[1]);
+  nostd::string prometheus_unit     = GetPrometheusUnit(rate_entities[0]);
+  nostd::string prometheus_per_unit = GetPrometheusPerUnit(rate_entities[1]);
 
   return prometheus_unit + "_per_" + prometheus_per_unit;
 }
 
-std::string PrometheusExporterUtils::CleanUpString(const std::string &str)
+std::string PrometheusExporterUtils::CleanUpString(const nostd::string &str)
 {
 #if OPENTELEMETRY_HAVE_WORKING_REGEX
-  std::string cleaned_string = std::regex_replace(str, INVALID_CHARACTERS_PATTERN, "_");
+  nostd::string cleaned_string = std::regex_replace(str, INVALID_CHARACTERS_PATTERN, "_");
   cleaned_string = std::regex_replace(cleaned_string, SANITIZE_CONSECUTIVE_UNDERSCORES, "_");
   cleaned_string = std::regex_replace(cleaned_string, SANITIZE_TRAILING_UNDERSCORES, "");
   cleaned_string = std::regex_replace(cleaned_string, SANITIZE_LEADING_UNDERSCORES, "");
   return cleaned_string;
 #else
-  std::string cleaned_string = str;
+  nostd::string cleaned_string = str;
   if (cleaned_string.empty())
   {
     return cleaned_string;
@@ -440,10 +440,10 @@ std::string PrometheusExporterUtils::CleanUpString(const std::string &str)
                    return '_';
                  });
 
-  std::string::size_type trim_start = 0;
-  std::string::size_type trim_end   = 0;
+  nostd::string::size_type trim_start = 0;
+  nostd::string::size_type trim_end   = 0;
   bool previous_underscore          = false;
-  for (std::string::size_type i = 0; i < cleaned_string.size(); ++i)
+  for (nostd::string::size_type i = 0; i < cleaned_string.size(); ++i)
   {
     if (cleaned_string[i] == '_')
     {
@@ -490,16 +490,16 @@ std::string PrometheusExporterUtils::CleanUpString(const std::string &str)
 }
 
 std::string PrometheusExporterUtils::MapToPrometheusName(
-    const std::string &name,
-    const std::string &unit,
+    const nostd::string &name,
+    const nostd::string &unit,
     prometheus_client::MetricType prometheus_type)
 {
   auto sanitized_name                    = SanitizeNames(name);
-  std::string prometheus_equivalent_unit = GetEquivalentPrometheusUnit(unit);
+  nostd::string prometheus_equivalent_unit = GetEquivalentPrometheusUnit(unit);
 
   // Append prometheus unit if not null or empty.
   if (!prometheus_equivalent_unit.empty() &&
-      sanitized_name.find(prometheus_equivalent_unit) == std::string::npos)
+      sanitized_name.find(prometheus_equivalent_unit) == nostd::string::npos)
   {
     sanitized_name += "_" + prometheus_equivalent_unit;
   }
@@ -517,7 +517,7 @@ std::string PrometheusExporterUtils::MapToPrometheusName(
 
   // Special case - gauge
   if (unit == "1" && prometheus_type == prometheus_client::MetricType::Gauge &&
-      sanitized_name.find("ratio") == std::string::npos)
+      sanitized_name.find("ratio") == nostd::string::npos)
   {
     sanitized_name += "_ratio";
   }
@@ -672,7 +672,7 @@ void PrometheusExporterUtils::SetMetricBasic(
   // We could sort the sanitized keys again, but this seems too expensive to do
   // in this hot code path. Instead, we ignore out-of-order keys and emit a warning.
   metric.label.reserve(labels.size() + 2);
-  std::string previous_key;
+  nostd::string previous_key;
   for (auto const &label : labels)
   {
     auto sanitized = SanitizeLabel(label.first);
@@ -718,7 +718,7 @@ void PrometheusExporterUtils::SetMetricBasic(
 std::string PrometheusExporterUtils::AttributeValueToString(
     const opentelemetry::sdk::common::OwnedAttributeValue &value)
 {
-  std::string result;
+  nostd::string result;
   if (nostd::holds_alternative<bool>(value))
   {
     result = nostd::get<bool>(value) ? "true" : "false";
@@ -743,9 +743,9 @@ std::string PrometheusExporterUtils::AttributeValueToString(
   {
     result = std::to_string(nostd::get<double>(value));
   }
-  else if (nostd::holds_alternative<std::string>(value))
+  else if (nostd::holds_alternative<nostd::string>(value))
   {
-    result = nostd::get<std::string>(value);
+    result = nostd::get<nostd::string>(value);
   }
   else
   {
