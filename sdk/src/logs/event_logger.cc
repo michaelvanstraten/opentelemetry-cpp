@@ -42,7 +42,7 @@ void EventLogger::EmitEvent(nostd::string_view event_name,
 
   if (!event_domain_.empty() && !event_name.empty())
   {
-    log_record->SetAttribute("event.domain", event_domain_);
+    log_record->SetAttribute("event.domain", nostd::string_view(event_domain_));  // Abseil variant conversion fails otherwise
     log_record->SetAttribute("event.name", event_name);
   }
 

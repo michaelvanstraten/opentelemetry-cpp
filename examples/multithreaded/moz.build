@@ -6,6 +6,8 @@
 
 Program("otel_example_multithreaded")
 
+DEFINES["MOZILLA_INTERNAL_API"] = 1
+
 SOURCES += [
   "main.cc",
 ]
@@ -18,6 +20,14 @@ LOCAL_INCLUDES += [
 
 USE_LIBS += [
   "gkopentelemetry",
+  "gkrust",
   "mozglue",
+  "opentelemetry_common",
   "opentelemetry_exporter_ostream_span",
+  "opentelemetry_logs",
+  "opentelemetry_metrics",
+  "opentelemetry_resource",
+  "opentelemetry_trace",
+  "opentelemetry_version",
+  "xul",
 ]

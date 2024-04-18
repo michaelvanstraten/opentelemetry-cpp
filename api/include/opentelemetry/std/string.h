@@ -12,8 +12,5 @@ OPENTELEMETRY_BEGIN_NAMESPACE
 namespace nostd
 {
 
-// nostd::string
-using string = std::string;
-
 }  // namespace nostd
 OPENTELEMETRY_END_NAMESPACE

@@ -6,6 +6,7 @@
 #if defined(OPENTELEMETRY_STL_VERSION)
 #  if OPENTELEMETRY_STL_VERSION >= 2017
 #    include "opentelemetry/std/string_view.h"
+#    include "opentelemetry/nostd/string.h"
 #    define OPENTELEMETRY_HAVE_STD_STRING_VIEW
 #  endif
 #endif
@@ -19,7 +20,7 @@
 #  include <string>
 
 #  include "opentelemetry/version.h"
-#  include "opentelemetry/std/string.h"
+#  include "opentelemetry/nostd/string.h"
 
 OPENTELEMETRY_BEGIN_NAMESPACE
 namespace nostd
@@ -44,7 +45,11 @@ public:
 
   string_view(const char *str) noexcept : length_(std::strlen(str)), data_(str) {}
 
-  string_view(const std::basic_string<char> &str) noexcept
+  string_view(const nostd::string &str) noexcept
+      : length_(str.length()), data_(str.c_str())
+  {}
+
+  string_view(const std::string &str) noexcept
       : length_(str.length()), data_(str.c_str())
   {}
 

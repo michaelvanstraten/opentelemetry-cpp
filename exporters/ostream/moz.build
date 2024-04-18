@@ -30,3 +30,5 @@ EXPORTS.opentelmetry.exporters.ostream += [
     "include/opentelemetry/exporters/ostream/span_exporter.h",
     "include/opentelemetry/exporters/ostream/span_exporter_factory.h",
 ]
+
+FINAL_LIBRARY = "xul"
